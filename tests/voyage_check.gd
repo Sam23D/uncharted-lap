@@ -1,5 +1,5 @@
 extends SceneTree
-## Pirates show up on about a third of trips (voyage.json "pirate_chance").
+## Pirates show up on about 1 in 5 trips (voyage.json "pirate_chance").
 ## A clear trip resolves on Depart: days pass, supplies are eaten, you arrive.
 
 func _fail(text: String) -> void:
@@ -11,8 +11,8 @@ func _initialize() -> void:
 	root.add_child(state)
 	state.load_ports()
 	var chance := float(state.voyage["pirate_chance"])
-	if chance <= 0.25 or chance >= 0.45:
-		return _fail("pirate_chance should be about 1/3, got %.2f" % chance)
+	if chance <= 0.15 or chance >= 0.25:
+		return _fail("pirate_chance should be about 1/5, got %.2f" % chance)
 
 	# Clear trip.
 	state.voyage["pirate_chance"] = 0.0
@@ -43,7 +43,7 @@ func _initialize() -> void:
 		if state.met_pirate:
 			met += 1
 	var rate := float(met) / trips
-	if rate < 0.27 or rate > 0.41:
-		return _fail("pirate rate %.2f is not about 1/3" % rate)
+	if rate < 0.15 or rate > 0.25:
+		return _fail("pirate rate %.2f is not about 1/5" % rate)
 	print("voyage check ok: clear trip to lisbon, pirate rate %.2f" % rate)
 	quit(0)

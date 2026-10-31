@@ -2,7 +2,7 @@
   "light_hold_bonus_days": 1,
   "run_extra_days": 1,
   "run_cargo_drop": 1,
-  "pirate_chance": 0.34,
+  "pirate_chance": 0.2,
   "supply_price": 1,
   "supply_refund": 1,
   "hull_chip": 1,

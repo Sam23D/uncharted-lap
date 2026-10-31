@@ -31,6 +31,12 @@ var _hud: NinePatchRect
 var _speed := 60.0
 var _t := 0.0
 var _shown_day := 0
+## Day/night: _day_f is the fractional day (x.0 = sunrise, x.5 = sunset).
+var _day_f := 0.0
+var _sky: Control
+var _night: ColorRect
+const DUSK := Color(1.0, 0.42, 0.1, 0.38)
+const NIGHT := Color(0.02, 0.04, 0.18, 0.55)
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
@@ -47,6 +53,16 @@ func _ready() -> void:
 	_pirate = _sprite(PACK + "Ships/ship (2).png", SHIP_SIZE)
 	_ship = _sprite("", SHIP_SIZE)
 	_boom = _sprite(PACK + "Effects/explosion1.png", Vector2(52, 52))
+	_night = ColorRect.new()
+	_night.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_night.color = Color(0, 0, 0, 0)
+	add_child(_night)
+	_night.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_sky = Control.new()
+	_sky.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_sky)
+	_sky.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_sky.draw.connect(_draw_sky)
 	_build_hud()
 	_build_choice()
 
@@ -156,8 +172,34 @@ func _center(node: Control) -> Vector2:
 	return node.position + node.size / 2.0
 
 func _set_day(value: float) -> void:
-	_shown_day = int(round(value))
+	_day_f = value
+	_shown_day = int(floor(value + 0.001))
 	_day.text = "Day %d" % _shown_day
+	_night.color = sky_tint(value)
+	_sky.queue_redraw()
+
+## Sea tint for a fractional day: clear by day, orange at dawn/dusk, dark blue at night.
+static func sky_tint(day_f: float) -> Color:
+	var s := sin(fposmod(day_f, 1.0) * TAU)
+	if s > 0.0:
+		var dusk := 1.0 - clampf(s * 2.0, 0.0, 1.0)
+		return Color(DUSK, DUSK.a * dusk)
+	return DUSK.lerp(NIGHT, clampf(-s * 2.5, 0.0, 1.0))
+
+## Sun by day, moon by night, each on an arc from the left edge to the right.
+func _draw_sky() -> void:
+	var f := fposmod(_day_f, 1.0)
+	var is_day := f < 0.5
+	var t := (f if is_day else f - 0.5) * 2.0
+	# Peaks just under the trip panel (bottom y 74) and above the ships.
+	var pos := Vector2(lerpf(-20.0, 660.0, t), 140.0 - sin(t * PI) * 52.0)
+	if is_day:
+		_sky.draw_circle(pos, 22.0, Color(1.0, 0.85, 0.3, 0.25))
+		_sky.draw_circle(pos, 13.0, Color(1.0, 0.86, 0.35))
+	else:
+		_sky.draw_circle(pos, 16.0, Color(0.85, 0.9, 1.0, 0.18))
+		_sky.draw_circle(pos, 10.0, Color(0.92, 0.94, 1.0))
+		_sky.draw_circle(pos + Vector2(4, -3), 8.0, Color(NIGHT, 0.9))
 
 ## Starts the animation for the departure GameState just made.
 func play(start_day: int, est_days: int) -> void:
