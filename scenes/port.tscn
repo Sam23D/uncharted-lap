@@ -1,0 +1,1931 @@
+[gd_scene load_steps=25 format=3 uid="uid://cr231qldpvn3j"]
+
+[ext_resource type="Script" uid="uid://6tn7wxstlxof" path="res://scripts/port_screen.gd" id="1_oyquu"]
+[ext_resource type="Texture2D" uid="uid://kplfyahe8wch" path="res://assets/vendor/kenney-ui-pack-pixel-adventure/Tiles/Large tiles/Thick outline/tile_0000.png" id="2_d1kaq"]
+[ext_resource type="Script" uid="uid://uo7wlnowabgo" path="res://scripts/sea_view.gd" id="2_l81ws"]
+[ext_resource type="Texture2D" uid="uid://bot3fp2q5huxk" path="res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ships/ship (1).png" id="3_l81ws"]
+[ext_resource type="Texture2D" uid="uid://cgn43c573rwmd" path="res://assets/vendor/kenney-generic-items/PNG/Colored/genericItem_color_143.png" id="3_nh6n8"]
+[ext_resource type="Texture2D" uid="uid://b02n4wfawb6pt" path="res://assets/vendor/kenney-generic-items/PNG/Colored/genericItem_color_159.png" id="4_nh6n8"]
+[ext_resource type="Texture2D" uid="uid://b8b3f0hdx7w0s" path="res://assets/vendor/kenney-generic-items/PNG/Colored/genericItem_color_114.png" id="5_mm67b"]
+[ext_resource type="Texture2D" uid="uid://4kt4gff66res" path="res://assets/vendor/kenney-generic-items/PNG/Colored/genericItem_color_118.png" id="6_vnm5a"]
+[ext_resource type="Texture2D" uid="uid://wqe3y0eb87ua" path="res://assets/vendor/kenney-generic-items/PNG/Colored/genericItem_color_141.png" id="8_m8tsq"]
+[ext_resource type="Texture2D" uid="uid://db0cesc0jl4vu" path="res://assets/vendor/kenney-ui-pack-pixel-adventure/Tiles/Large tiles/Thick outline/tile_0033.png" id="9_dalhh"]
+[ext_resource type="Texture2D" uid="uid://bt2ljoed86cac" path="res://assets/vendor/kenney-generic-items/PNG/Colored/genericItem_color_119.png" id="9_l81ws"]
+[ext_resource type="Texture2D" uid="uid://ci1g10toioipv" path="res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/wood (1).png" id="10_l81ws"]
+[ext_resource type="Texture2D" uid="uid://dxvaxi7yd7yde" path="res://assets/vendor/kenney-ui-pack-pixel-adventure/Tiles/Large tiles/Thick outline/tile_0002.png" id="10_m8tsq"]
+[ext_resource type="Texture2D" uid="uid://03bnbr4bgl4i" path="res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/cannon.png" id="10_t44du"]
+[ext_resource type="Texture2D" uid="uid://dk003eqojv7fs" path="res://assets/vendor/kenney-ui-pack-pixel-adventure/Tiles/Large tiles/Thick outline/tile_0003.png" id="11_l81ws"]
+[ext_resource type="Texture2D" uid="uid://c4cpk6r1wequ" path="res://assets/vendor/kenney-ui-pack-pixel-adventure/Tiles/Large tiles/Thick outline/tile_0001.png" id="13_t44du"]
+[ext_resource type="Texture2D" uid="uid://ct4ifoeyvw86v" path="res://assets/vendor/kenney-generic-items/PNG/Colored/genericItem_color_162.png" id="15_jfkr8"]
+[ext_resource type="Texture2D" uid="uid://c4kn4jvq84nut" path="res://assets/vendor/kenney-ui-pack-pixel-adventure/Tiles/Large tiles/Thick outline/tile_0041.png" id="17_l81ws"]
+[ext_resource type="Script" uid="uid://6lwyawil3cy7" path="res://scripts/map_view.gd" id="18_m8tsq"]
+[ext_resource type="Texture2D" uid="uid://ec56wdenk14t" path="res://assets/vendor/kenney-generic-items/PNG/Colored/genericItem_color_001.png" id="19_jfkr8"]
+[ext_resource type="Texture2D" uid="uid://j13mj5ialfx1" path="res://assets/vendor/kenney-generic-items/PNG/Colored/genericItem_color_134.png" id="20_dh6dt"]
+[ext_resource type="Texture2D" uid="uid://r6k1qrqngsi0" path="res://assets/vendor/kenney-generic-items/PNG/Colored/genericItem_color_104.png" id="21_fl0lb"]
+[ext_resource type="Texture2D" uid="uid://dggjvp2rbt1hd" path="res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/cannonBall.png" id="22_7fkkb"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jfkr8"]
+content_margin_left = 10.0
+content_margin_top = 8.0
+content_margin_right = 10.0
+content_margin_bottom = 8.0
+texture = ExtResource("2_d1kaq")
+texture_margin_left = 5.0
+texture_margin_top = 5.0
+texture_margin_right = 5.0
+texture_margin_bottom = 5.0
+
+[node name="Port" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_oyquu")
+
+[node name="SeaView" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("2_l81ws")
+
+[node name="Panel" type="NinePatchRect" parent="."]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+texture = ExtResource("2_d1kaq")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="Layout" type="HBoxContainer" parent="Panel"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = 10.0
+offset_right = -12.0
+offset_bottom = -10.0
+theme_override_constants/separation = 10
+
+[node name="Overview" type="VBoxContainer" parent="Panel/Layout"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="PortRow" type="HBoxContainer" parent="Panel/Layout/Overview"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="PortFlag" type="TextureRect" parent="Panel/Layout/Overview/PortRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Port" type="Label" parent="Panel/Layout/Overview/PortRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 15
+text = "-"
+
+[node name="Push" type="Control" parent="Panel/Layout/Overview/PortRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GoldIcon" type="TextureRect" parent="Panel/Layout/Overview/PortRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(14, 14)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("4_nh6n8")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Gold" type="Label" parent="Panel/Layout/Overview/PortRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 12
+text = "-"
+
+[node name="Day" type="Label" parent="Panel/Layout/Overview/PortRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.65)
+theme_override_font_sizes/font_size = 12
+text = "-"
+
+[node name="VoyageSection" type="HBoxContainer" parent="Panel/Layout/Overview"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Title" type="Label" parent="Panel/Layout/Overview/VoyageSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.55)
+theme_override_font_sizes/font_size = 10
+text = "VOYAGE"
+vertical_alignment = 2
+
+[node name="Rule" type="ColorRect" parent="Panel/Layout/Overview/VoyageSection"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+color = Color(0.18, 0.11, 0.05, 0.2)
+
+[node name="ToRow" type="HBoxContainer" parent="Panel/Layout/Overview"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Panel/Layout/Overview/ToRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ToTitle" type="Label" parent="Panel/Layout/Overview/ToRow"]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
+theme_override_font_sizes/font_size = 12
+text = "To"
+
+[node name="To" type="Label" parent="Panel/Layout/Overview/ToRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 12
+text = "-"
+
+[node name="ProvisionsSection" type="HBoxContainer" parent="Panel/Layout/Overview"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Title" type="Label" parent="Panel/Layout/Overview/ProvisionsSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.55)
+theme_override_font_sizes/font_size = 10
+text = "PROVISIONS"
+vertical_alignment = 2
+
+[node name="Rule" type="ColorRect" parent="Panel/Layout/Overview/ProvisionsSection"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+color = Color(0.18, 0.11, 0.05, 0.2)
+
+[node name="FoodRow" type="HBoxContainer" parent="Panel/Layout/Overview"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Panel/Layout/Overview/FoodRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("5_mm67b")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="FoodTitle" type="Label" parent="Panel/Layout/Overview/FoodRow"]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
+theme_override_font_sizes/font_size = 12
+text = "Food"
+
+[node name="Food" type="Label" parent="Panel/Layout/Overview/FoodRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 12
+text = "-"
+
+[node name="WaterRow" type="HBoxContainer" parent="Panel/Layout/Overview"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Panel/Layout/Overview/WaterRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("6_vnm5a")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="WaterTitle" type="Label" parent="Panel/Layout/Overview/WaterRow"]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
+theme_override_font_sizes/font_size = 12
+text = "Water"
+
+[node name="Water" type="Label" parent="Panel/Layout/Overview/WaterRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 12
+text = "-"
+
+[node name="CargoSection" type="HBoxContainer" parent="Panel/Layout/Overview"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Title" type="Label" parent="Panel/Layout/Overview/CargoSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.55)
+theme_override_font_sizes/font_size = 10
+text = "CARGO"
+vertical_alignment = 2
+
+[node name="Rule" type="ColorRect" parent="Panel/Layout/Overview/CargoSection"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+color = Color(0.18, 0.11, 0.05, 0.2)
+
+[node name="CargoRow" type="HBoxContainer" parent="Panel/Layout/Overview"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Panel/Layout/Overview/CargoRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("8_m8tsq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CargoTitle" type="Label" parent="Panel/Layout/Overview/CargoRow"]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
+theme_override_font_sizes/font_size = 12
+text = "Hold"
+
+[node name="Cargo" type="Label" parent="Panel/Layout/Overview/CargoRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 12
+text = "-"
+
+[node name="GoodsRow" type="HBoxContainer" parent="Panel/Layout/Overview"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Panel/Layout/Overview/GoodsRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("3_nh6n8")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="GoodsTitle" type="Label" parent="Panel/Layout/Overview/GoodsRow"]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
+theme_override_font_sizes/font_size = 12
+text = "Goods"
+
+[node name="Goods" type="Label" parent="Panel/Layout/Overview/GoodsRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 12
+text = "-"
+
+[node name="CrewSection" type="HBoxContainer" parent="Panel/Layout/Overview"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Title" type="Label" parent="Panel/Layout/Overview/CrewSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.55)
+theme_override_font_sizes/font_size = 10
+text = "CREW"
+vertical_alignment = 2
+
+[node name="Rule" type="ColorRect" parent="Panel/Layout/Overview/CrewSection"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+color = Color(0.18, 0.11, 0.05, 0.2)
+
+[node name="AboardRow" type="HBoxContainer" parent="Panel/Layout/Overview"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Panel/Layout/Overview/AboardRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("9_l81ws")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="AboardTitle" type="Label" parent="Panel/Layout/Overview/AboardRow"]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
+theme_override_font_sizes/font_size = 12
+text = "Aboard"
+
+[node name="Aboard" type="Label" parent="Panel/Layout/Overview/AboardRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 12
+text = "-"
+
+[node name="RolesRow" type="HBoxContainer" parent="Panel/Layout/Overview"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Panel/Layout/Overview/RolesRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("15_jfkr8")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RolesTitle" type="Label" parent="Panel/Layout/Overview/RolesRow"]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
+theme_override_font_sizes/font_size = 12
+text = "Roles"
+
+[node name="Roles" type="Label" parent="Panel/Layout/Overview/RolesRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 12
+text = "-"
+
+[node name="ShipSection" type="HBoxContainer" parent="Panel/Layout/Overview"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Title" type="Label" parent="Panel/Layout/Overview/ShipSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.55)
+theme_override_font_sizes/font_size = 10
+text = "SHIP"
+vertical_alignment = 2
+
+[node name="Rule" type="ColorRect" parent="Panel/Layout/Overview/ShipSection"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+color = Color(0.18, 0.11, 0.05, 0.2)
+
+[node name="ShipRow" type="HBoxContainer" parent="Panel/Layout/Overview"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Panel/Layout/Overview/ShipRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("3_l81ws")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ShipTitle" type="Label" parent="Panel/Layout/Overview/ShipRow"]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
+theme_override_font_sizes/font_size = 12
+text = "Ship"
+
+[node name="Ship" type="Label" parent="Panel/Layout/Overview/ShipRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 12
+text = "-"
+
+[node name="HullRow" type="HBoxContainer" parent="Panel/Layout/Overview"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Panel/Layout/Overview/HullRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("10_l81ws")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HullTitle" type="Label" parent="Panel/Layout/Overview/HullRow"]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
+theme_override_font_sizes/font_size = 12
+text = "Hull"
+
+[node name="Hull" type="Label" parent="Panel/Layout/Overview/HullRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 12
+text = "-"
+
+[node name="ArmsRow" type="HBoxContainer" parent="Panel/Layout/Overview"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Panel/Layout/Overview/ArmsRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("10_t44du")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ArmsTitle" type="Label" parent="Panel/Layout/Overview/ArmsRow"]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
+theme_override_font_sizes/font_size = 12
+text = "Arms"
+
+[node name="Arms" type="Label" parent="Panel/Layout/Overview/ArmsRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 12
+text = "-"
+
+[node name="Spacer" type="Control" parent="Panel/Layout/Overview"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Leave" type="HBoxContainer" parent="Panel/Layout/Overview"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="ChartCourse" type="Button" parent="Panel/Layout/Overview/Leave"]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+flat = true
+
+[node name="Frame" type="NinePatchRect" parent="Panel/Layout/Overview/Leave/ChartCourse"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("13_t44du")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Text" type="Label" parent="Panel/Layout/Overview/Leave/ChartCourse"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
+theme_override_font_sizes/font_size = 12
+text = "Chart course"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Depart" type="Button" parent="Panel/Layout/Overview/Leave"]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+flat = true
+
+[node name="Frame" type="NinePatchRect" parent="Panel/Layout/Overview/Leave/Depart"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("9_dalhh")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Text" type="Label" parent="Panel/Layout/Overview/Leave/Depart"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 12
+text = "Depart"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Divider" type="ColorRect" parent="Panel/Layout"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(0.18, 0.11, 0.05, 0.25)
+
+[node name="Right" type="VBoxContainer" parent="Panel/Layout"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="Tabs" type="HBoxContainer" parent="Panel/Layout/Right"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="TabStore" type="Button" parent="Panel/Layout/Right/Tabs"]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+flat = true
+
+[node name="Frame" type="NinePatchRect" parent="Panel/Layout/Right/Tabs/TabStore"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("10_m8tsq")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Text" type="Label" parent="Panel/Layout/Right/Tabs/TabStore"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 12
+text = "Store"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TabTavern" type="Button" parent="Panel/Layout/Right/Tabs"]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+flat = true
+
+[node name="Frame" type="NinePatchRect" parent="Panel/Layout/Right/Tabs/TabTavern"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("11_l81ws")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Text" type="Label" parent="Panel/Layout/Right/Tabs/TabTavern"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
+theme_override_font_sizes/font_size = 12
+text = "Tavern"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TabShipyard" type="Button" parent="Panel/Layout/Right/Tabs"]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+flat = true
+
+[node name="Frame" type="NinePatchRect" parent="Panel/Layout/Right/Tabs/TabShipyard"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("11_l81ws")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Text" type="Label" parent="Panel/Layout/Right/Tabs/TabShipyard"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
+theme_override_font_sizes/font_size = 12
+text = "Shipyard"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TabArmory" type="Button" parent="Panel/Layout/Right/Tabs"]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+flat = true
+
+[node name="Frame" type="NinePatchRect" parent="Panel/Layout/Right/Tabs/TabArmory"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("11_l81ws")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Text" type="Label" parent="Panel/Layout/Right/Tabs/TabArmory"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
+theme_override_font_sizes/font_size = 12
+text = "Armory"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Pages" type="Control" parent="Panel/Layout/Right"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Store" type="VBoxContainer" parent="Panel/Layout/Right/Pages"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 2
+
+[node name="StoreHint" type="Label" parent="Panel/Layout/Right/Pages/Store"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
+theme_override_font_sizes/font_size = 11
+text = "Buy low here, sell high at the other port."
+autowrap_mode = 3
+
+[node name="StoreCargoSection" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Store"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Title" type="Label" parent="Panel/Layout/Right/Pages/Store/StoreCargoSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.55)
+theme_override_font_sizes/font_size = 10
+text = "CARGO"
+vertical_alignment = 2
+
+[node name="Rule" type="ColorRect" parent="Panel/Layout/Right/Pages/Store/StoreCargoSection"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+color = Color(0.18, 0.11, 0.05, 0.2)
+
+[node name="SugarRow" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Store"]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Panel/Layout/Right/Pages/Store/SugarRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("3_nh6n8")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SugarTitle" type="Label" parent="Panel/Layout/Right/Pages/Store/SugarRow"]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
+theme_override_font_sizes/font_size = 12
+text = "Sugar"
+
+[node name="Sugar" type="Label" parent="Panel/Layout/Right/Pages/Store/SugarRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 11
+text = "-"
+vertical_alignment = 1
+
+[node name="BuySugar" type="Button" parent="Panel/Layout/Right/Pages/Store/SugarRow"]
+custom_minimum_size = Vector2(62, 24)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+flat = true
+
+[node name="Frame" type="NinePatchRect" parent="Panel/Layout/Right/Pages/Store/SugarRow/BuySugar"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("13_t44du")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Text" type="Label" parent="Panel/Layout/Right/Pages/Store/SugarRow/BuySugar"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
+theme_override_font_sizes/font_size = 12
+text = "Buy"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SellSugar" type="Button" parent="Panel/Layout/Right/Pages/Store/SugarRow"]
+custom_minimum_size = Vector2(62, 24)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+flat = true
+
+[node name="Frame" type="NinePatchRect" parent="Panel/Layout/Right/Pages/Store/SugarRow/SellSugar"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("13_t44du")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Text" type="Label" parent="Panel/Layout/Right/Pages/Store/SugarRow/SellSugar"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
+theme_override_font_sizes/font_size = 12
+text = "Sell"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CheeseRow" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Store"]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Panel/Layout/Right/Pages/Store/CheeseRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("8_m8tsq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CheeseTitle" type="Label" parent="Panel/Layout/Right/Pages/Store/CheeseRow"]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
+theme_override_font_sizes/font_size = 12
+text = "Cheese"
+
+[node name="Cheese" type="Label" parent="Panel/Layout/Right/Pages/Store/CheeseRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 11
+text = "-"
+vertical_alignment = 1
+
+[node name="BuyCheese" type="Button" parent="Panel/Layout/Right/Pages/Store/CheeseRow"]
+custom_minimum_size = Vector2(62, 24)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+flat = true
+
+[node name="Frame" type="NinePatchRect" parent="Panel/Layout/Right/Pages/Store/CheeseRow/BuyCheese"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("13_t44du")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Text" type="Label" parent="Panel/Layout/Right/Pages/Store/CheeseRow/BuyCheese"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
+theme_override_font_sizes/font_size = 12
+text = "Buy"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SellCheese" type="Button" parent="Panel/Layout/Right/Pages/Store/CheeseRow"]
+custom_minimum_size = Vector2(62, 24)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+flat = true
+
+[node name="Frame" type="NinePatchRect" parent="Panel/Layout/Right/Pages/Store/CheeseRow/SellCheese"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("13_t44du")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Text" type="Label" parent="Panel/Layout/Right/Pages/Store/CheeseRow/SellCheese"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
+theme_override_font_sizes/font_size = 12
+text = "Sell"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StoreProvisionsSection" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Store"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Title" type="Label" parent="Panel/Layout/Right/Pages/Store/StoreProvisionsSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.55)
+theme_override_font_sizes/font_size = 10
+text = "PROVISIONS"
+vertical_alignment = 2
+
+[node name="Rule" type="ColorRect" parent="Panel/Layout/Right/Pages/Store/StoreProvisionsSection"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+color = Color(0.18, 0.11, 0.05, 0.2)
+
+[node name="SupplyFoodRow" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Store"]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Panel/Layout/Right/Pages/Store/SupplyFoodRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("5_mm67b")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SupplyFoodTitle" type="Label" parent="Panel/Layout/Right/Pages/Store/SupplyFoodRow"]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
+theme_override_font_sizes/font_size = 12
+text = "Food"
+
+[node name="SupplyFood" type="Label" parent="Panel/Layout/Right/Pages/Store/SupplyFoodRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 11
+text = "-"
+vertical_alignment = 1
+
+[node name="LoadFood" type="Button" parent="Panel/Layout/Right/Pages/Store/SupplyFoodRow"]
+custom_minimum_size = Vector2(62, 24)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+flat = true
+
+[node name="Frame" type="NinePatchRect" parent="Panel/Layout/Right/Pages/Store/SupplyFoodRow/LoadFood"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("13_t44du")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Text" type="Label" parent="Panel/Layout/Right/Pages/Store/SupplyFoodRow/LoadFood"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
+theme_override_font_sizes/font_size = 12
+text = "Load"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UnloadFood" type="Button" parent="Panel/Layout/Right/Pages/Store/SupplyFoodRow"]
+custom_minimum_size = Vector2(62, 24)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+flat = true
+
+[node name="Frame" type="NinePatchRect" parent="Panel/Layout/Right/Pages/Store/SupplyFoodRow/UnloadFood"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("13_t44du")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Text" type="Label" parent="Panel/Layout/Right/Pages/Store/SupplyFoodRow/UnloadFood"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
+theme_override_font_sizes/font_size = 12
+text = "Unload"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SupplyWaterRow" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Store"]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Panel/Layout/Right/Pages/Store/SupplyWaterRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("6_vnm5a")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SupplyWaterTitle" type="Label" parent="Panel/Layout/Right/Pages/Store/SupplyWaterRow"]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
+theme_override_font_sizes/font_size = 12
+text = "Water"
+
+[node name="SupplyWater" type="Label" parent="Panel/Layout/Right/Pages/Store/SupplyWaterRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 11
+text = "-"
+vertical_alignment = 1
+
+[node name="LoadWater" type="Button" parent="Panel/Layout/Right/Pages/Store/SupplyWaterRow"]
+custom_minimum_size = Vector2(62, 24)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+flat = true
+
+[node name="Frame" type="NinePatchRect" parent="Panel/Layout/Right/Pages/Store/SupplyWaterRow/LoadWater"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("13_t44du")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Text" type="Label" parent="Panel/Layout/Right/Pages/Store/SupplyWaterRow/LoadWater"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
+theme_override_font_sizes/font_size = 12
+text = "Load"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UnloadWater" type="Button" parent="Panel/Layout/Right/Pages/Store/SupplyWaterRow"]
+custom_minimum_size = Vector2(62, 24)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+flat = true
+
+[node name="Frame" type="NinePatchRect" parent="Panel/Layout/Right/Pages/Store/SupplyWaterRow/UnloadWater"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("13_t44du")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Text" type="Label" parent="Panel/Layout/Right/Pages/Store/SupplyWaterRow/UnloadWater"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
+theme_override_font_sizes/font_size = 12
+text = "Unload"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SupplyNote" type="Label" parent="Panel/Layout/Right/Pages/Store"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
+theme_override_font_sizes/font_size = 11
+text = "-"
+autowrap_mode = 3
+
+[node name="Tavern" type="VBoxContainer" parent="Panel/Layout/Right/Pages"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 2
+
+[node name="TavernHint" type="Label" parent="Panel/Layout/Right/Pages/Tavern"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
+theme_override_font_sizes/font_size = 11
+text = "Sailors need a bunk and a daily wage."
+autowrap_mode = 3
+
+[node name="TavernRosterSection" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Tavern"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Title" type="Label" parent="Panel/Layout/Right/Pages/Tavern/TavernRosterSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.55)
+theme_override_font_sizes/font_size = 10
+text = "IN PORT"
+vertical_alignment = 2
+
+[node name="Rule" type="ColorRect" parent="Panel/Layout/Right/Pages/Tavern/TavernRosterSection"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+color = Color(0.18, 0.11, 0.05, 0.2)
+
+[node name="Info" type="Control" parent="Panel/Layout/Right/Pages/Tavern/TavernRosterSection" groups=["info_badge"]]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_default_cursor_shape = 16
+metadata/info = "crew"
+
+[node name="Circle" type="TextureRect" parent="Panel/Layout/Right/Pages/Tavern/TavernRosterSection/Info"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource("17_l81ws")
+expand_mode = 1
+
+[node name="Glyph" type="Label" parent="Panel/Layout/Right/Pages/Tavern/TavernRosterSection/Info"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 12
+text = "i"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RosterList" type="VBoxContainer" parent="Panel/Layout/Right/Pages/Tavern"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="TavernAboardSection" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Tavern"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Title" type="Label" parent="Panel/Layout/Right/Pages/Tavern/TavernAboardSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.55)
+theme_override_font_sizes/font_size = 10
+text = "ABOARD"
+vertical_alignment = 2
+
+[node name="Rule" type="ColorRect" parent="Panel/Layout/Right/Pages/Tavern/TavernAboardSection"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+color = Color(0.18, 0.11, 0.05, 0.2)
+
+[node name="CrewScroll" type="ScrollContainer" parent="Panel/Layout/Right/Pages/Tavern"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="CrewList" type="VBoxContainer" parent="Panel/Layout/Right/Pages/Tavern/CrewScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="Shipyard" type="VBoxContainer" parent="Panel/Layout/Right/Pages"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 2
+
+[node name="ShipyardHint" type="Label" parent="Panel/Layout/Right/Pages/Shipyard"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
+theme_override_font_sizes/font_size = 11
+text = "Trade up your ship, mount cannons, patch the hull."
+autowrap_mode = 3
+
+[node name="YardShipRow" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Shipyard"]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Panel/Layout/Right/Pages/Shipyard/YardShipRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("3_l81ws")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="YardShipTitle" type="Label" parent="Panel/Layout/Right/Pages/Shipyard/YardShipRow"]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
+theme_override_font_sizes/font_size = 12
+text = "Ship"
+
+[node name="YardShip" type="Label" parent="Panel/Layout/Right/Pages/Shipyard/YardShipRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 11
+text = "-"
+vertical_alignment = 1
+
+[node name="Info" type="Control" parent="Panel/Layout/Right/Pages/Shipyard/YardShipRow" groups=["info_badge"]]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_default_cursor_shape = 16
+metadata/info = "ship"
+
+[node name="Circle" type="TextureRect" parent="Panel/Layout/Right/Pages/Shipyard/YardShipRow/Info"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource("17_l81ws")
+expand_mode = 1
+
+[node name="Glyph" type="Label" parent="Panel/Layout/Right/Pages/Shipyard/YardShipRow/Info"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 12
+text = "i"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="YardHullRow" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Shipyard"]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Panel/Layout/Right/Pages/Shipyard/YardHullRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("10_l81ws")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="YardHullTitle" type="Label" parent="Panel/Layout/Right/Pages/Shipyard/YardHullRow"]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
+theme_override_font_sizes/font_size = 12
+text = "Hull"
+
+[node name="YardHull" type="Label" parent="Panel/Layout/Right/Pages/Shipyard/YardHullRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 11
+text = "-"
+vertical_alignment = 1
+
+[node name="Repair" type="Button" parent="Panel/Layout/Right/Pages/Shipyard/YardHullRow"]
+custom_minimum_size = Vector2(62, 24)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+flat = true
+
+[node name="Frame" type="NinePatchRect" parent="Panel/Layout/Right/Pages/Shipyard/YardHullRow/Repair"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("13_t44du")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Text" type="Label" parent="Panel/Layout/Right/Pages/Shipyard/YardHullRow/Repair"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
+theme_override_font_sizes/font_size = 12
+text = "Repair"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CannonRow" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Shipyard"]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Panel/Layout/Right/Pages/Shipyard/CannonRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("10_t44du")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CannonTitle" type="Label" parent="Panel/Layout/Right/Pages/Shipyard/CannonRow"]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
+theme_override_font_sizes/font_size = 12
+text = "Cannons"
+
+[node name="Cannon" type="Label" parent="Panel/Layout/Right/Pages/Shipyard/CannonRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 11
+text = "-"
+vertical_alignment = 1
+
+[node name="BuyCannon" type="Button" parent="Panel/Layout/Right/Pages/Shipyard/CannonRow"]
+custom_minimum_size = Vector2(62, 24)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+flat = true
+
+[node name="Frame" type="NinePatchRect" parent="Panel/Layout/Right/Pages/Shipyard/CannonRow/BuyCannon"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("13_t44du")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Text" type="Label" parent="Panel/Layout/Right/Pages/Shipyard/CannonRow/BuyCannon"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
+theme_override_font_sizes/font_size = 12
+text = "Buy"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SellCannon" type="Button" parent="Panel/Layout/Right/Pages/Shipyard/CannonRow"]
+custom_minimum_size = Vector2(62, 24)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+flat = true
+
+[node name="Frame" type="NinePatchRect" parent="Panel/Layout/Right/Pages/Shipyard/CannonRow/SellCannon"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("13_t44du")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Text" type="Label" parent="Panel/Layout/Right/Pages/Shipyard/CannonRow/SellCannon"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
+theme_override_font_sizes/font_size = 12
+text = "Sell"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="YardSaleSection" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Shipyard"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Title" type="Label" parent="Panel/Layout/Right/Pages/Shipyard/YardSaleSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.55)
+theme_override_font_sizes/font_size = 10
+text = "FOR SALE"
+vertical_alignment = 2
+
+[node name="Rule" type="ColorRect" parent="Panel/Layout/Right/Pages/Shipyard/YardSaleSection"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+color = Color(0.18, 0.11, 0.05, 0.2)
+
+[node name="ShipList" type="VBoxContainer" parent="Panel/Layout/Right/Pages/Shipyard"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Armory" type="VBoxContainer" parent="Panel/Layout/Right/Pages"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 2
+
+[node name="ArmoryHint" type="Label" parent="Panel/Layout/Right/Pages/Armory"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
+theme_override_font_sizes/font_size = 11
+text = "Arms for your crew, powder and shot for every gun."
+autowrap_mode = 3
+
+[node name="PowerRow" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Armory"]
+layout_mode = 2
+
+[node name="PowerNote" type="Label" parent="Panel/Layout/Right/Pages/Armory/PowerRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 12
+text = "-"
+autowrap_mode = 3
+
+[node name="Info" type="Control" parent="Panel/Layout/Right/Pages/Armory/PowerRow" groups=["info_badge"]]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_default_cursor_shape = 16
+metadata/info = "power"
+
+[node name="Circle" type="TextureRect" parent="Panel/Layout/Right/Pages/Armory/PowerRow/Info"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource("17_l81ws")
+expand_mode = 1
+
+[node name="Glyph" type="Label" parent="Panel/Layout/Right/Pages/Armory/PowerRow/Info"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 12
+text = "i"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ArmoryWeaponsSection" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Armory"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Title" type="Label" parent="Panel/Layout/Right/Pages/Armory/ArmoryWeaponsSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.55)
+theme_override_font_sizes/font_size = 10
+text = "WEAPONS"
+vertical_alignment = 2
+
+[node name="Rule" type="ColorRect" parent="Panel/Layout/Right/Pages/Armory/ArmoryWeaponsSection"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+color = Color(0.18, 0.11, 0.05, 0.2)
+
+[node name="MusketRow" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Armory"]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Panel/Layout/Right/Pages/Armory/MusketRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("19_jfkr8")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MusketTitle" type="Label" parent="Panel/Layout/Right/Pages/Armory/MusketRow"]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
+theme_override_font_sizes/font_size = 12
+text = "Musket"
+
+[node name="Musket" type="Label" parent="Panel/Layout/Right/Pages/Armory/MusketRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 11
+text = "-"
+vertical_alignment = 1
+
+[node name="BuyMusket" type="Button" parent="Panel/Layout/Right/Pages/Armory/MusketRow"]
+custom_minimum_size = Vector2(62, 24)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+flat = true
+
+[node name="Frame" type="NinePatchRect" parent="Panel/Layout/Right/Pages/Armory/MusketRow/BuyMusket"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("13_t44du")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Text" type="Label" parent="Panel/Layout/Right/Pages/Armory/MusketRow/BuyMusket"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
+theme_override_font_sizes/font_size = 12
+text = "Buy"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SellMusket" type="Button" parent="Panel/Layout/Right/Pages/Armory/MusketRow"]
+custom_minimum_size = Vector2(62, 24)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+flat = true
+
+[node name="Frame" type="NinePatchRect" parent="Panel/Layout/Right/Pages/Armory/MusketRow/SellMusket"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("13_t44du")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Text" type="Label" parent="Panel/Layout/Right/Pages/Armory/MusketRow/SellMusket"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
+theme_override_font_sizes/font_size = 12
+text = "Sell"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SwordRow" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Armory"]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Panel/Layout/Right/Pages/Armory/SwordRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("20_dh6dt")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SwordTitle" type="Label" parent="Panel/Layout/Right/Pages/Armory/SwordRow"]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
+theme_override_font_sizes/font_size = 12
+text = "Sword"
+
+[node name="Sword" type="Label" parent="Panel/Layout/Right/Pages/Armory/SwordRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 11
+text = "-"
+vertical_alignment = 1
+
+[node name="BuySword" type="Button" parent="Panel/Layout/Right/Pages/Armory/SwordRow"]
+custom_minimum_size = Vector2(62, 24)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+flat = true
+
+[node name="Frame" type="NinePatchRect" parent="Panel/Layout/Right/Pages/Armory/SwordRow/BuySword"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("13_t44du")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Text" type="Label" parent="Panel/Layout/Right/Pages/Armory/SwordRow/BuySword"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
+theme_override_font_sizes/font_size = 12
+text = "Buy"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SellSword" type="Button" parent="Panel/Layout/Right/Pages/Armory/SwordRow"]
+custom_minimum_size = Vector2(62, 24)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+flat = true
+
+[node name="Frame" type="NinePatchRect" parent="Panel/Layout/Right/Pages/Armory/SwordRow/SellSword"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("13_t44du")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Text" type="Label" parent="Panel/Layout/Right/Pages/Armory/SwordRow/SellSword"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
+theme_override_font_sizes/font_size = 12
+text = "Sell"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ArmoryAmmoSection" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Armory"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Title" type="Label" parent="Panel/Layout/Right/Pages/Armory/ArmoryAmmoSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.55)
+theme_override_font_sizes/font_size = 10
+text = "AMMUNITION"
+vertical_alignment = 2
+
+[node name="Rule" type="ColorRect" parent="Panel/Layout/Right/Pages/Armory/ArmoryAmmoSection"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+color = Color(0.18, 0.11, 0.05, 0.2)
+
+[node name="PowderRow" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Armory"]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Panel/Layout/Right/Pages/Armory/PowderRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("21_fl0lb")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PowderTitle" type="Label" parent="Panel/Layout/Right/Pages/Armory/PowderRow"]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
+theme_override_font_sizes/font_size = 12
+text = "Powder"
+
+[node name="Powder" type="Label" parent="Panel/Layout/Right/Pages/Armory/PowderRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 11
+text = "-"
+vertical_alignment = 1
+
+[node name="BuyPowder" type="Button" parent="Panel/Layout/Right/Pages/Armory/PowderRow"]
+custom_minimum_size = Vector2(62, 24)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+flat = true
+
+[node name="Frame" type="NinePatchRect" parent="Panel/Layout/Right/Pages/Armory/PowderRow/BuyPowder"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("13_t44du")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Text" type="Label" parent="Panel/Layout/Right/Pages/Armory/PowderRow/BuyPowder"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
+theme_override_font_sizes/font_size = 12
+text = "Buy"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SellPowder" type="Button" parent="Panel/Layout/Right/Pages/Armory/PowderRow"]
+custom_minimum_size = Vector2(62, 24)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+flat = true
+
+[node name="Frame" type="NinePatchRect" parent="Panel/Layout/Right/Pages/Armory/PowderRow/SellPowder"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("13_t44du")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Text" type="Label" parent="Panel/Layout/Right/Pages/Armory/PowderRow/SellPowder"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
+theme_override_font_sizes/font_size = 12
+text = "Sell"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ShotRow" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Armory"]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Panel/Layout/Right/Pages/Armory/ShotRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("22_7fkkb")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ShotTitle" type="Label" parent="Panel/Layout/Right/Pages/Armory/ShotRow"]
+custom_minimum_size = Vector2(46, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
+theme_override_font_sizes/font_size = 12
+text = "Shot"
+
+[node name="Shot" type="Label" parent="Panel/Layout/Right/Pages/Armory/ShotRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 11
+text = "-"
+vertical_alignment = 1
+
+[node name="BuyShot" type="Button" parent="Panel/Layout/Right/Pages/Armory/ShotRow"]
+custom_minimum_size = Vector2(62, 24)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+flat = true
+
+[node name="Frame" type="NinePatchRect" parent="Panel/Layout/Right/Pages/Armory/ShotRow/BuyShot"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("13_t44du")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Text" type="Label" parent="Panel/Layout/Right/Pages/Armory/ShotRow/BuyShot"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
+theme_override_font_sizes/font_size = 12
+text = "Buy"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SellShot" type="Button" parent="Panel/Layout/Right/Pages/Armory/ShotRow"]
+custom_minimum_size = Vector2(62, 24)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+flat = true
+
+[node name="Frame" type="NinePatchRect" parent="Panel/Layout/Right/Pages/Armory/ShotRow/SellShot"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("13_t44du")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Text" type="Label" parent="Panel/Layout/Right/Pages/Armory/ShotRow/SellShot"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
+theme_override_font_sizes/font_size = 12
+text = "Sell"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AmmoNote" type="Label" parent="Panel/Layout/Right/Pages/Armory"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
+theme_override_font_sizes/font_size = 11
+text = "-"
+autowrap_mode = 3
+
+[node name="Message" type="Label" parent="Panel/Layout/Right"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.12, 0.08, 1)
+theme_override_font_sizes/font_size = 12
+vertical_alignment = 2
+autowrap_mode = 3
+
+[node name="Map" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("18_m8tsq")
+
+[node name="End" type="NinePatchRect" parent="."]
+visible = false
+texture_filter = 1
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -170.0
+offset_top = -110.0
+offset_right = 170.0
+offset_bottom = 110.0
+texture = ExtResource("2_d1kaq")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="Box" type="VBoxContainer" parent="End"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 14.0
+offset_right = -16.0
+offset_bottom = -14.0
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="Icon" type="TextureRect" parent="End/Box"]
+texture_filter = 1
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Title" type="Label" parent="End/Box"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 18
+text = "Title"
+horizontal_alignment = 1
+
+[node name="Reason" type="Label" parent="End/Box"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 12
+text = "Reason"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Day" type="Label" parent="End/Box"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 12
+text = "Day"
+horizontal_alignment = 1
+
+[node name="Gold" type="Label" parent="End/Box"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 12
+text = "Gold"
+horizontal_alignment = 1
+
+[node name="NewVoyage" type="Button" parent="End/Box"]
+custom_minimum_size = Vector2(160, 28)
+layout_mode = 2
+size_flags_horizontal = 4
+flat = true
+
+[node name="Frame" type="NinePatchRect" parent="End/Box/NewVoyage"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("13_t44du")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Text" type="Label" parent="End/Box/NewVoyage"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
+theme_override_font_sizes/font_size = 12
+text = "New voyage"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="InfoPopup" type="PanelContainer" parent="."]
+visible = false
+texture_filter = 1
+layout_mode = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_jfkr8")
+
+[node name="Text" type="Label" parent="InfoPopup"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 11
+autowrap_mode = 3

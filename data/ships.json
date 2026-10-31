@@ -1,0 +1,58 @@
+{
+  "sloop": {
+    "name": "Sloop",
+    "tier": 1,
+    "price": 40,
+    "hold": 10,
+    "bunks": 2,
+    "gun_ports": 1,
+    "hull": 3,
+    "min_crew": 0,
+    "speed": 0,
+    "scale": 0.85,
+    "sprite": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ships/ship (1).png",
+    "blurb": "Your starting boat. Small, cheap to run."
+  },
+  "cutter": {
+    "name": "Cutter",
+    "tier": 2,
+    "price": 60,
+    "hold": 10,
+    "bunks": 4,
+    "gun_ports": 2,
+    "hull": 3,
+    "min_crew": 1,
+    "speed": -1,
+    "scale": 0.9,
+    "sprite": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ships/ship (5).png",
+    "blurb": "Fast: every route is a day shorter. Room for fighters."
+  },
+  "fluyt": {
+    "name": "Fluyt",
+    "tier": 2,
+    "price": 70,
+    "hold": 22,
+    "bunks": 3,
+    "gun_ports": 1,
+    "hull": 4,
+    "min_crew": 2,
+    "speed": 1,
+    "scale": 1.05,
+    "sprite": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ships/ship (6).png",
+    "blurb": "Huge hold, but slow (+1 day) and needs 2 crew."
+  },
+  "brig": {
+    "name": "Brig",
+    "tier": 3,
+    "price": 300,
+    "hold": 18,
+    "bunks": 6,
+    "gun_ports": 4,
+    "hull": 5,
+    "min_crew": 3,
+    "speed": 0,
+    "scale": 1.15,
+    "sprite": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ships/ship (3).png",
+    "blurb": "A real warship. Buying one wins the game."
+  }
+}

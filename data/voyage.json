@@ -1,0 +1,43 @@
+{
+  "light_hold_bonus_days": 1,
+  "run_extra_days": 1,
+  "run_cargo_drop": 1,
+  "pirate_chance": 0.34,
+  "supply_price": 1,
+  "supply_refund": 1,
+  "hull_chip": 1,
+  "repair_cost": 4,
+  "nav_penalty_days": 1,
+  "start_ship": "sloop",
+  "win_ship_tier": 3,
+  "trade_in": 0.5,
+  "hire_mult": 1.0,
+  "ship_mult": 1.0,
+  "hire_fee_days": 3,
+  "roster_refresh_days": 4,
+  "roster_size": [
+    3,
+    4
+  ],
+  "ammo_stack": 5,
+  "cannon_power": 2,
+  "plunder_cargo": 0.5,
+  "plunder_gold": 0.25,
+  "clean_win_ratio": 1.5,
+  "arm_sell_ratio": 0.5,
+  "armory_prices": {
+    "cannon": 15,
+    "musket": 8,
+    "sword": 5,
+    "powder": 1,
+    "shot": 1
+  },
+  "start_armory": {
+    "cannon": 1,
+    "musket": 0,
+    "sword": 0,
+    "powder": 0,
+    "shot": 0
+  },
+  "supply_stack": 2
+}

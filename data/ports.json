@@ -1,0 +1,148 @@
+{
+  "madeira": {
+    "name": "Madeira",
+    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/flag (1).png",
+    "map": [
+      0.1,
+      0.8
+    ],
+    "blurb": "Home. Cheapest sugar; pays the most for cheese. Good cooks.",
+    "goods": {
+      "sugar": {
+        "buy": 4,
+        "sell": 3
+      },
+      "cheese": {
+        "buy": 14,
+        "sell": 11
+      }
+    },
+    "tavern": {
+      "weights": {
+        "deckhand": 3,
+        "navigator": 1,
+        "cook": 3,
+        "marksman": 1,
+        "swordsman": 1
+      },
+      "level_weights": [
+        1
+      ]
+    },
+    "shipyard": [
+      "cutter",
+      "fluyt"
+    ]
+  },
+  "lisbon": {
+    "name": "Lisbon",
+    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/flag (3).png",
+    "map": [
+      0.42,
+      0.8
+    ],
+    "blurb": "Sailors' town: half-price hiring, many navigators. Small trade margins.",
+    "goods": {
+      "sugar": {
+        "buy": 7,
+        "sell": 6
+      },
+      "cheese": {
+        "buy": 11,
+        "sell": 8
+      }
+    },
+    "services": {
+      "hire_mult": 0.5
+    },
+    "tavern": {
+      "weights": {
+        "deckhand": 2,
+        "navigator": 4,
+        "cook": 1,
+        "marksman": 1,
+        "swordsman": 1
+      },
+      "level_weights": [
+        1
+      ]
+    },
+    "shipyard": [
+      "cutter",
+      "fluyt"
+    ]
+  },
+  "london": {
+    "name": "London",
+    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/flag (4).png",
+    "map": [
+      0.32,
+      0.3
+    ],
+    "blurb": "Best shipyard: cheap repairs; sells the Brig. Taverns full of marksmen.",
+    "goods": {
+      "sugar": {
+        "buy": 10,
+        "sell": 8
+      },
+      "cheese": {
+        "buy": 7,
+        "sell": 6
+      }
+    },
+    "services": {
+      "repair_cost": 1
+    },
+    "tavern": {
+      "weights": {
+        "deckhand": 2,
+        "navigator": 1,
+        "cook": 1,
+        "marksman": 4,
+        "swordsman": 1
+      },
+      "level_weights": [
+        1
+      ]
+    },
+    "shipyard": [
+      "fluyt",
+      "brig"
+    ]
+  },
+  "oslo": {
+    "name": "Oslo",
+    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/flag (2).png",
+    "map": [
+      0.84,
+      0.14
+    ],
+    "blurb": "Far north. Cheapest cheese; pays the most for sugar. Swordsmen and Brigs.",
+    "goods": {
+      "sugar": {
+        "buy": 14,
+        "sell": 12
+      },
+      "cheese": {
+        "buy": 3,
+        "sell": 2
+      }
+    },
+    "tavern": {
+      "weights": {
+        "deckhand": 2,
+        "navigator": 1,
+        "cook": 1,
+        "marksman": 1,
+        "swordsman": 4
+      },
+      "level_weights": [
+        1
+      ]
+    },
+    "shipyard": [
+      "cutter",
+      "brig"
+    ]
+  }
+}

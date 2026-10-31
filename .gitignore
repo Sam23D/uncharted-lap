@@ -1,0 +1,15 @@
+# Godot editor cache and imports (regenerated on open)
+.godot/
+
+# Kenney source zips (the extracted folders are what the game uses)
+assets/vendor/*.zip
+
+# Local dev tooling: Godot MCP Pro plugin and its client config (machine-specific paths)
+addons/godot_mcp/
+.mcp.json
+
+# Screenshots from MCP checks
+/ui-*.png*
+/anim-*.png*
+/eco-*.png*
+/col-*.png*

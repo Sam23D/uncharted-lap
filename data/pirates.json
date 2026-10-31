@@ -1,0 +1,18 @@
+{
+  "skiff": {
+    "name": "Pirate skiff",
+    "power": 3,
+    "loot": 8,
+    "min_days": 1,
+    "weight": 5,
+    "sprite": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ships/ship (2).png"
+  },
+  "corsair": {
+    "name": "Corsair sloop",
+    "power": 6,
+    "loot": 15,
+    "min_days": 2,
+    "weight": 3,
+    "sprite": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ships/ship (8).png"
+  }
+}
