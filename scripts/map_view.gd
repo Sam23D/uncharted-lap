@@ -22,6 +22,7 @@ var _detail: VBoxContainer
 var _tags: Control
 ## Routes from the hovered port.
 const HOVER := Color(1.0, 0.82, 0.3)
+const FOG := Color(0.88, 0.9, 0.92, 0.55)
 const GOOD := Color(0.1, 0.42, 0.14)
 
 func open() -> void:
@@ -41,12 +42,35 @@ func _rebuild() -> void:
 	_build_side()
 	queue_redraw()
 
+## Ports drawn on the chart: charted ones, plus the cartographer's landfall ("?").
+func _visible_ports() -> Array:
+	var ids: Array = GameState.known_ports()
+	var land := _landfall()
+	if land != "":
+		ids.append(land)
+	return ids
+
+func _landfall() -> String:
+	var chart: String = GameState.carto_chart()
+	return str(GameState.charts[chart]["landfall"]) if chart != "" else ""
+
 func _point(id: String) -> Vector2:
 	var m: Array = GameState.ports[id]["map"]
 	return CHART.position + Vector2(float(m[0]), float(m[1])) * CHART.size
 
 func _draw() -> void:
 	draw_texture_rect(SEA, CHART, true)
+	# Fog over uncharted regions.
+	for chart in GameState.charts:
+		if chart in GameState.charted:
+			continue
+		var center := Vector2.ZERO
+		for id in GameState.charts[chart]["ports"]:
+			for k in 3:
+				draw_circle(_point(id) + Vector2(k * 9 - 9, (k % 2) * 6 - 3), 30.0 - k * 4, FOG)
+			center += _point(id)
+		center /= float(GameState.charts[chart]["ports"].size())
+		draw_string(get_theme_default_font(), center + Vector2(-40, 4), "Terra incognita", HORIZONTAL_ALIGNMENT_CENTER, 80, 10, Color(INK, 0.55))
 	var here: String = GameState.current_port_id
 	var drawn := {}
 	for a in GameState.routes:
@@ -82,7 +106,8 @@ func _build_markers() -> void:
 	_tags.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_tags)
 	_build_tags()
-	for id in GameState.ports:
+	var land := _landfall()
+	for id in _visible_ports():
 		var spec: Dictionary = GameState.ports[id]
 		var p := _point(id)
 		var marker := Button.new()
@@ -107,7 +132,7 @@ func _build_markers() -> void:
 		marker.add_child(ring)
 		ring.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 		var flag := TextureRect.new()
-		flag.texture = load(str(spec["flag"]))
+		flag.texture = load(str(spec["flag"])) if id != land else null
 		flag.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		flag.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		flag.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
@@ -120,7 +145,12 @@ func _build_markers() -> void:
 		flag.offset_bottom = -5
 		if reachable.has(id):
 			marker.pressed.connect(_select.bind(id))
-		var name_tag := _tag(str(spec["name"]) + (" (you)" if id == here else ""), INK)
+		if id == land:
+			var q := _tag("?", INK, marker)
+			q.position = Vector2(-16, 4)
+			q.add_theme_font_size_override("font_size", 14)
+			marker.tooltip_text = "Uncharted. Your cartographer knows the way."
+		var name_tag := _tag(("?" if id == land else str(spec["name"])) + (" (you)" if id == here else ""), INK)
 		name_tag.position = p + Vector2(-30, 15)
 		if id == here:
 			var ship := TextureRect.new()
@@ -195,12 +225,22 @@ func _build_side() -> void:
 	box.add_theme_constant_override("separation", 3)
 	panel.add_child(box)
 	var here: Dictionary = GameState.port()
-	_text(box, "Chart from %s" % str(here["name"]), 14, INK)
-	_text(box, "Days if you fight - if you run.", 11, Color(INK, 0.7))
+	var head := _text(box, "Chart from %s" % str(here["name"]), 14, INK)
+	head.tooltip_text = "Days: if you fight - if you run."
+	head.mouse_filter = Control.MOUSE_FILTER_PASS
+	# Destinations two to a row so far-reaching ports still fit.
+	var dests := GridContainer.new()
+	dests.columns = 2
+	dests.add_theme_constant_override("h_separation", 4)
+	dests.add_theme_constant_override("v_separation", 3)
+	box.add_child(dests)
 	for id in GameState.destinations():
 		var spec: Dictionary = GameState.ports[id]
-		var row := _plate(box, "%s   %d-%d days" % [str(spec["name"]), GameState.estimate_days(false, id), GameState.estimate_days(true, id)], "tile_0002.png" if id == selected else "tile_0003.png", INK if id == selected else CREAM)
+		var row := _plate(dests, "%s %d-%dd" % [_name(id), GameState.estimate_days(false, id), GameState.estimate_days(true, id)], "tile_0002.png" if id == selected else "tile_0003.png", INK if id == selected else CREAM)
 		row.name = "Row_" + id
+		row.custom_minimum_size = Vector2(100, 22)
+		row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		(row.get_child(1) as Label).add_theme_font_size_override("font_size", 11)
 		row.pressed.connect(_select.bind(id))
 		row.mouse_entered.connect(_hover.bind(id))
 		row.mouse_exited.connect(_unhover.bind(id))
@@ -294,7 +334,7 @@ func _fill_detail() -> void:
 		return
 	var here_id: String = GameState.current_port_id
 	var spec: Dictionary = GameState.ports[id]
-	var title := str(spec["name"])
+	var title := _name(id)
 	if id == here_id:
 		title += "  (you are here)"
 	elif id == selected:
@@ -302,6 +342,14 @@ func _fill_detail() -> void:
 	elif GameState.routes.get(here_id, {}).has(id):
 		title += "  (click to pick)"
 	_text(_detail, title, 13, INK)
+	if id == _landfall():
+		var chart: Dictionary = GameState.charts[GameState.carto_chart()]
+		_text(_detail, "Uncharted. Arrive with your cartographer to chart %s (%d ports)." % [str(chart["name"]), chart["ports"].size()], 11, Color(INK, 0.75))
+		if GameState.routes.get(here_id, {}).has(id):
+			var need_l: int = GameState.supplies_needed(id)
+			var need_lw: int = GameState.water_needed(id)
+			_text(_detail, "Needs %d food, %d water (have %d, %d)" % [need_l, need_lw, GameState.food, GameState.water], 11, WARN if GameState.food < need_l or GameState.water < need_lw else INK)
+		return
 	_text(_detail, str(spec.get("blurb", "")), 11, Color(INK, 0.75))
 	if id != here_id and GameState.routes.get(here_id, {}).has(id):
 		var need: int = GameState.supplies_needed(id)
@@ -309,29 +357,7 @@ func _fill_detail() -> void:
 		var need_w: int = GameState.water_needed(id)
 		short = GameState.food < need or GameState.water < need_w
 		_text(_detail, "Needs %d food, %d water (have %d, %d)" % [need, need_w, GameState.food, GameState.water], 11, WARN if short else INK)
-	var grid := GridContainer.new()
-	grid.columns = 4
-	grid.add_theme_constant_override("h_separation", 10)
-	grid.add_theme_constant_override("v_separation", 0)
-	_detail.add_child(grid)
-	for head in ["", "Buy", "Sell", "Profit"]:
-		var cell := _cell(grid, head, Color(INK, 0.55), 10)
-		if head == "Profit":
-			cell.tooltip_text = "Their sell price minus the buy price here, per unit."
-			cell.mouse_filter = Control.MOUSE_FILTER_PASS
-	var here_goods: Dictionary = GameState.port()["goods"]
-	var goods: Dictionary = spec["goods"]
-	for good in ["sugar", "cheese"]:
-		_cell(grid, good.capitalize(), INK, 11, 48)
-		_cell(grid, str(int(goods[good]["buy"])), INK)
-		_cell(grid, str(int(goods[good]["sell"])), INK)
-		if id == here_id:
-			_cell(grid, "-", Color(INK, 0.55))
-		else:
-			var gain := int(goods[good]["sell"]) - int(here_goods[good]["buy"])
-			_cell(grid, "%+d" % gain, GOOD if gain > 0 else WARN)
-	if id == here_id:
-		_text(_detail, "Hover another port to compare.", 10, Color(INK, 0.55))
+	_price_table(id)
 	var weights: Dictionary = spec.get("tavern", {}).get("weights", {})
 	var lean := ""
 	for prof in weights:
@@ -343,8 +369,52 @@ func _fill_detail() -> void:
 	var fees := " · half-price signing" if GameState.service_f("hire_mult", id) < 1.0 else ""
 	var lean_name := str(GameState.crew_data["professions"].get(lean, {"name": "sailor"})["name"]).to_lower()
 	lean_name = lean_name.replace("man", "men") if lean_name.ends_with("man") else lean_name + "s"
-	_text(_detail, "Tavern: %s%s" % [lean_name, fees], 11, INK)
-	_text(_detail, "Yard: %s · repair %dg" % [", ".join(yard), GameState.service("repair_cost", id)], 11, INK)
+	_text(_detail, "Tavern: %s%s · Yard: %s · repair %dg" % [lean_name, fees, ", ".join(yard) if not yard.is_empty() else "none", GameState.service("repair_cost", id)], 10, INK)
+
+func _name(id: String) -> String:
+	return "?" if id == _landfall() else str(GameState.ports[id]["name"])
+
+## Here: what this port makes (buy/sell). Elsewhere: the 5 best goods to carry there from
+## here (buy here, sell there, profit per unit), then what that port makes.
+func _price_table(id: String) -> void:
+	var here_id: String = GameState.current_port_id
+	var grid := GridContainer.new()
+	grid.columns = 4
+	grid.add_theme_constant_override("h_separation", 8)
+	grid.add_theme_constant_override("v_separation", 0)
+	_detail.add_child(grid)
+	var heads := ["Made here", "Buy", "Sell", ""] if id == here_id else ["Carry there", "Buy", "Sell", "Profit"]
+	for head in heads:
+		var cell := _cell(grid, head, Color(INK, 0.55), 10)
+		if head == "Profit":
+			cell.tooltip_text = "Their sell price minus the buy price here, per unit."
+			cell.mouse_filter = Control.MOUSE_FILTER_PASS
+	var rows: Array = []
+	for good in GameState.goods_order():
+		if not GameState.produces(good, here_id):
+			continue
+		var gain: int = GameState.price(good, "sell", id) - GameState.price(good, "buy", here_id)
+		rows.append([good, gain])
+	if id != here_id:
+		rows.sort_custom(func(a, b): return int(a[1]) > int(b[1]))
+		rows = rows.slice(0, 4)
+	for r in rows:
+		var good: String = r[0]
+		_cell(grid, str(GameState.goods_data["goods"][good]["name"]), INK, 11, 70)
+		_cell(grid, str(GameState.price(good, "buy", here_id)), INK, 11, 22)
+		_cell(grid, str(GameState.price(good, "sell", id)), INK, 11, 22)
+		if id == here_id:
+			_cell(grid, "", INK, 11, 22)
+		else:
+			_cell(grid, "%+d" % int(r[1]), GOOD if int(r[1]) > 0 else WARN, 11, 22)
+	if id == here_id:
+		_text(_detail, "Hover another port to compare.", 10, Color(INK, 0.55))
+		return
+	var made: Array[String] = []
+	for good in GameState.goods_order():
+		if GameState.produces(good, id):
+			made.append("%s %d" % [GameState.good_name(good), GameState.price(good, "buy", id)])
+	_text(_detail, "Makes: " + (", ".join(made) if not made.is_empty() else "nothing"), 10, Color(INK, 0.75))
 
 func _select(id: String) -> void:
 	if GameState.set_destination(id):

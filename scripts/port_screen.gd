@@ -19,8 +19,6 @@ const PROF_ICONS := {
 
 ## Button name -> [GameState method, argument].
 const ACTIONS := {
-	"BuySugar": ["buy", "sugar"], "SellSugar": ["sell", "sugar"],
-	"BuyCheese": ["buy", "cheese"], "SellCheese": ["sell", "cheese"],
 	"LoadFood": ["load_supply", "food"], "LoadWater": ["load_supply", "water"],
 	"UnloadFood": ["unload_supply", "food"], "UnloadWater": ["unload_supply", "water"],
 	"BuyCannon": ["buy_arm", "cannon"], "SellCannon": ["sell_arm", "cannon"],
@@ -112,6 +110,15 @@ func _hide_info() -> void:
 func _info_text(key: String) -> String:
 	var v: Dictionary = GameState.voyage
 	match key:
+		"market":
+			var cats: Array[String] = []
+			for cat in GameState.goods_data["categories"]:
+				var names: Array[String] = []
+				for id in GameState.goods_order():
+					if str(GameState.goods_data["goods"][id]["category"]) == cat:
+						names.append(GameState.good_name(id))
+				cats.append("%s: %s" % [str(GameState.goods_data["categories"][cat]["name"]), ", ".join(names)])
+			return "Each port makes a few goods: buy them there, cheap. Every port buys every good, so you can sell anything anywhere. \"Best\" names the charted port that pays the most.\n\nEvery unit takes one hold slot.\n\n" + "\n".join(cats)
 		"supply":
 			return "Food and water cost %dg each and refund %dg when unloaded. %d fit in a hold slot.\n\nEach day at sea the captain eats and drinks 1, plus half for every crew member. A cook cuts the food. \"Need\" covers the slower trip (running from a pirate)." % [
 				int(v["supply_price"]), int(v.get("supply_refund", v["supply_price"])), int(v.get("supply_stack", 1))]
@@ -284,9 +291,9 @@ func _refresh_overview() -> void:
 	_refresh_trip()
 	_set_row("CargoRow", "Cargo", "%d / %d slots" % [GameState.cargo_used(), GameState.cargo_capacity])
 	var goods: Array[String] = []
-	for good in ["sugar", "cheese"]:
+	for good in GameState.goods_order():
 		if int(GameState.cargo.get(good, 0)) > 0:
-			goods.append("%s %d" % [good, int(GameState.cargo[good])])
+			goods.append("%s %d" % [GameState.good_name(good), int(GameState.cargo[good])])
 	_set_row("GoodsRow", "Goods", ", ".join(goods) if not goods.is_empty() else "none")
 	var short_crew := GameState.crew_count() < GameState.min_crew()
 	_set_row("AboardRow", "Aboard", "%d / %d · %dg/day%s" % [GameState.crew_count(), GameState.bunks, GameState.wages_per_day(),
@@ -309,11 +316,13 @@ func _roles_text() -> String:
 	return ", ".join(parts) if not parts.is_empty() else "none"
 
 func _refresh_trip() -> void:
-	var dest: Dictionary = GameState.ports[GameState.destination_id()]
-	_set_row("ToRow", "To", "%s, %d-%d days" % [str(dest.get("name", GameState.destination_id())), GameState.estimate_days(false), GameState.estimate_days(true)])
+	var dest_id: String = GameState.destination_id()
+	var dest: Dictionary = GameState.ports[dest_id]
+	var known: bool = GameState.is_known(dest_id)
+	_set_row("ToRow", "To", "%s, %d-%d days" % [str(dest.get("name", dest_id)) if known else "? (uncharted)", GameState.estimate_days(false), GameState.estimate_days(true)])
 	var to_row := find_child("ToRow", true, false)
 	if to_row != null and to_row.get_node_or_null("Icon") != null:
-		to_row.get_node("Icon").texture = load(str(dest["flag"]))
+		to_row.get_node("Icon").texture = load(str(dest["flag"])) if known else null
 	for spec in [["Food", GameState.food, GameState.supplies_needed()], ["Water", GameState.water, GameState.water_needed()]]:
 		var have := int(spec[1])
 		var need := int(spec[2])
@@ -323,9 +332,7 @@ func _refresh_trip() -> void:
 
 func _refresh_store() -> void:
 	var v: Dictionary = GameState.voyage
-	for good in ["sugar", "cheese"]:
-		var g: Dictionary = GameState.port()["goods"][good]
-		_set_row(good.capitalize() + "Row", good.capitalize(), "have %d" % int(GameState.cargo.get(good, 0)))
+	_fill_list("GoodsList", _goods_rows())
 	var food_need: int = GameState.supplies_needed()
 	var water_need: int = GameState.water_needed()
 	_set_row("SupplyFoodRow", "SupplyFood", "have %d · need %d · %s/day" % [GameState.food, food_need, _num(GameState.food_per_day())])
@@ -335,7 +342,60 @@ func _refresh_store() -> void:
 	_section_title("StoreProvisionsSection", "PROVISIONS · %d PER SLOT" % int(v.get("supply_stack", 1)))
 	_section_title("StoreCargoSection", "CARGO · %d FREE SLOTS" % GameState.free_cargo())
 
+## Store rows: goods made here (Buy and Sell) and goods in the hold (Sell), under category headers.
+func _goods_rows() -> Array:
+	var rows: Array = []
+	var cat := ""
+	for good in GameState.goods_order():
+		var made: bool = GameState.produces(good)
+		var have := int(GameState.cargo.get(good, 0))
+		if not made and have == 0:
+			continue
+		var spec: Dictionary = GameState.goods_data["goods"][good]
+		if str(spec["category"]) != cat:
+			cat = str(spec["category"])
+			rows.append({"header": str(GameState.goods_data["categories"][cat]["name"]).to_upper()})
+		var best := _best_market(good)
+		var sub := "best price here" if best == GameState.current_port_id else "best: %s %d" % [_port_name(best), GameState.price(good, "sell", best)]
+		var buttons: Array = []
+		if made:
+			buttons.append(["Buy (%d)" % GameState.price(good, "buy"), _trade.bind("buy", good)])
+		buttons.append(["Sell (%d)" % GameState.price(good, "sell"), _trade.bind("sell", good)])
+		rows.append({"icon": str(spec["icon"]), "text": "%s · have %d" % [str(spec["name"]), have], "sub": sub,
+			"tip": "%s: %s" % [str(GameState.goods_data["categories"][cat]["name"]), "made here" if made else "not made here, sell only"], "buttons": buttons})
+	if rows.is_empty():
+		rows.append({"text": "Nothing to trade here."})
+	return rows
+
+## Charted port paying the most for a good (ties: the first in data order).
+func _best_market(good: String) -> String:
+	return _port_where(func(id): return GameState.price(good, "sell", id))
+
+func _trade(side: String, good: String) -> void:
+	if side == "buy":
+		GameState.buy(good)
+	else:
+		GameState.sell(good)
+	_refresh()
+
 func _refresh_tavern() -> void:
+	var carto_rows: Array = []
+	var spec: Dictionary = GameState.cartographer()
+	if not spec.is_empty():
+		var chart: Dictionary = GameState.charts[str(spec["chart"])]
+		var why: String = GameState.carto_refusal(spec)
+		var names: Array[String] = []
+		for id in chart["ports"]:
+			names.append(str(GameState.ports[id]["name"]))
+		carto_rows.append({"icon": "res://assets/vendor/kenney-generic-items/PNG/Colored/genericItem_color_162.png",
+			"text": "%s · chart of %s · %dg/day" % [str(spec["name"]), str(chart["name"]), int(spec["wage"])],
+			"sub": why if why != "" else "Sails with you to ?, then charts %s." % " and ".join(names), "warn": why != "",
+			"tip": "Takes a bunk and a daily wage until you reach the landfall port; dismissed or deserted, the fee is lost.",
+			"buttons": [["Hire (%d)" % int(spec["fee"]), _hire_carto]]})
+	_fill_list("CartoList", carto_rows)
+	var carto_section := find_child("TavernCartoSection", true, false)
+	if carto_section != null:
+		carto_section.visible = not carto_rows.is_empty()
 	var roster_rows: Array = []
 	for m in GameState.roster():
 		var fee: int = GameState.hire_fee(m)
@@ -354,6 +414,10 @@ func _refresh_tavern() -> void:
 	var aboard := find_child("TavernAboardSection", true, false)
 	if aboard != null:
 		aboard.get_node("Title").text = "ABOARD %d/%d · %dG/DAY" % [GameState.crew_count(), GameState.bunks, GameState.wages_per_day()]
+
+func _hire_carto() -> void:
+	GameState.hire_cartographer()
+	_refresh()
 
 func _prof(m: Dictionary) -> String:
 	return str(GameState.crew_data["professions"][str(m["profession"])]["name"])
@@ -393,17 +457,22 @@ func _refresh_armory() -> void:
 ## Page hints name what this port is good for, and point to the better port otherwise.
 func _refresh_hints() -> void:
 	var here: String = GameState.current_port_id
-	var deals: Array[String] = []
-	for good in ["sugar", "cheese"]:
-		var cheapest := _port_where(func(id): return -int(GameState.ports[id]["goods"][good]["buy"]))
-		var best := _port_where(func(id): return int(GameState.ports[id]["goods"][good]["sell"]))
-		if cheapest == here:
-			deals.append("cheapest %s" % good)
-		if best == here:
-			deals.append("best %s price" % good)
-	if deals.is_empty():
-		deals.append("No standout prices. Compare on the chart.")
-	_set_hint("StoreHint", ("Here: " + ", ".join(deals) + " on the chart.") if not deals[0].begins_with("No") else deals[0])
+	var cheap: Array[String] = []
+	var best: Array[String] = []
+	for good in GameState.goods_order():
+		if GameState.produces(good) and _port_where(func(id): return -GameState.price(good, "buy", id) if GameState.produces(good, id) else -9999) == here:
+			cheap.append(GameState.good_name(good))
+		var any_source := false
+		for id in GameState.known_ports():
+			any_source = any_source or GameState.produces(good, id)
+		if any_source and _best_market(good) == here:
+			best.append(GameState.good_name(good))
+	var parts: Array[String] = []
+	if not cheap.is_empty():
+		parts.append("Cheapest " + ", ".join(cheap.slice(0, 3)))
+	if not best.is_empty():
+		parts.append("best price for " + ", ".join(best.slice(0, 3)))
+	_set_hint("StoreHint", ("; ".join(parts) + " on the chart.") if not parts.is_empty() else "No standout prices. Compare on the chart.")
 	var crew := _port_where(func(id): return -GameState.service_f("hire_mult", id) * 100.0)
 	var lean := _tavern_lean(here)
 	if crew == here:
@@ -412,7 +481,7 @@ func _refresh_hints() -> void:
 		_set_hint("TavernHint", "Mostly %s. Half-price signing in %s." % [lean, _port_name(crew)])
 	var yard := _port_where(func(id): return -GameState.service("repair_cost", id))
 	var winners: Array[String] = []
-	for p in GameState.ports:
+	for p in GameState.known_ports():
 		for id in GameState.ports[p].get("shipyard", []):
 			if int(GameState.ships[id]["tier"]) >= int(GameState.voyage["win_ship_tier"]) and not _port_name(p) in winners:
 				winners.append(_port_name(p))
@@ -437,7 +506,7 @@ func _tavern_lean(port_id: String) -> String:
 ## Port id with the highest score (ties keep the first found).
 func _port_where(score: Callable) -> String:
 	var pick := ""
-	for id in GameState.ports:
+	for id in GameState.known_ports():
 		if pick == "" or float(score.call(id)) > float(score.call(pick)):
 			pick = id
 	return pick
@@ -475,6 +544,11 @@ func _fill_list(list_name: String, rows: Array) -> void:
 		list.remove_child(child)
 		child.queue_free()
 	for r in rows:
+		if r.has("header"):
+			var head := _small_label(str(r["header"]), 10, Color(INK, 0.55))
+			head.custom_minimum_size = Vector2(0, 14)
+			list.add_child(head)
+			continue
 		var row := HBoxContainer.new()
 		row.add_theme_constant_override("separation", 4)
 		row.custom_minimum_size = Vector2(0, 24)
@@ -498,7 +572,7 @@ func _fill_list(list_name: String, rows: Array) -> void:
 		label.mouse_filter = Control.MOUSE_FILTER_PASS
 		texts.add_child(label)
 		if r.has("sub"):
-			texts.add_child(_small_label(str(r["sub"]), 10, Color(INK, 0.65)))
+			texts.add_child(_small_label(str(r["sub"]), 10, WARN if r.get("warn", false) else Color(INK, 0.65)))
 		for spec in r.get("buttons", []):
 			row.add_child(_plate(str(spec[0]), spec[1]))
 

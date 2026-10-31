@@ -3,8 +3,8 @@
     "name": "Madeira",
     "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/flag (1).png",
     "map": [
-      0.1,
-      0.8
+      0.07,
+      0.6
     ],
     "blurb": "Home. Cheapest sugar, best cheese price.",
     "goods": {
@@ -32,16 +32,31 @@
     "shipyard": [
       "cutter",
       "fluyt"
-    ]
+    ],
+    "chart": "known",
+    "pays": {
+      "olive_oil": 8,
+      "rock_salt": 6,
+      "grain": 9,
+      "pepper": 28,
+      "cinnamon": 36,
+      "clove": 62,
+      "wool": 12,
+      "cotton_cloth": 12,
+      "silk_cloth": 30,
+      "iron_ore": 10,
+      "copper_ore": 13,
+      "gold": 60
+    }
   },
   "lisbon": {
     "name": "Lisbon",
     "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/flag (3).png",
     "map": [
-      0.42,
-      0.8
+      0.2,
+      0.48
     ],
-    "blurb": "Sailors' town. Small trade margins.",
+    "blurb": "Sailors' town. Olive oil and rock salt.",
     "goods": {
       "sugar": {
         "buy": 7,
@@ -50,6 +65,14 @@
       "cheese": {
         "buy": 11,
         "sell": 8
+      },
+      "olive_oil": {
+        "buy": 6,
+        "sell": 5
+      },
+      "rock_salt": {
+        "buy": 5,
+        "sell": 4
       }
     },
     "services": {
@@ -70,16 +93,29 @@
     "shipyard": [
       "cutter",
       "fluyt"
-    ]
+    ],
+    "chart": "known",
+    "pays": {
+      "grain": 8,
+      "pepper": 30,
+      "cinnamon": 38,
+      "clove": 66,
+      "wool": 11,
+      "cotton_cloth": 13,
+      "silk_cloth": 32,
+      "iron_ore": 11,
+      "copper_ore": 14,
+      "gold": 66
+    }
   },
   "london": {
     "name": "London",
     "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/flag (4).png",
     "map": [
-      0.32,
-      0.3
+      0.34,
+      0.27
     ],
-    "blurb": "Busy docks. Cheapest repairs.",
+    "blurb": "Busy docks: cheap repairs, wool.",
     "goods": {
       "sugar": {
         "buy": 10,
@@ -87,6 +123,10 @@
       },
       "cheese": {
         "buy": 7,
+        "sell": 6
+      },
+      "wool": {
+        "buy": 8,
         "sell": 6
       }
     },
@@ -108,16 +148,30 @@
     "shipyard": [
       "fluyt",
       "brig"
-    ]
+    ],
+    "chart": "known",
+    "pays": {
+      "olive_oil": 11,
+      "rock_salt": 8,
+      "grain": 7,
+      "pepper": 34,
+      "cinnamon": 42,
+      "clove": 72,
+      "cotton_cloth": 12,
+      "silk_cloth": 36,
+      "iron_ore": 12,
+      "copper_ore": 15,
+      "gold": 64
+    }
   },
   "oslo": {
     "name": "Oslo",
     "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/flag (2).png",
     "map": [
-      0.84,
+      0.46,
       0.14
     ],
-    "blurb": "Far north. Cheapest cheese, best sugar price.",
+    "blurb": "Far north. Cheapest cheese and iron, best sugar price.",
     "goods": {
       "sugar": {
         "buy": 14,
@@ -126,6 +180,10 @@
       "cheese": {
         "buy": 3,
         "sell": 2
+      },
+      "iron_ore": {
+        "buy": 8,
+        "sell": 6
       }
     },
     "tavern": {
@@ -143,6 +201,20 @@
     "shipyard": [
       "cutter",
       "brig"
-    ]
+    ],
+    "chart": "known",
+    "pays": {
+      "olive_oil": 12,
+      "rock_salt": 9,
+      "grain": 6,
+      "pepper": 32,
+      "cinnamon": 40,
+      "clove": 70,
+      "wool": 9,
+      "cotton_cloth": 13,
+      "silk_cloth": 34,
+      "copper_ore": 15,
+      "gold": 60
+    }
   }
 }

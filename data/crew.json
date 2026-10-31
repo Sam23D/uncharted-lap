@@ -1,119 +1,119 @@
 {
   "professions": {
-    "deckhand": {
-      "name": "Deckhand",
-      "wage": [
-        1
-      ],
-      "fight": [
-        1
-      ],
-      "note": "Cheap hands. Count toward a ship's minimum crew; fight with fists when boarded."
-    },
-    "navigator": {
-      "name": "Navigator",
-      "wage": [
-        2,
-        3,
-        5
-      ],
-      "fight": [
-        0,
-        0,
-        0
-      ],
-      "note": "With a navigator aboard, trips skip the +1 day for no navigator."
-    },
-    "cook": {
-      "name": "Cook",
-      "wage": [
-        2,
-        3,
-        4
-      ],
-      "fight": [
-        0,
-        0,
-        0
-      ],
-      "food_mult": [
-        0.75,
-        0.6,
-        0.5
-      ],
-      "note": "The crew eats less: food per day x0.75."
-    },
-    "marksman": {
-      "name": "Marksman",
-      "wage": [
-        2,
-        3,
-        5
-      ],
-      "fight": [
-        1,
-        1,
-        1
-      ],
-      "armed_fight": [
-        2,
-        3,
-        4
-      ],
-      "weapon": "musket",
-      "ammo": true,
-      "note": "Fights at 2 with a musket (1 powder + 1 shot a fight), 1 without."
-    },
-    "swordsman": {
-      "name": "Swordsman",
-      "wage": [
-        2,
-        3,
-        5
-      ],
-      "fight": [
-        1,
-        1,
-        1
-      ],
-      "armed_fight": [
-        2,
-        3,
-        4
-      ],
-      "weapon": "sword",
-      "note": "Fights at 2 with a sword, 1 without."
-    }
+	"deckhand": {
+	  "name": "Deckhand",
+	  "wage": [
+		1
+	  ],
+	  "fight": [
+		1
+	  ],
+	  "note": "Cheap hands. Count toward a ship's minimum crew; fight with fists when boarded."
+	},
+	"navigator": {
+	  "name": "Navigator",
+	  "wage": [
+		2,
+		3,
+		5
+	  ],
+	  "fight": [
+		0,
+		0,
+		0
+	  ],
+	  "note": "With a navigator aboard, trips skip the +1 day for no navigator."
+	},
+	"cook": {
+	  "name": "Cook",
+	  "wage": [
+		2,
+		3,
+		4
+	  ],
+	  "fight": [
+		0,
+		0,
+		0
+	  ],
+	  "food_mult": [
+		0.75,
+		0.6,
+		0.5
+	  ],
+	  "note": "The crew eats less: food per day x0.75."
+	},
+	"marksman": {
+	  "name": "Marksman",
+	  "wage": [
+		2,
+		3,
+		5
+	  ],
+	  "fight": [
+		1,
+		1,
+		1
+	  ],
+	  "armed_fight": [
+		2,
+		3,
+		4
+	  ],
+	  "weapon": "musket",
+	  "ammo": true,
+	  "note": "Fights at 2 with a musket (1 powder + 1 shot a fight), 1 without."
+	},
+	"swordsman": {
+	  "name": "Swordsman",
+	  "wage": [
+		2,
+		3,
+		5
+	  ],
+	  "fight": [
+		1,
+		1,
+		1
+	  ],
+	  "armed_fight": [
+		2,
+		3,
+		4
+	  ],
+	  "weapon": "sword",
+	  "note": "Fights at 2 with a sword, 1 without."
+	}
   },
   "levels": [
-    "Green",
-    "Able",
+	"Green",
+	"Able",
     "Veteran"
   ],
   "names": [
-    "Ana",
-    "Bento",
-    "Caspar",
-    "Duarte",
-    "Edda",
-    "Finn",
-    "Greta",
-    "Hugo",
-    "Ines",
-    "Joao",
-    "Knut",
-    "Lars",
-    "Mara",
-    "Nils",
-    "Olga",
-    "Pedro",
-    "Rui",
-    "Sven",
-    "Tove",
-    "Ulla",
-    "Vasco",
-    "Wim",
-    "Ximena",
+	"Ana",
+	"Bento",
+	"Caspar",
+	"Duarte",
+	"Edda",
+	"Finn",
+	"Greta",
+	"Hugo",
+	"Ines",
+	"Joao",
+	"Knut",
+	"Lars",
+	"Mara",
+	"Nils",
+	"Olga",
+	"Pedro",
+	"Rui",
+	"Sven",
+	"Tove",
+	"Ulla",
+	"Vasco",
+	"Wim",
+	"Ximena",
     "Yrsa"
   ]
 }

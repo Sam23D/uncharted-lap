@@ -13,8 +13,10 @@ func _fail(text: String) -> void:
 func _plan(state: Node) -> Dictionary:
 	var best := {"score": -1.0}
 	for dest in state.destinations():
-		for good in ["sugar", "cheese"]:
-			var margin: int = int(state.ports[dest]["goods"][good]["sell"]) - state.price(good, "buy")
+		for good in state.goods_order():
+			if not state.produces(good):
+				continue
+			var margin: int = state.price(good, "sell", dest) - state.price(good, "buy")
 			# Hold full of goods: no light-hold bonus.
 			var days: int = state.ShipRules.days(state.route_days(dest), int(state.ship()["speed"])) + (0 if state.count("navigator") > 0 else int(state.voyage["nav_penalty_days"])) + int(state.voyage["run_extra_days"])
 			var f := int(floor(state.food_frac + days * state.food_per_day() + 0.0001))

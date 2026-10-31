@@ -1,0 +1,13 @@
+{
+  "known": {
+    "name": "Home waters",
+    "tier": 0,
+    "landfall": "",
+    "ports": [
+      "madeira",
+      "lisbon",
+      "london",
+      "oslo"
+    ]
+  }
+}

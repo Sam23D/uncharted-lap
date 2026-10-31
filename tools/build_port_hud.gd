@@ -92,15 +92,26 @@ func build(scene_root: Node) -> String:
 
 	var store := _page(pages, "Store", "-")
 	# Section names are prefixed so they don't collide with the Voyage column's sections.
-	_section(store, "Cargo", "StoreCargo")
-	_trade_row(store, "Sugar", "Sugar", ITEMS + "genericItem_color_143.png", [["BuySugar", "Buy"], ["SellSugar", "Sell"]])
-	_trade_row(store, "Cheese", "Cheese", ITEMS + "genericItem_color_141.png", [["BuyCheese", "Buy"], ["SellCheese", "Sell"]])
 	_section(store, "Provisions", "StoreProvisions")
 	_info_badge(store.get_node("StoreProvisionsSection"), "supply", false)
 	_trade_row(store, "SupplyFood", "Food", ITEMS + "genericItem_color_114.png", [["LoadFood", "Load"], ["UnloadFood", "Unload"]])
 	_trade_row(store, "SupplyWater", "Water", ITEMS + "genericItem_color_118.png", [["LoadWater", "Load"], ["UnloadWater", "Unload"]])
+	# Goods are a runtime list (port_screen.gd): what this port makes, plus what's in the hold,
+	# grouped by category (data/goods.json).
+	_section(store, "Cargo", "StoreCargo")
+	_info_badge(store.get_node("StoreCargoSection"), "market", false)
+	var goods_scroll: ScrollContainer = _add(store, ScrollContainer.new(), "GoodsScroll")
+	goods_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	goods_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	var goods_list: VBoxContainer = _add(goods_scroll, VBoxContainer.new(), "GoodsList")
+	goods_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	goods_list.add_theme_constant_override("separation", 1)
 
 	var tavern := _page(pages, "Tavern", "-")
+	# Cartographers (port_screen.gd fills CartoList; the section hides when nobody offers a chart).
+	_section(tavern, "Cartographer", "TavernCarto")
+	var carto: VBoxContainer = _add(tavern, VBoxContainer.new(), "CartoList")
+	carto.add_theme_constant_override("separation", 2)
 	_section(tavern, "In port", "TavernRoster")
 	_info_badge(tavern.get_node("TavernRosterSection"), "crew", false)
 	var roster: VBoxContainer = _add(tavern, VBoxContainer.new(), "RosterList")

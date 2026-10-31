@@ -1,8 +1,38 @@
 [
-  {"from": "madeira", "to": "lisbon", "days": 1},
-  {"from": "lisbon", "to": "london", "days": 2},
-  {"from": "london", "to": "oslo", "days": 2},
-  {"from": "madeira", "to": "london", "days": 3},
-  {"from": "lisbon", "to": "oslo", "days": 3},
-  {"from": "madeira", "to": "oslo", "days": 3}
+  {
+	"from": "madeira",
+	"to": "lisbon",
+	"days": 1,
+	"chart": "known"
+  },
+  {
+	"from": "lisbon",
+	"to": "london",
+	"days": 2,
+	"chart": "known"
+  },
+  {
+	"from": "london",
+	"to": "oslo",
+	"days": 2,
+	"chart": "known"
+  },
+  {
+	"from": "madeira",
+	"to": "london",
+	"days": 3,
+	"chart": "known"
+  },
+  {
+	"from": "lisbon",
+	"to": "oslo",
+	"days": 3,
+	"chart": "known"
+  },
+  {
+	"from": "madeira",
+	"to": "oslo",
+	"days": 3,
+	"chart": "known"
+  }
 ]

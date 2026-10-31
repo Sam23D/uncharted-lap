@@ -283,7 +283,7 @@ func play(start_day: int, est_days: int) -> void:
 	await _arrive()
 
 func _name(id: String) -> String:
-	return str(GameState.ports.get(id, {}).get("name", id))
+	return str(GameState.ports.get(id, {}).get("name", id)) if GameState.is_known(id) else "?"
 
 ## Sail the player ship to `center_x` while the day counter ticks to `to_day`.
 func _leg(center_x: float, to_day: int, seconds: float) -> void:

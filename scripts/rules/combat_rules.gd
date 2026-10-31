@@ -4,11 +4,13 @@ extends RefCounted
 ## then boarding (swordsmen with a sword, else fists; deckhands 1).
 const CrewRules := preload("res://scripts/rules/crew_rules.gd")
 
-static func pick_pirate(rng: RandomNumberGenerator, pirates: Dictionary, route_days: int) -> String:
+## Pirates that sail this route: long enough, and in its chart's region ("regions" empty = anywhere).
+static func pick_pirate(rng: RandomNumberGenerator, pirates: Dictionary, route_days: int, region: String = "known") -> String:
 	var total := 0.0
 	var options: Array = []
 	for id in pirates:
-		if int(pirates[id]["min_days"]) <= route_days:
+		var regions: Array = pirates[id].get("regions", [])
+		if int(pirates[id]["min_days"]) <= route_days and (regions.is_empty() or region in regions):
 			options.append(id)
 			total += float(pirates[id]["weight"])
 	if options.is_empty():

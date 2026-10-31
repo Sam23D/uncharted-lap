@@ -121,6 +121,10 @@ func close_trip(day: int, days: int, food: int, water: int, wages: int, deserter
 	t["ended"] = ended
 	_trip = -1
 
+## A chart discovered on arrival (cartographers).
+func charted(day: int, name: String, ports: Array) -> void:
+	_push({"type": "chart", "day": day, "name": name, "ports": ports})
+
 func trips() -> int:
 	var n := 0
 	for e in entries:
@@ -141,6 +145,6 @@ func trip_profit(index: int) -> int:
 		var row: Dictionary = entries[i]
 		if row["type"] == "trip":
 			break
-		if row["side"] == "sell":
+		if row["type"] == "trade" and row["side"] == "sell":
 			total += (int(row["price"]) - int(row["cost_each"])) * int(row["qty"])
 	return total

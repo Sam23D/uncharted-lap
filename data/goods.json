@@ -1,0 +1,92 @@
+{
+  "categories": {
+    "food": {
+      "name": "Food",
+      "icon": "res://assets/vendor/kenney-generic-items/PNG/Colored/genericItem_color_114.png"
+    },
+    "spices": {
+      "name": "Spices",
+      "icon": "res://assets/vendor/kenney-generic-items/PNG/Colored/genericItem_color_112.png"
+    },
+    "textiles": {
+      "name": "Textiles",
+      "icon": "res://assets/vendor/kenney-generic-items/PNG/Colored/genericItem_color_133.png"
+    },
+    "metals": {
+      "name": "Metals",
+      "icon": "res://assets/vendor/kenney-generic-items/PNG/Colored/genericItem_color_021.png"
+    }
+  },
+  "goods": {
+    "sugar": {
+      "name": "Sugar",
+      "category": "food",
+      "icon": "res://assets/vendor/kenney-generic-items/PNG/Colored/genericItem_color_143.png"
+    },
+    "cheese": {
+      "name": "Cheese",
+      "category": "food",
+      "icon": "res://assets/vendor/kenney-generic-items/PNG/Colored/genericItem_color_141.png"
+    },
+    "olive_oil": {
+      "name": "Olive oil",
+      "category": "food",
+      "icon": "res://assets/vendor/kenney-generic-items/PNG/Colored/genericItem_color_127.png"
+    },
+    "rock_salt": {
+      "name": "Rock salt",
+      "category": "food",
+      "icon": "res://assets/vendor/kenney-generic-items/PNG/Colored/genericItem_color_122.png"
+    },
+    "grain": {
+      "name": "Grain",
+      "category": "food",
+      "icon": "res://assets/vendor/kenney-generic-items/PNG/Colored/genericItem_color_155.png"
+    },
+    "pepper": {
+      "name": "Pepper",
+      "category": "spices",
+      "icon": "res://assets/vendor/kenney-generic-items/PNG/Colored/genericItem_color_123.png"
+    },
+    "cinnamon": {
+      "name": "Cinnamon",
+      "category": "spices",
+      "icon": "res://assets/vendor/kenney-generic-items/PNG/Colored/genericItem_color_140.png"
+    },
+    "clove": {
+      "name": "Clove",
+      "category": "spices",
+      "icon": "res://assets/vendor/kenney-generic-items/PNG/Colored/genericItem_color_154.png"
+    },
+    "wool": {
+      "name": "Wool",
+      "category": "textiles",
+      "icon": "res://assets/vendor/kenney-generic-items/PNG/Colored/genericItem_color_156.png"
+    },
+    "cotton_cloth": {
+      "name": "Cotton cloth",
+      "category": "textiles",
+      "icon": "res://assets/vendor/kenney-generic-items/PNG/Colored/genericItem_color_133.png"
+    },
+    "silk_cloth": {
+      "name": "Silk cloth",
+      "category": "textiles",
+      "icon": "res://assets/vendor/kenney-generic-items/PNG/Colored/genericItem_color_117.png"
+    },
+    "iron_ore": {
+      "name": "Iron ore",
+      "category": "metals",
+      "icon": "res://assets/vendor/kenney-generic-items/PNG/Colored/genericItem_color_058.png"
+    },
+    "copper_ore": {
+      "name": "Copper ore",
+      "category": "metals",
+      "icon": "res://assets/vendor/kenney-generic-items/PNG/Colored/genericItem_color_059.png"
+    },
+    "gold": {
+      "name": "Gold",
+      "category": "metals",
+      "icon": "res://assets/vendor/kenney-generic-items/PNG/Colored/genericItem_color_160.png"
+    }
+  }
+}

@@ -96,6 +96,9 @@ func _fill(log: RefCounted) -> void:
 			_trip(e, log.trip_profit(i))
 			last_port = ""
 			continue
+		if e["type"] == "chart":
+			_line("Charted %s: %s" % [str(e["name"]), ", ".join(e["ports"])], GOOD, 0, 12)
+			continue
 		if str(e["port"]) != last_port:
 			last_port = str(e["port"])
 			_line("At %s" % _port(last_port), INK, 0, 12)
@@ -173,11 +176,11 @@ func _trade(t: Dictionary) -> void:
 	var text := ""
 	var color := INK
 	if t["side"] == "buy":
-		text = "Bought %d %s @ %d = −%dg" % [qty, str(t["good"]), int(t["price"]), int(t["total"])]
+		text = "Bought %d %s @ %d = −%dg" % [qty, GameState.good_name(str(t["good"])), int(t["price"]), int(t["total"])]
 	else:
 		var margin := int(t["price"]) - int(t["cost_each"])
 		var each := " (%s each)" % _signed(margin) if int(t["cost_each"]) > 0 else ""
-		text = "Sold %d %s @ %d%s = +%dg" % [qty, str(t["good"]), int(t["price"]), each, int(t["total"])]
+		text = "Sold %d %s @ %d%s = +%dg" % [qty, GameState.good_name(str(t["good"])), int(t["price"]), each, int(t["total"])]
 		if int(t["cost_each"]) > 0:
 			color = GOOD if margin > 0 else WARN
 	_line(text, color, 1)
@@ -187,7 +190,7 @@ func _goods(lost: Dictionary) -> String:
 		return "nothing"
 	var parts: Array[String] = []
 	for good in lost:
-		parts.append("%d %s" % [int(lost[good]), good])
+		parts.append("%d %s" % [int(lost[good]), GameState.good_name(str(good))])
 	return ", ".join(parts)
 
 func _signed(n: int, unit: String = "") -> String:

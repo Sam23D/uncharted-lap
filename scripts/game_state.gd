@@ -35,6 +35,15 @@ var rosters: Dictionary = {}
 var armory: Dictionary = {}
 
 var ports: Dictionary = {}
+## data/goods.json: {"categories": {id: {name, icon}}, "goods": {id: {name, category, icon}}}.
+var goods_data: Dictionary = {}
+## data/charts.json: {id: {name, tier, landfall, ports}}. "known" is charted from the start.
+var charts: Dictionary = {}
+var charted: Array = ["known"]
+## chart id -> day a cartographer for it walked off (dismissed or deserted); back after carto_return_days.
+var carto_away: Dictionary = {}
+## Every route in data/routes.json: [{from, to, days, chart}]. `routes` holds only the sailable ones.
+var all_routes: Array = []
 var voyage: Dictionary = {}
 var ships: Dictionary = {}
 var crew_data: Dictionary = {}
@@ -93,16 +102,12 @@ func load_ports() -> void:
 	ships = _json("res://data/ships.json")
 	crew_data = _json("res://data/crew.json")
 	pirates = _json("res://data/pirates.json")
-	routes = {}
-	for route in _json("res://data/routes.json"):
-		var a := str(route["from"])
-		var b := str(route["to"])
-		if not routes.has(a):
-			routes[a] = {}
-		if not routes.has(b):
-			routes[b] = {}
-		routes[a][b] = int(route["days"])
-		routes[b][a] = int(route["days"])
+	goods_data = _json("res://data/goods.json")
+	charts = _json("res://data/charts.json")
+	all_routes = _json("res://data/routes.json")
+	charted = ["known"]
+	carto_away = {}
+	rebuild_routes()
 	ship_id = str(voyage["start_ship"])
 	armory = voyage["start_armory"].duplicate()
 	for k in armory:
@@ -174,8 +179,70 @@ func free_cargo() -> int:
 func port() -> Dictionary:
 	return ports[current_port_id]
 
-func price(good: String, side: String) -> int:
-	return int(port()["goods"][good][side])
+## Buy price where the port produces the good (else -1); sell price anywhere (`pays` covers
+## goods the port doesn't produce).
+func price(good: String, side: String, port_id: String = "") -> int:
+	var p: Dictionary = ports.get(port_id if port_id != "" else current_port_id, {})
+	var made: Dictionary = p.get("goods", {})
+	if made.has(good):
+		return int(made[good][side])
+	if side == "sell":
+		return int(p.get("pays", {}).get(good, 0))
+	return -1
+
+func produces(good: String, port_id: String = "") -> bool:
+	return price(good, "buy", port_id) >= 0
+
+func good_name(good: String) -> String:
+	return str(goods_data.get("goods", {}).get(good, {}).get("name", good.capitalize())).to_lower()
+
+## Goods in display order: by category (goods.json order), then as listed.
+func goods_order() -> Array:
+	var order: Array = []
+	var all: Dictionary = goods_data.get("goods", {})
+	for cat in goods_data.get("categories", {}):
+		for id in all:
+			if str(all[id]["category"]) == cat:
+				order.append(id)
+	return order
+
+## Ports the player can see and sail to (charted), in data order.
+func known_ports() -> Array:
+	var ids: Array = []
+	for id in ports:
+		if is_known(id):
+			ids.append(id)
+	return ids
+
+func is_known(port_id: String) -> bool:
+	return ports.has(port_id) and str(ports[port_id].get("chart", "known")) in charted
+
+## Sailable routes: charted ones, plus the way to a cartographer's landfall while one is aboard.
+func rebuild_routes() -> void:
+	routes = {}
+	var carto := carto_chart()
+	var landfall := str(charts.get(carto, {}).get("landfall", "")) if carto != "" else ""
+	for route in all_routes:
+		var a := str(route["from"])
+		var b := str(route["to"])
+		var chart := str(route.get("chart", "known"))
+		var open: bool = chart in charted and is_known(a) and is_known(b)
+		if not open and landfall != "" and chart == carto and ((a == landfall and is_known(b)) or (b == landfall and is_known(a))):
+			open = true
+		if not open:
+			continue
+		if not routes.has(a):
+			routes[a] = {}
+		if not routes.has(b):
+			routes[b] = {}
+		routes[a][b] = int(route["days"])
+		routes[b][a] = int(route["days"])
+
+func route_chart(a: String, b: String) -> String:
+	for route in all_routes:
+		if (route["from"] == a and route["to"] == b) or (route["from"] == b and route["to"] == a):
+			return str(route.get("chart", "known"))
+	return "known"
 
 func switch_port(port_id: String) -> void:
 	if ports.has(port_id):
@@ -186,22 +253,24 @@ func switch_port(port_id: String) -> void:
 func buy(good: String, amount: int = 1) -> bool:
 	if ended != "" or amount < 1 or not ports.has(current_port_id):
 		return false
+	if not produces(good):
+		return _refuse("%s doesn't sell %s." % [str(port()["name"]), good_name(good)])
 	if free_cargo() < amount:
 		return _hold_full()
 	var cost := price(good, "buy") * amount
 	if gold < cost:
-		return _refuse("Not enough gold: %d %s costs %d, you have %d." % [amount, good, cost, gold])
+		return _refuse("Not enough gold: %d %s costs %d, you have %d." % [amount, good_name(good), cost, gold])
 	gold -= cost
 	cargo[good] = int(cargo.get(good, 0)) + amount
 	ship_log.trade(day, current_port_id, "buy", good, amount, price(good, "buy"))
-	message = "Bought %d %s for %d." % [amount, good, cost]
+	message = "Bought %d %s for %d." % [amount, good_name(good), cost]
 	return true
 
 func sell(good: String, amount: int = 1) -> bool:
 	if ended != "" or amount < 1:
 		return false
 	if int(cargo.get(good, 0)) < amount:
-		return _refuse("No %s in the hold." % good)
+		return _refuse("No %s in the hold." % good_name(good))
 	var before := gold
 	gold += price(good, "sell") * amount
 	cargo[good] = int(cargo[good]) - amount
@@ -210,7 +279,7 @@ func sell(good: String, amount: int = 1) -> bool:
 	if gold > before:
 		had_profitable_sale = true
 	ship_log.trade(day, current_port_id, "sell", good, amount, price(good, "sell"))
-	message = "Sold %d %s for %d." % [amount, good, gold - before]
+	message = "Sold %d %s for %d." % [amount, good_name(good), gold - before]
 	return true
 
 func load_supply(kind: String, amount: int = 1) -> bool:
@@ -415,6 +484,10 @@ func dismiss(member_id: String) -> bool:
 		if str(crew[i]["id"]) == member_id:
 			var m: Dictionary = crew.pop_at(i)
 			message = "%s the %s went ashore." % [str(m["name"]), _prof_name(m)]
+			if m.has("chart"):
+				carto_away[str(m["chart"])] = day
+				message += " The fee is lost; back in %d days." % int(voyage.get("carto_return_days", 4))
+				rebuild_routes()
 			return true
 	return _refuse("No such crew member.")
 
@@ -491,7 +564,7 @@ func depart() -> bool:
 	last_fight = {}
 	met_pirate = rng.randf() < float(voyage.get("pirate_chance", 1.0))
 	if met_pirate:
-		pirate_id = CombatRules.pick_pirate(rng, pirates, route_days(last_to))
+		pirate_id = CombatRules.pick_pirate(rng, pirates, route_days(last_to), route_chart(last_from, last_to))
 		encounter = true
 		ship_log.pirate(pirate_id, str(pirates[pirate_id]["name"]), int(pirates[pirate_id]["power"]), int(fight_power()["total"]))
 		return true
@@ -579,6 +652,7 @@ func _consume_days(count_days: int) -> bool:
 func _arrive(note: String) -> void:
 	current_port_id = destination_id()
 	destination = ""
+	var carto_before := carto_chart()
 	var pay := CrewRules.pay(self, last_voyage_days)
 	_close_log(int(pay["paid"]), pay["deserters"])
 	ensure_roster(current_port_id)
@@ -587,6 +661,83 @@ func _arrive(note: String) -> void:
 		message += " Paid %d in wages." % int(pay["paid"])
 	if not pay["deserters"].is_empty():
 		message += " Unpaid, %s deserted." % ", ".join(pay["deserters"])
+	if carto_before != "" and carto_chart() == "":
+		carto_away[carto_before] = day
+		rebuild_routes()
+	elif carto_before != "" and str(charts[carto_before]["landfall"]) == current_port_id:
+		discover(carto_before)
+
+# --- Charts and cartographers ---------------------------------------------
+
+## Chart of the cartographer aboard, or "".
+func carto_chart() -> String:
+	for m in crew:
+		if m.has("chart"):
+			return str(m["chart"])
+	return ""
+
+## The cartographer offering a chart in this port's tavern, or {} when there is none to hire
+## (chart known, one already aboard, or they walked off less than carto_return_days ago).
+func cartographer(port_id: String = "") -> Dictionary:
+	var spec: Dictionary = ports.get(port_id if port_id != "" else current_port_id, {}).get("cartographer", {})
+	if spec.is_empty() or str(spec["chart"]) in charted or carto_chart() == str(spec["chart"]):
+		return {}
+	if carto_away.has(str(spec["chart"])) and day - int(carto_away[str(spec["chart"])]) < int(voyage.get("carto_return_days", 4)):
+		return {}
+	return spec
+
+## Why this cartographer won't sign on yet ("" when they will).
+func carto_refusal(spec: Dictionary) -> String:
+	var req: Dictionary = spec.get("requires", {})
+	if int(ship()["tier"]) < int(req.get("ship_tier", 0)):
+		return "Needs a tier %d ship (Cutter or Fluyt)." % int(req["ship_tier"])
+	if cargo_capacity < int(req.get("hold", 0)):
+		return "Needs a hold of %d+." % int(req["hold"])
+	for c in req.get("charts", []):
+		if not str(c) in charted:
+			return "Chart %s first." % str(charts[c]["name"])
+	if carto_chart() != "":
+		return "One cartographer at a time."
+	return ""
+
+func hire_cartographer() -> bool:
+	if ended != "" or encounter:
+		return false
+	var spec := cartographer()
+	if spec.is_empty():
+		return _refuse("No cartographer here.")
+	var why := carto_refusal(spec)
+	if why != "":
+		return _refuse(why)
+	if crew.size() >= bunks:
+		return _refuse("Bunks full (%d/%d): a cartographer needs a bunk." % [crew.size(), bunks])
+	var fee := int(spec["fee"])
+	if gold < fee:
+		return _refuse("%s asks %d to chart %s. You have %d." % [str(spec["name"]), fee, str(charts[spec["chart"]]["name"]), gold])
+	gold -= fee
+	var chart := str(spec["chart"])
+	crew.append({"id": "carto-" + chart, "name": str(spec["name"]), "profession": "cartographer", "level": 1,
+		"wage": int(spec["wage"]), "chart": chart})
+	rebuild_routes()
+	message = "%s signs on for %dg, %dg a day. Sail to the ? to chart %s." % [str(spec["name"]), fee, int(spec["wage"]), str(charts[chart]["name"])]
+	return true
+
+## Reveal a chart's ports and routes; the cartographer is paid off and goes ashore.
+func discover(chart: String) -> void:
+	if chart in charted:
+		return
+	charted.append(chart)
+	var who := ""
+	for i in range(crew.size() - 1, -1, -1):
+		if str(crew[i].get("chart", "")) == chart:
+			who = str(crew[i]["name"])
+			crew.remove_at(i)
+	rebuild_routes()
+	var names: Array[String] = []
+	for id in charts[chart]["ports"]:
+		names.append(str(ports[id]["name"]))
+	ship_log.charted(day, str(charts[chart]["name"]), names)
+	message += " Charted %s: %s.%s" % [str(charts[chart]["name"]), ", ".join(names), (" %s goes ashore." % who) if who != "" else ""]
 
 ## Tests and debug: put a crew member aboard for free.
 func sign_on(profession: String, level: int = 1) -> Dictionary:

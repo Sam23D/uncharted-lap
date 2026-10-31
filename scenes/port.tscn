@@ -704,193 +704,6 @@ theme_override_font_sizes/font_size = 11
 text = "-"
 autowrap_mode = 3
 
-[node name="StoreCargoSection" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Store"]
-custom_minimum_size = Vector2(0, 15)
-layout_mode = 2
-theme_override_constants/separation = 5
-
-[node name="Title" type="Label" parent="Panel/Layout/Right/Pages/Store/StoreCargoSection"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.55)
-theme_override_font_sizes/font_size = 10
-text = "CARGO"
-vertical_alignment = 2
-
-[node name="Rule" type="ColorRect" parent="Panel/Layout/Right/Pages/Store/StoreCargoSection"]
-custom_minimum_size = Vector2(0, 1)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-color = Color(0.18, 0.11, 0.05, 0.2)
-
-[node name="SugarRow" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Store"]
-custom_minimum_size = Vector2(0, 26)
-layout_mode = 2
-theme_override_constants/separation = 4
-
-[node name="Icon" type="TextureRect" parent="Panel/Layout/Right/Pages/Store/SugarRow"]
-texture_filter = 1
-custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
-texture = ExtResource("3_nh6n8")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="SugarTitle" type="Label" parent="Panel/Layout/Right/Pages/Store/SugarRow"]
-custom_minimum_size = Vector2(46, 0)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
-theme_override_font_sizes/font_size = 12
-text = "Sugar"
-
-[node name="Sugar" type="Label" parent="Panel/Layout/Right/Pages/Store/SugarRow"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
-theme_override_font_sizes/font_size = 11
-text = "-"
-vertical_alignment = 1
-
-[node name="BuySugar" type="Button" parent="Panel/Layout/Right/Pages/Store/SugarRow"]
-custom_minimum_size = Vector2(72, 24)
-layout_mode = 2
-size_flags_vertical = 4
-focus_mode = 0
-flat = true
-
-[node name="Frame" type="NinePatchRect" parent="Panel/Layout/Right/Pages/Store/SugarRow/BuySugar"]
-texture_filter = 1
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-texture = ExtResource("13_t44du")
-patch_margin_left = 6
-patch_margin_top = 6
-patch_margin_right = 6
-patch_margin_bottom = 6
-
-[node name="Text" type="Label" parent="Panel/Layout/Right/Pages/Store/SugarRow/BuySugar"]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
-theme_override_font_sizes/font_size = 11
-text = "Buy"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="SellSugar" type="Button" parent="Panel/Layout/Right/Pages/Store/SugarRow"]
-custom_minimum_size = Vector2(72, 24)
-layout_mode = 2
-size_flags_vertical = 4
-focus_mode = 0
-flat = true
-
-[node name="Frame" type="NinePatchRect" parent="Panel/Layout/Right/Pages/Store/SugarRow/SellSugar"]
-texture_filter = 1
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-texture = ExtResource("13_t44du")
-patch_margin_left = 6
-patch_margin_top = 6
-patch_margin_right = 6
-patch_margin_bottom = 6
-
-[node name="Text" type="Label" parent="Panel/Layout/Right/Pages/Store/SugarRow/SellSugar"]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
-theme_override_font_sizes/font_size = 11
-text = "Sell"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="CheeseRow" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Store"]
-custom_minimum_size = Vector2(0, 26)
-layout_mode = 2
-theme_override_constants/separation = 4
-
-[node name="Icon" type="TextureRect" parent="Panel/Layout/Right/Pages/Store/CheeseRow"]
-texture_filter = 1
-custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
-texture = ExtResource("8_m8tsq")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="CheeseTitle" type="Label" parent="Panel/Layout/Right/Pages/Store/CheeseRow"]
-custom_minimum_size = Vector2(46, 0)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
-theme_override_font_sizes/font_size = 12
-text = "Cheese"
-
-[node name="Cheese" type="Label" parent="Panel/Layout/Right/Pages/Store/CheeseRow"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
-theme_override_font_sizes/font_size = 11
-text = "-"
-vertical_alignment = 1
-
-[node name="BuyCheese" type="Button" parent="Panel/Layout/Right/Pages/Store/CheeseRow"]
-custom_minimum_size = Vector2(72, 24)
-layout_mode = 2
-size_flags_vertical = 4
-focus_mode = 0
-flat = true
-
-[node name="Frame" type="NinePatchRect" parent="Panel/Layout/Right/Pages/Store/CheeseRow/BuyCheese"]
-texture_filter = 1
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-texture = ExtResource("13_t44du")
-patch_margin_left = 6
-patch_margin_top = 6
-patch_margin_right = 6
-patch_margin_bottom = 6
-
-[node name="Text" type="Label" parent="Panel/Layout/Right/Pages/Store/CheeseRow/BuyCheese"]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
-theme_override_font_sizes/font_size = 11
-text = "Buy"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="SellCheese" type="Button" parent="Panel/Layout/Right/Pages/Store/CheeseRow"]
-custom_minimum_size = Vector2(72, 24)
-layout_mode = 2
-size_flags_vertical = 4
-focus_mode = 0
-flat = true
-
-[node name="Frame" type="NinePatchRect" parent="Panel/Layout/Right/Pages/Store/CheeseRow/SellCheese"]
-texture_filter = 1
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-texture = ExtResource("13_t44du")
-patch_margin_left = 6
-patch_margin_top = 6
-patch_margin_right = 6
-patch_margin_bottom = 6
-
-[node name="Text" type="Label" parent="Panel/Layout/Right/Pages/Store/CheeseRow/SellCheese"]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
-theme_override_font_sizes/font_size = 11
-text = "Sell"
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="StoreProvisionsSection" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Store"]
 custom_minimum_size = Vector2(0, 15)
 layout_mode = 2
@@ -1104,6 +917,61 @@ text = "Unload"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="StoreCargoSection" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Store"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Title" type="Label" parent="Panel/Layout/Right/Pages/Store/StoreCargoSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.55)
+theme_override_font_sizes/font_size = 10
+text = "CARGO"
+vertical_alignment = 2
+
+[node name="Rule" type="ColorRect" parent="Panel/Layout/Right/Pages/Store/StoreCargoSection"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+color = Color(0.18, 0.11, 0.05, 0.2)
+
+[node name="Info" type="Control" parent="Panel/Layout/Right/Pages/Store/StoreCargoSection" groups=["info_badge"]]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_default_cursor_shape = 16
+metadata/info = "market"
+
+[node name="Circle" type="TextureRect" parent="Panel/Layout/Right/Pages/Store/StoreCargoSection/Info"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource("17_l81ws")
+expand_mode = 1
+
+[node name="Glyph" type="Label" parent="Panel/Layout/Right/Pages/Store/StoreCargoSection/Info"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 12
+text = "i"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GoodsScroll" type="ScrollContainer" parent="Panel/Layout/Right/Pages/Store"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="GoodsList" type="VBoxContainer" parent="Panel/Layout/Right/Pages/Store/GoodsScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 1
+
 [node name="Tavern" type="VBoxContainer" parent="Panel/Layout/Right/Pages"]
 layout_mode = 0
 anchor_right = 1.0
@@ -1116,6 +984,29 @@ theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
 theme_override_font_sizes/font_size = 11
 text = "-"
 autowrap_mode = 3
+
+[node name="TavernCartoSection" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Tavern"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Title" type="Label" parent="Panel/Layout/Right/Pages/Tavern/TavernCartoSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.55)
+theme_override_font_sizes/font_size = 10
+text = "CARTOGRAPHER"
+vertical_alignment = 2
+
+[node name="Rule" type="ColorRect" parent="Panel/Layout/Right/Pages/Tavern/TavernCartoSection"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+color = Color(0.18, 0.11, 0.05, 0.2)
+
+[node name="CartoList" type="VBoxContainer" parent="Panel/Layout/Right/Pages/Tavern"]
+layout_mode = 2
+theme_override_constants/separation = 2
 
 [node name="TavernRosterSection" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Tavern"]
 custom_minimum_size = Vector2(0, 15)
