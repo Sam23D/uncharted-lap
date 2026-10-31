@@ -247,14 +247,17 @@ func _build_side() -> void:
 	var gap := Control.new()
 	gap.custom_minimum_size = Vector2(0, 4)
 	box.add_child(gap)
+	# Details scroll, so a port with many destinations never pushes the buttons off the panel.
+	var scroll := ScrollContainer.new()
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	box.add_child(scroll)
 	_detail = VBoxContainer.new()
 	_detail.name = "Detail"
-	_detail.add_theme_constant_override("separation", 2)
-	box.add_child(_detail)
+	_detail.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_detail.add_theme_constant_override("separation", 0)
+	scroll.add_child(_detail)
 	_fill_detail()
-	var spacer := Control.new()
-	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	box.add_child(spacer)
 	var buttons := HBoxContainer.new()
 	buttons.add_theme_constant_override("separation", 6)
 	box.add_child(buttons)
@@ -350,13 +353,14 @@ func _fill_detail() -> void:
 			var need_lw: int = GameState.water_needed(id)
 			_text(_detail, "Needs %d food, %d water (have %d, %d)" % [need_l, need_lw, GameState.food, GameState.water], 11, WARN if GameState.food < need_l or GameState.water < need_lw else INK)
 		return
-	_text(_detail, str(spec.get("blurb", "")), 11, Color(INK, 0.75))
+	_text(_detail, str(spec.get("blurb", "")), 10, Color(INK, 0.75))
 	if id != here_id and GameState.routes.get(here_id, {}).has(id):
 		var need: int = GameState.supplies_needed(id)
 		var short := GameState.food < need or GameState.water < need
 		var need_w: int = GameState.water_needed(id)
 		short = GameState.food < need or GameState.water < need_w
 		_text(_detail, "Needs %d food, %d water (have %d, %d)" % [need, need_w, GameState.food, GameState.water], 11, WARN if short else INK)
+		_text(_detail, "Pirates: " + _pirates_on(here_id, id), 10, Color(INK, 0.75))
 	_price_table(id)
 	var weights: Dictionary = spec.get("tavern", {}).get("weights", {})
 	var lean := ""
@@ -370,6 +374,22 @@ func _fill_detail() -> void:
 	var lean_name := str(GameState.crew_data["professions"].get(lean, {"name": "sailor"})["name"]).to_lower()
 	lean_name = lean_name.replace("man", "men") if lean_name.ends_with("man") else lean_name + "s"
 	_text(_detail, "Tavern: %s%s · Yard: %s · repair %dg" % [lean_name, fees, ", ".join(yard) if not yard.is_empty() else "none", GameState.service("repair_cost", id)], 10, INK)
+
+## Pirates that can show up on the route here -> id, weakest first ("skiff 3, corsair 6").
+func _pirates_on(a: String, b: String) -> String:
+	var region: String = GameState.route_chart(a, b)
+	var days: int = int(GameState.routes.get(a, {}).get(b, 0))
+	var found: Array = []
+	for pid in GameState.pirates:
+		var p: Dictionary = GameState.pirates[pid]
+		var regions: Array = p.get("regions", [])
+		if int(p["min_days"]) <= days and (regions.is_empty() or region in regions):
+			found.append(p)
+	found.sort_custom(func(x, y): return int(x["power"]) < int(y["power"]))
+	var parts: Array[String] = []
+	for p in found:
+		parts.append("%s %d" % [str(p["name"]).to_lower().replace("pirate ", ""), int(p["power"])])
+	return ", ".join(parts)
 
 func _name(id: String) -> String:
 	return "?" if id == _landfall() else str(GameState.ports[id]["name"])
@@ -397,7 +417,7 @@ func _price_table(id: String) -> void:
 		rows.append([good, gain])
 	if id != here_id:
 		rows.sort_custom(func(a, b): return int(a[1]) > int(b[1]))
-		rows = rows.slice(0, 4)
+		rows = rows.slice(0, 3)
 	for r in rows:
 		var good: String = r[0]
 		_cell(grid, str(GameState.goods_data["goods"][good]["name"]), INK, 11, 70)

@@ -5,7 +5,8 @@
     "loot": 8,
     "min_days": 1,
     "weight": 5,
-    "sprite": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ships/ship (2).png"
+    "sprite": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ships/ship (2).png",
+    "regions": []
   },
   "corsair": {
     "name": "Corsair sloop",
@@ -13,6 +14,40 @@
     "loot": 15,
     "min_days": 2,
     "weight": 3,
-    "sprite": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ships/ship (8).png"
+    "sprite": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ships/ship (8).png",
+    "regions": []
+  },
+  "galley": {
+    "name": "Barbary galley",
+    "power": 9,
+    "loot": 30,
+    "min_days": 2,
+    "weight": 4,
+    "regions": [
+      "mediterranean"
+    ],
+    "sprite": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ships/ship (14).png"
+  },
+  "raider": {
+    "name": "Coast raider",
+    "power": 8,
+    "loot": 25,
+    "min_days": 2,
+    "weight": 4,
+    "regions": [
+      "guinea"
+    ],
+    "sprite": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ships/ship (20).png"
+  },
+  "indies_brig": {
+    "name": "Indies brig",
+    "power": 12,
+    "loot": 60,
+    "min_days": 3,
+    "weight": 5,
+    "regions": [
+      "cape"
+    ],
+    "sprite": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ships/ship (10).png"
   }
 }

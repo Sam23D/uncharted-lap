@@ -136,7 +136,7 @@ func _info_text(key: String) -> String:
 				lines.append("%s (%d/day): %s" % [str(p["name"]), int(p["wage"][0]), str(p["note"])])
 			return "\n".join(lines) + "\n\nWages are paid on arrival for each day at sea; unpaid crew desert. Signing on costs %d days' wages. Each crew member eats and drinks half a ration a day. Rosters change every %d days." % [int(v["hire_fee_days"]), int(v["roster_refresh_days"])]
 		"power":
-			return "About %d in 100 voyages meet a pirate. Fight power, added in order while powder and shot last:\n- each cannon %d (1 powder + 1 shot)\n- each marksman 2 with a musket and ammo, else 1\n- each swordsman 2 with a sword, else 1; deckhands 1\n\nBeat the pirate's power to take its loot (lose 1 hull unless you win by half again). Lose and you take hull damage and are plundered: %d%% of your gold and half your goods. At hull 0 you sink. Run always escapes: -1 cargo, +1 day." % [
+			return "About %d in 100 voyages meet a pirate. Fight power, added in order while powder and shot last:\n- each cannon %d (1 powder + 1 shot)\n- each marksman 2 with a musket and ammo, else 1\n- each swordsman 2 with a sword, else 1; deckhands 1\n\nBeat the pirate's power to take its loot (lose 1 hull unless you win by half again). Lose and you take hull damage and are plundered: %d%% of your gold and half your goods. At hull 0 you sink. Run always escapes: -1 cargo, +1 day.\n\nFarther seas have their own pirates: the chart lists who sails each route." % [
 				int(round(float(v["pirate_chance"]) * 100.0)), int(v["cannon_power"]), int(float(v["plunder_gold"]) * 100)]
 	return ""
 
