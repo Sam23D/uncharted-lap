@@ -126,9 +126,9 @@ func _info_text(key: String) -> String:
 			return "Every cannon or musket shot uses 1 powder + 1 shot. Cannons fire first, then marksmen with muskets, until either runs out.\n\n%d powder or %d shot fit in a hold slot. Muskets and swords take no hold space, one per bunk." % [int(v["ammo_stack"]), int(v["ammo_stack"])]
 		"ship":
 			var s: Dictionary = GameState.ship()
-			return "%s (tier %d): hold %d, bunks %d, gun ports %d, hull %d, %s, needs %d crew to sail.\n\n%s\n\nBuying a ship trades in yours for %d%% of its price. Owning a tier %d ship (the Brig) wins the game." % [
+			return "%s (tier %d): hold %d, bunks %d, gun ports %d, hull %d, %s, needs %d crew to sail.\n\n%s\n\nBuying a ship trades in yours for %d%% of its price. Owning a tier %d ship (the %s) wins the game." % [
 				GameState.ship_name, int(s["tier"]), GameState.cargo_capacity, GameState.bunks, GameState.gun_ports, GameState.hull_max,
-				_speed_text(int(s["speed"])), GameState.min_crew(), str(s["blurb"]), int(float(v["trade_in"]) * 100), int(v["win_ship_tier"])]
+				_speed_text(int(s["speed"])), GameState.min_crew(), str(s["blurb"]), int(float(v["trade_in"]) * 100), int(v["win_ship_tier"]), _win_ship_name()]
 		"crew":
 			var lines: Array[String] = []
 			for id in GameState.crew_data["professions"]:
@@ -622,7 +622,7 @@ func _refresh_end() -> void:
 	var reasons := {
 		"starved": "Food or water ran out. Each day eats 1 of each, plus half for every crew member. Load what the trip needs before you depart.",
 		"sunk": "Your hull hit 0. Fight power (cannons with powder and shot, marksmen, swordsmen) must beat the pirate's. Running always survives; repair between trips.",
-		"win": "The trade runs paid for a real warship. That is the game.",
+		"win": "Spices, gold and silk paid for the finest ship afloat. That is the game.",
 	}
 	_set_text("End/Box/Title", str(titles.get(GameState.ended, GameState.ended)))
 	_set_text("End/Box/Reason", str(reasons.get(GameState.ended, "")))

@@ -9,7 +9,7 @@
   "repair_cost": 4,
   "nav_penalty_days": 1,
   "start_ship": "sloop",
-  "win_ship_tier": 3,
+  "win_ship_tier": 4,
   "trade_in": 0.5,
   "hire_mult": 1.0,
   "ship_mult": 1.0,

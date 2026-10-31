@@ -174,11 +174,11 @@ MAP = {"madeira": [0.07, 0.6], "lisbon": [0.2, 0.48], "london": [0.34, 0.27], "o
        "arguin": [0.12, 0.76], "elmina": [0.38, 0.84], "capetown": [0.64, 0.88], "calicut": [0.93, 0.78]}
 NEW_PORTS = {
     "genoa": {"name": "Genoa", "flag": FLAG % 5, "blurb": "Silk capital. Cheapest olive oil.",
-              "tavern": {"deckhand": 2, "navigator": 2, "cook": 1, "marksman": 2, "swordsman": 2}, "shipyard": ["cutter", "brig"]},
+              "tavern": {"deckhand": 2, "navigator": 2, "cook": 1, "marksman": 2, "swordsman": 2}, "shipyard": ["cutter", "brig", "galleon"]},
     "alexandria": {"name": "Alexandria", "flag": FLAG % 6, "blurb": "Eastern spices at a markup; pays well for silk.",
                    "tavern": {"deckhand": 3, "navigator": 1, "cook": 2, "marksman": 1, "swordsman": 2}, "shipyard": ["fluyt"]},
     "hamburg": {"name": "Hamburg", "flag": FLAG % 4, "blurb": "Baltic workshop: copper, iron, wool.",
-                "tavern": {"deckhand": 2, "navigator": 1, "cook": 1, "marksman": 3, "swordsman": 1}, "shipyard": ["fluyt", "brig"],
+                "tavern": {"deckhand": 2, "navigator": 1, "cook": 1, "marksman": 3, "swordsman": 1}, "shipyard": ["fluyt", "brig", "carrack"],
                 "services": {"repair_cost": 2}},
     "danzig": {"name": "Danzig", "flag": FLAG % 2, "blurb": "Breadbasket. Pays the most for salt and sugar.",
                "tavern": {"deckhand": 4, "navigator": 1, "cook": 2, "marksman": 1, "swordsman": 1}, "shipyard": ["fluyt"]},
@@ -190,8 +190,9 @@ NEW_PORTS = {
                  "tavern": {"deckhand": 2, "navigator": 2, "cook": 3, "marksman": 1, "swordsman": 1}, "shipyard": [],
                  "services": {"repair_cost": 1, "hire_mult": 0.5}},
     "calicut": {"name": "Calicut", "flag": FLAG % 5, "blurb": "Spice coast: pepper, cinnamon, clove. Pays 96 for gold.",
-                "tavern": {"deckhand": 2, "navigator": 2, "cook": 2, "marksman": 2, "swordsman": 1}, "shipyard": ["fluyt"]},
+                "tavern": {"deckhand": 2, "navigator": 2, "cook": 2, "marksman": 2, "swordsman": 1}, "shipyard": ["carrack", "galleon"]},
 }
+KNOWN_YARDS = {"lisbon": ["cutter", "fluyt", "carrack"]}
 KNOWN_BLURBS = {
     "madeira": "Home. Cheapest sugar, best cheese price.",
     "lisbon": "Sailors' town. Olive oil and rock salt.",
@@ -217,7 +218,7 @@ def write(known_only):
     out = {}
     for p in keep:
         base = ports.get(p)
-        if base is None:
+        if p in NEW_PORTS:  # new ports are fully defined here; regenerate them every time
             n = NEW_PORTS[p]
             base = {"name": n["name"], "flag": n["flag"], "blurb": n["blurb"],
                     "tavern": {"weights": n["tavern"], "level_weights": [1]}, "shipyard": n["shipyard"]}
@@ -231,6 +232,8 @@ def write(known_only):
             base["cartographer"] = CARTOGRAPHERS[p]
         else:
             base.pop("cartographer", None)
+        if p in KNOWN_YARDS and not known_only:
+            base["shipyard"] = KNOWN_YARDS[p]
         if chart_of(p) == "known" and p in KNOWN_BLURBS:
             base["blurb"] = KNOWN_BLURBS[p]
         out[p] = base

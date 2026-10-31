@@ -522,6 +522,10 @@ func destinations() -> Array:
 	ids.sort_custom(func(a, b): return int(here[a]) < int(here[b]) or (int(here[a]) == int(here[b]) and str(a) < str(b)))
 	return ids
 
+## Days between any two ports joined by a sailable route (0 if none).
+func all_days(a: String, b: String) -> int:
+	return int(routes.get(a, {}).get(b, 0))
+
 func route_days(to: String) -> int:
 	return int(routes.get(current_port_id, {}).get(to, 0))
 
@@ -653,7 +657,23 @@ func _arrive(note: String) -> void:
 	current_port_id = destination_id()
 	destination = ""
 	var carto_before := carto_chart()
+	# Reaching the landfall charts it before wages are settled, so an unpaid cartographer
+	# can't walk off at the very port they found; their wage for the trip is still due.
+	var carto_paid := 0
+	if carto_before != "" and str(charts[carto_before]["landfall"]) == current_port_id:
+		for m in crew:
+			if str(m.get("chart", "")) == carto_before:
+				carto_paid = mini(gold, int(m["wage"]) * last_voyage_days)
+		gold -= carto_paid
+	var charted_now := ""
+	if carto_before != "" and str(charts[carto_before]["landfall"]) == current_port_id:
+		charted_now = carto_before
+		charted.append(carto_before)
+		for i in range(crew.size() - 1, -1, -1):
+			if str(crew[i].get("chart", "")) == carto_before:
+				crew.remove_at(i)
 	var pay := CrewRules.pay(self, last_voyage_days)
+	pay["paid"] = int(pay["paid"]) + carto_paid
 	_close_log(int(pay["paid"]), pay["deserters"])
 	ensure_roster(current_port_id)
 	message = "%s Reached %s after %d days." % [note, str(port()["name"]), last_voyage_days]
@@ -661,11 +681,11 @@ func _arrive(note: String) -> void:
 		message += " Paid %d in wages." % int(pay["paid"])
 	if not pay["deserters"].is_empty():
 		message += " Unpaid, %s deserted." % ", ".join(pay["deserters"])
-	if carto_before != "" and carto_chart() == "":
+	if charted_now != "":
+		_announce_chart(charted_now, "")
+	elif carto_before != "" and carto_chart() == "":
 		carto_away[carto_before] = day
 		rebuild_routes()
-	elif carto_before != "" and str(charts[carto_before]["landfall"]) == current_port_id:
-		discover(carto_before)
 
 # --- Charts and cartographers ---------------------------------------------
 
@@ -732,6 +752,13 @@ func discover(chart: String) -> void:
 		if str(crew[i].get("chart", "")) == chart:
 			who = str(crew[i]["name"])
 			crew.remove_at(i)
+	_announce_chart(chart, who)
+
+func _announce_chart(chart: String, who: String) -> void:
+	if who == "":
+		for p in ports.values():
+			if str(p.get("cartographer", {}).get("chart", "")) == chart:
+				who = str(p["cartographer"]["name"])
 	rebuild_routes()
 	var names: Array[String] = []
 	for id in charts[chart]["ports"]:

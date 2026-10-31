@@ -53,6 +53,34 @@
     "speed": 0,
     "scale": 1.15,
     "sprite": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ships/ship (3).png",
-    "blurb": "A real warship. Buying one wins the game."
+    "blurb": "A real warship: 4 gun ports, room for fighters."
+  },
+  "carrack": {
+    "name": "Carrack",
+    "tier": 3,
+    "price": 220,
+    "hold": 34,
+    "bunks": 5,
+    "gun_ports": 2,
+    "hull": 5,
+    "min_crew": 3,
+    "speed": 1,
+    "scale": 1.2,
+    "sprite": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ships/ship (7).png",
+    "blurb": "Big merchant hold for the long hauls; slow (+1 day), needs 3 crew."
+  },
+  "galleon": {
+    "name": "Galleon",
+    "tier": 4,
+    "price": 1200,
+    "hold": 40,
+    "bunks": 10,
+    "gun_ports": 6,
+    "hull": 7,
+    "min_crew": 5,
+    "speed": 1,
+    "scale": 1.25,
+    "sprite": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ships/ship (4).png",
+    "blurb": "Huge hold and 6 gun ports, slow (+1 day). Buying one wins the game."
   }
 }

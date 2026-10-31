@@ -79,7 +79,7 @@ func _build_title() -> void:
 	title.add_theme_color_override("font_shadow_color", Color(INK, 0.25))
 	title.add_theme_constant_override("shadow_offset_x", 2)
 	title.add_theme_constant_override("shadow_offset_y", 2)
-	_label(box, "Tagline", "Trade sugar and cheese. Come home in a Brig.", 11, Color(INK, 0.7))
+	_label(box, "Tagline", "Chart the seas, trade spice and gold. Win a Galleon.", 11, Color(INK, 0.7))
 	var start := _button(box, "NewVoyage", "New voyage")
 	start.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	start.pressed.connect(_new_voyage)

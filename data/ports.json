@@ -101,7 +101,8 @@
     },
     "shipyard": [
       "cutter",
-      "fluyt"
+      "fluyt",
+      "carrack"
     ],
     "chart": "known",
     "pays": {
@@ -258,7 +259,8 @@
     },
     "shipyard": [
       "cutter",
-      "brig"
+      "brig",
+      "galleon"
     ],
     "map": [
       0.55,
@@ -363,7 +365,8 @@
     },
     "shipyard": [
       "fluyt",
-      "brig"
+      "brig",
+      "carrack"
     ],
     "services": {
       "repair_cost": 2
@@ -620,7 +623,8 @@
       ]
     },
     "shipyard": [
-      "fluyt"
+      "carrack",
+      "galleon"
     ],
     "map": [
       0.93,

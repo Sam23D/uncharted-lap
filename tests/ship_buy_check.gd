@@ -51,7 +51,12 @@ func _initialize() -> void:
 	if state.buy_ship("brig"):
 		return _fail("bought without gold")
 	state.gold = 500
-	if not state.buy_ship("brig") or state.ended != "win":
-		return _fail("brig should win: %s" % state.message)
+	if not state.buy_ship("brig") or state.ended != "":
+		return _fail("the brig is a mid-tier warship, not the win: %s" % state.message)
+	# The Galleon (tier 4) wins.
+	state.current_port_id = "genoa"
+	state.gold = 2000
+	if not state.buy_ship("galleon") or state.ended != "win":
+		return _fail("galleon should win: %s" % state.message)
 	print("ship buy check ok: cutter net %d" % net)
 	quit(0)
