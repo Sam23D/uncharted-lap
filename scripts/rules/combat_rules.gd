@@ -66,6 +66,7 @@ static func resolve(state: Node, pirate_id: String) -> Dictionary:
 	fight["pirate_name"] = str(pirate["name"])
 	fight["damage"] = 0
 	fight["lost_cargo"] = 0
+	fight["lost"] = {}
 	if mine > theirs:
 		fight["outcome"] = "clean" if mine >= theirs * float(state.voyage["clean_win_ratio"]) else "win"
 		fight["gold"] = int(pirate["loot"])
@@ -81,6 +82,8 @@ static func resolve(state: Node, pirate_id: String) -> Dictionary:
 		for good in state.cargo.keys():
 			var lose := int(int(state.cargo[good]) * float(state.voyage["plunder_cargo"]))
 			fight["lost_cargo"] += lose
+			if lose > 0:
+				fight["lost"][good] = lose
 			state.cargo[good] = int(state.cargo[good]) - lose
 			if int(state.cargo[good]) <= 0:
 				state.cargo.erase(good)

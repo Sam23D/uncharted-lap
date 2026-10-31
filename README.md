@@ -104,6 +104,23 @@ About a third of voyages meet a pirate (`pirate_chance`, 0.34): a skiff (power 3
 - **Loss**: hull −half the difference (at least 1), and the pirates take a quarter of your gold and half your goods. You sail on; only a hull at 0 sinks you.
 - **Run**: −1 cargo, +1 day, no ammo used.
 
+## Ship's log
+
+**Log** (next to Chart and Depart, and on the end panel) opens the ship's log (`scripts/log_view.gd`), newest first, grouped by leg:
+
+- **Trip line:** route, days at sea, and the trip's net result: sale margins at the destination, plus loot or minus plunder and lost cargo, minus wages.
+- **Provisions line:** food and water eaten, wages paid, deserters.
+- **Encounter line:** "Clear seas", or the pirate's power against yours and what it cost:
+  - **ran:** the cargo dropped and what it had cost you;
+  - **won:** loot, hull damage, ammo used;
+  - **lost:** gold and goods plundered, hull damage;
+  - **sunk.**
+- **Trade lines:** "Bought 4 sugar @ 4 = −16g". Repeated clicks at the same price in one port stay merge into one line. Sales show the margin over the average price you paid ("+8 each").
+
+The header shows gold at the start and now, and the trip count. A trip that ends the game is marked "Starved" or "Sunk".
+
+The data lives in `scripts/ship_log.gd` (`GameState.ship_log`). `GameState` writes to it on buy, sell, depart, run, fight and arrival. The log keeps the last `log_max_entries` (200) and is cleared on New voyage. `tests/log_check.gd` covers merging, margins, run and fight costs, starvation, sinking and the cap.
+
 ## Port screen
 
 - **Voyage column** (left, always visible): a header line with the port, gold, and day, then labelled sections:
@@ -113,7 +130,7 @@ About a third of voyages meet a pirate (`pirate_chance`, 0.34): a skiff (power 3
   - **Crew:** aboard / bunks and their jobs.
   - **Crew:** aboard / bunks, wages a day, and the professions aboard.
   - **Ship:** name and tier, hull, and arms (fight power, cannons, powder/shot).
-  - **Chart course** and **Depart**, side by side.
+  - **Log**, **Chart** (course) and **Depart**, side by side.
 - **Store** tab, in two sections:
   - **Cargo:** sugar and cheese, with buy and sell prices, how many are aboard, and Buy/Sell on each row.
   - **Provisions:** food and water, how many are aboard and what the trip needs (red when short), with Load/Unload on each row. Supplies cost `supply_price` and unloading refunds `supply_refund` (both 1 gold, in `voyage.json`). Unloading frees a hold slot, e.g. to make room for sugar.

@@ -46,6 +46,7 @@ func _initialize() -> void:
 	root.add_child(state)
 	state.rng.seed = 7
 	state.load_ports()
+	var departures := 0
 	for trip in 60:
 		for good in state.cargo.keys():
 			state.sell(good, int(state.cargo[good]))
@@ -59,6 +60,12 @@ func _initialize() -> void:
 		for id in state.port()["shipyard"]:
 			var tier: int = int(state.ships[id]["tier"])
 			if tier >= int(state.voyage["win_ship_tier"]) and state.buy_ship(id):
+				var logged: Array = state.ship_log.entries.filter(func(e): return e["type"] == "trip")
+				if logged.size() != departures:
+					return _fail("log has %d trips for %d departures" % [logged.size(), departures])
+				for t in logged:
+					if int(t["days"]) < 1 or int(t["food"]) < 1 or int(t["water"]) < 1:
+						return _fail("trip logged without days or provisions: %s" % str(t))
 				log_lines.append("day %d: bought the %s at %s" % [state.day, id, state.current_port_id])
 				print("full run check ok: won on day %d with %d gold\n%s" % [state.day, state.gold, "\n".join(log_lines)])
 				quit(0)
@@ -80,6 +87,7 @@ func _initialize() -> void:
 		var from: String = state.current_port_id
 		if not state.depart():
 			return _fail("day %d: could not depart: %s" % [state.day, state.message])
+		departures += 1
 		var note := "clear"
 		if state.encounter:
 			var mine: int = int(state.fight_power()["total"])

@@ -5,6 +5,7 @@ extends Node
 const ShipRules := preload("res://scripts/rules/ship_rules.gd")
 const CrewRules := preload("res://scripts/rules/crew_rules.gd")
 const CombatRules := preload("res://scripts/rules/combat_rules.gd")
+const ShipLog := preload("res://scripts/ship_log.gd")
 const START_MESSAGE := "Chart a course, load what the trip needs, then depart."
 const ARMS := ["cannon", "musket", "sword", "powder", "shot"]
 
@@ -55,6 +56,8 @@ var last_fight: Dictionary = {}
 ## Rolls pirates and rosters. Tests seed it or force voyage["pirate_chance"] to 0/1.
 var rng := RandomNumberGenerator.new()
 var message: String = START_MESSAGE
+## Ship's log of trades and trips (scripts/ship_log.gd). Cleared by reset().
+var ship_log := ShipLog.new()
 
 func _ready() -> void:
 	rng.randomize()
@@ -107,6 +110,8 @@ func load_ports() -> void:
 	_apply_ship()
 	hull = hull_max
 	ensure_roster(current_port_id)
+	ship_log.clear(gold)
+	ship_log.max_entries = int(voyage.get("log_max_entries", 200))
 
 func _apply_ship() -> void:
 	var spec: Dictionary = ships[ship_id]
@@ -188,6 +193,7 @@ func buy(good: String, amount: int = 1) -> bool:
 		return _refuse("Not enough gold: %d %s costs %d, you have %d." % [amount, good, cost, gold])
 	gold -= cost
 	cargo[good] = int(cargo.get(good, 0)) + amount
+	ship_log.trade(day, current_port_id, "buy", good, amount, price(good, "buy"))
 	message = "Bought %d %s for %d." % [amount, good, cost]
 	return true
 
@@ -203,6 +209,7 @@ func sell(good: String, amount: int = 1) -> bool:
 		cargo.erase(good)
 	if gold > before:
 		had_profitable_sale = true
+	ship_log.trade(day, current_port_id, "sell", good, amount, price(good, "sell"))
 	message = "Sold %d %s for %d." % [amount, good, gold - before]
 	return true
 
@@ -473,42 +480,48 @@ func depart() -> bool:
 		return false
 	if crew.size() < min_crew():
 		return _refuse("The %s needs %d crew to sail. You have %d." % [ship_name, min_crew(), crew.size()])
-	if food <= 0 or water <= 0:
-		ended = "starved"
-		return true
-	message = ""
 	last_from = current_port_id
 	last_to = destination_id()
+	ship_log.open_trip(day, last_from, last_to, food, water)
+	if food <= 0 or water <= 0:
+		ended = "starved"
+		_close_log()
+		return true
+	message = ""
 	last_fight = {}
 	met_pirate = rng.randf() < float(voyage.get("pirate_chance", 1.0))
 	if met_pirate:
 		pirate_id = CombatRules.pick_pirate(rng, pirates, route_days(last_to))
 		encounter = true
+		ship_log.pirate(pirate_id, str(pirates[pirate_id]["name"]), int(pirates[pirate_id]["power"]), int(fight_power()["total"]))
 		return true
 	pirate_id = ""
 	if _consume_days(voyage_days(0)):
 		_arrive("Clear seas.")
+	else:
+		_close_log()
 	return true
 
 func resolve_run() -> void:
 	if not encounter:
 		return
-	_drop_cargo(int(voyage["run_cargo_drop"]))
+	ship_log.ran(_drop_cargo(int(voyage["run_cargo_drop"])))
 	encounter = false
 	if _consume_days(voyage_days(int(voyage["run_extra_days"]))):
 		_arrive("Ran from the %s and lost cargo." % str(pirates[pirate_id]["name"]).to_lower())
+	else:
+		_close_log()
 
 func resolve_fight() -> void:
 	if not encounter:
 		return
 	encounter = false
 	last_fight = CombatRules.resolve(self, pirate_id)
-	match str(last_fight["outcome"]):
-		"sunk":
-			ended = "sunk"
-			return
-		"clean":
-			pass
+	ship_log.fought(last_fight)
+	if str(last_fight["outcome"]) == "sunk":
+		ended = "sunk"
+		_close_log()
+		return
 	var note := ""
 	match str(last_fight["outcome"]):
 		"clean":
@@ -519,15 +532,27 @@ func resolve_fight() -> void:
 			note = "Lost to the %s: hull %d/%d, plundered %d gold and %d cargo." % [str(last_fight["pirate_name"]).to_lower(), hull, hull_max, -int(last_fight["gold"]), int(last_fight["lost_cargo"])]
 	if _consume_days(voyage_days(0)):
 		_arrive(note)
+	else:
+		_close_log()
 
-func _drop_cargo(amount: int) -> void:
+## Throws `amount` units overboard; returns {good: units dropped}.
+func _drop_cargo(amount: int) -> Dictionary:
+	var dropped := {}
 	var left := amount
 	while left > 0 and not cargo.is_empty():
 		var key: String = str(cargo.keys()[0])
 		cargo[key] = int(cargo[key]) - 1
+		dropped[key] = int(dropped.get(key, 0)) + 1
 		left -= 1
 		if int(cargo[key]) <= 0:
 			cargo.erase(key)
+	return dropped
+
+## Closes the log's open trip (arrival, or the run ended at sea).
+func _close_log(paid: int = 0, deserters: Array = []) -> void:
+	var t: Dictionary = ship_log.current_trip()
+	var days := day - int(t.get("day_start", day))
+	ship_log.close_trip(day, days, food, water, paid, deserters, ended)
 
 ## Each day the captain and crew eat; a whole ration leaves the hold every time the
 ## fraction reaches 1. Running out of either ends the run.
@@ -555,6 +580,7 @@ func _arrive(note: String) -> void:
 	current_port_id = destination_id()
 	destination = ""
 	var pay := CrewRules.pay(self, last_voyage_days)
+	_close_log(int(pay["paid"]), pay["deserters"])
 	ensure_roster(current_port_id)
 	message = "%s Reached %s after %d days." % [note, str(port()["name"]), last_voyage_days]
 	if int(pay["paid"]) > 0:

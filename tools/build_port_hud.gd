@@ -69,7 +69,7 @@ func build(scene_root: Node) -> String:
 	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	var leave: HBoxContainer = _add(overview, HBoxContainer.new(), "Leave")
 	leave.add_theme_constant_override("separation", 6)
-	for spec in [["ChartCourse", "Chart course", WOOD, CREAM], ["Depart", "Depart", DEPART, INK]]:
+	for spec in [["OpenLog", "Log", WOOD, CREAM], ["ChartCourse", "Chart", WOOD, CREAM], ["Depart", "Depart", DEPART, INK]]:
 		var b := _button(leave, str(spec[0]), str(spec[1]), str(spec[2]), spec[3])
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 
@@ -163,6 +163,39 @@ func build(scene_root: Node) -> String:
 	map.set_script(load("res://scripts/map_view.gd"))
 	map.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	map.visible = false
+	# Ship's log viewer (scripts/log_view.gd), drawn over everything else when open.
+	var log_view := root.get_node_or_null("Log")
+	if log_view == null:
+		log_view = _add(root, Control.new(), "Log")
+	root.move_child(log_view, root.get_child_count() - 1)
+	log_view.set_script(load("res://scripts/log_view.gd"))
+	log_view.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	log_view.visible = false
+	# End panel: a Log button under New voyage, so a lost run can be read back.
+	var end_box := root.get_node_or_null("End/Box")
+	if end_box != null:
+		var stale_log := end_box.find_child("EndLog", true, false)
+		if stale_log != null:
+			stale_log.free()
+		var buttons: HBoxContainer = end_box.get_node_or_null("Buttons")
+		if buttons == null:
+			buttons = _add(end_box, HBoxContainer.new(), "Buttons")
+		buttons.alignment = BoxContainer.ALIGNMENT_CENTER
+		buttons.add_theme_constant_override("separation", 8)
+		var again: Control = end_box.find_child("NewVoyage", true, false)
+		if again.get_parent() != buttons:
+			again.reparent(buttons)
+			_own(again)
+		var end_log := _button(buttons, "EndLog", "Ship's log", WOOD, CREAM)
+		# Tall enough for icon, title, a 3-line reason, day, gold and the buttons.
+		var end_panel: Control = root.get_node("End")
+		end_panel.offset_top = -140
+		end_panel.offset_bottom = 140
+		end_panel.offset_left = -180
+		end_panel.offset_right = 180
+		for b in [again, end_log]:
+			b.custom_minimum_size = Vector2(130, 28)
+			b.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	# Hover panel for the info badges. port_screen.gd fills the text from data.
 	var old_popup := root.get_node_or_null("InfoPopup")
 	if old_popup != null:
@@ -239,6 +272,12 @@ func restyle(button: Button, tile: String, text_color: Color) -> void:
 	var text_label := button.get_node_or_null("Text")
 	if text_label != null:
 		text_label.add_theme_color_override("font_color", text_color)
+
+## Re-own a moved subtree so the scene saves it.
+func _own(node: Node) -> void:
+	node.owner = root
+	for child in node.get_children():
+		_own(child)
 
 func _add(parent: Node, node: Node, id: String) -> Node:
 	node.name = id

@@ -55,6 +55,13 @@ func _ready() -> void:
 	var sea := get_node_or_null("SeaView")
 	if sea != null:
 		sea.finished.connect(_refresh)
+	var log_view := get_node_or_null("Log")
+	if log_view != null:
+		log_view.closed.connect(_refresh)
+		for id in ["OpenLog", "EndLog"]:
+			var b := find_child(id, true, false)
+			if b != null:
+				b.pressed.connect(log_view.open)
 	_show_tab(tab)
 	for badge in get_tree().get_nodes_in_group("info_badge"):
 		badge.mouse_entered.connect(_show_info.bind(badge))
