@@ -47,6 +47,15 @@
       "iron_ore": 10,
       "copper_ore": 13,
       "gold": 60
+    },
+    "cartographer": {
+      "chart": "guinea",
+      "name": "Cadamosto",
+      "fee": 60,
+      "wage": 2,
+      "requires": {
+        "ship_tier": 2
+      }
     }
   },
   "lisbon": {
@@ -106,6 +115,13 @@
       "iron_ore": 11,
       "copper_ore": 14,
       "gold": 66
+    },
+    "cartographer": {
+      "chart": "mediterranean",
+      "name": "Duarte",
+      "fee": 40,
+      "wage": 2,
+      "requires": {}
     }
   },
   "london": {
@@ -162,6 +178,13 @@
       "iron_ore": 12,
       "copper_ore": 15,
       "gold": 64
+    },
+    "cartographer": {
+      "chart": "baltic",
+      "name": "Mercator",
+      "fee": 30,
+      "wage": 2,
+      "requires": {}
     }
   },
   "oslo": {
@@ -215,6 +238,424 @@
       "silk_cloth": 34,
       "copper_ore": 15,
       "gold": 60
+    }
+  },
+  "genoa": {
+    "name": "Genoa",
+    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/flag (5).png",
+    "blurb": "Silk capital. Cheapest olive oil.",
+    "tavern": {
+      "weights": {
+        "deckhand": 2,
+        "navigator": 2,
+        "cook": 1,
+        "marksman": 2,
+        "swordsman": 2
+      },
+      "level_weights": [
+        1
+      ]
+    },
+    "shipyard": [
+      "cutter",
+      "brig"
+    ],
+    "map": [
+      0.55,
+      0.47
+    ],
+    "chart": "mediterranean",
+    "goods": {
+      "olive_oil": {
+        "buy": 4,
+        "sell": 3
+      },
+      "silk_cloth": {
+        "buy": 22,
+        "sell": 18
+      }
+    },
+    "pays": {
+      "sugar": 11,
+      "cheese": 10,
+      "rock_salt": 7,
+      "grain": 8,
+      "pepper": 32,
+      "cinnamon": 38,
+      "clove": 66,
+      "wool": 13,
+      "cotton_cloth": 12,
+      "iron_ore": 12,
+      "copper_ore": 16,
+      "gold": 66
+    }
+  },
+  "alexandria": {
+    "name": "Alexandria",
+    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/flag (6).png",
+    "blurb": "Eastern spices at a markup; pays well for silk.",
+    "tavern": {
+      "weights": {
+        "deckhand": 3,
+        "navigator": 1,
+        "cook": 2,
+        "marksman": 1,
+        "swordsman": 2
+      },
+      "level_weights": [
+        1
+      ]
+    },
+    "shipyard": [
+      "fluyt"
+    ],
+    "map": [
+      0.86,
+      0.56
+    ],
+    "chart": "mediterranean",
+    "goods": {
+      "grain": {
+        "buy": 3,
+        "sell": 2
+      },
+      "pepper": {
+        "buy": 22,
+        "sell": 18
+      },
+      "cinnamon": {
+        "buy": 31,
+        "sell": 25
+      },
+      "cotton_cloth": {
+        "buy": 9,
+        "sell": 7
+      }
+    },
+    "pays": {
+      "sugar": 9,
+      "cheese": 13,
+      "olive_oil": 7,
+      "rock_salt": 6,
+      "clove": 48,
+      "wool": 14,
+      "silk_cloth": 31,
+      "iron_ore": 13,
+      "copper_ore": 17,
+      "gold": 68
+    }
+  },
+  "hamburg": {
+    "name": "Hamburg",
+    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/flag (4).png",
+    "blurb": "Baltic workshop: copper, iron, wool.",
+    "tavern": {
+      "weights": {
+        "deckhand": 2,
+        "navigator": 1,
+        "cook": 1,
+        "marksman": 3,
+        "swordsman": 1
+      },
+      "level_weights": [
+        1
+      ]
+    },
+    "shipyard": [
+      "fluyt",
+      "brig"
+    ],
+    "services": {
+      "repair_cost": 2
+    },
+    "map": [
+      0.56,
+      0.27
+    ],
+    "chart": "baltic",
+    "goods": {
+      "wool": {
+        "buy": 7,
+        "sell": 5
+      },
+      "iron_ore": {
+        "buy": 12,
+        "sell": 10
+      },
+      "copper_ore": {
+        "buy": 11,
+        "sell": 9
+      }
+    },
+    "pays": {
+      "sugar": 13,
+      "cheese": 6,
+      "olive_oil": 12,
+      "rock_salt": 9,
+      "grain": 7,
+      "pepper": 34,
+      "cinnamon": 44,
+      "clove": 72,
+      "cotton_cloth": 13,
+      "silk_cloth": 36,
+      "gold": 64
+    }
+  },
+  "danzig": {
+    "name": "Danzig",
+    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/flag (2).png",
+    "blurb": "Breadbasket. Pays the most for salt and sugar.",
+    "tavern": {
+      "weights": {
+        "deckhand": 4,
+        "navigator": 1,
+        "cook": 2,
+        "marksman": 1,
+        "swordsman": 1
+      },
+      "level_weights": [
+        1
+      ]
+    },
+    "shipyard": [
+      "fluyt"
+    ],
+    "map": [
+      0.74,
+      0.14
+    ],
+    "chart": "baltic",
+    "goods": {
+      "grain": {
+        "buy": 2,
+        "sell": 1
+      }
+    },
+    "pays": {
+      "sugar": 14,
+      "cheese": 8,
+      "olive_oil": 13,
+      "rock_salt": 11,
+      "pepper": 34,
+      "cinnamon": 44,
+      "clove": 72,
+      "wool": 13,
+      "cotton_cloth": 13,
+      "silk_cloth": 36,
+      "iron_ore": 11,
+      "copper_ore": 14,
+      "gold": 62
+    }
+  },
+  "arguin": {
+    "name": "Arguin",
+    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/flag (3).png",
+    "blurb": "Desert salt and gold. Navigators' haunt.",
+    "tavern": {
+      "weights": {
+        "deckhand": 2,
+        "navigator": 4,
+        "cook": 1,
+        "marksman": 1,
+        "swordsman": 1
+      },
+      "level_weights": [
+        1
+      ]
+    },
+    "shipyard": [],
+    "map": [
+      0.12,
+      0.76
+    ],
+    "chart": "guinea",
+    "goods": {
+      "rock_salt": {
+        "buy": 2,
+        "sell": 1
+      },
+      "gold": {
+        "buy": 52,
+        "sell": 46
+      }
+    },
+    "pays": {
+      "sugar": 8,
+      "cheese": 12,
+      "olive_oil": 11,
+      "grain": 9,
+      "pepper": 22,
+      "cinnamon": 26,
+      "clove": 36,
+      "wool": 12,
+      "cotton_cloth": 16,
+      "silk_cloth": 30,
+      "iron_ore": 14,
+      "copper_ore": 20
+    }
+  },
+  "elmina": {
+    "name": "Elmina",
+    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/flag (1).png",
+    "blurb": "The Gold Coast. Pays the most for cloth and oil.",
+    "tavern": {
+      "weights": {
+        "deckhand": 2,
+        "navigator": 1,
+        "cook": 1,
+        "marksman": 2,
+        "swordsman": 3
+      },
+      "level_weights": [
+        1
+      ]
+    },
+    "shipyard": [
+      "cutter"
+    ],
+    "map": [
+      0.38,
+      0.84
+    ],
+    "chart": "guinea",
+    "goods": {
+      "pepper": {
+        "buy": 14,
+        "sell": 11
+      },
+      "gold": {
+        "buy": 42,
+        "sell": 36
+      }
+    },
+    "pays": {
+      "sugar": 9,
+      "cheese": 14,
+      "olive_oil": 14,
+      "rock_salt": 9,
+      "grain": 10,
+      "cinnamon": 28,
+      "clove": 38,
+      "wool": 13,
+      "cotton_cloth": 18,
+      "silk_cloth": 34,
+      "iron_ore": 15,
+      "copper_ore": 22
+    },
+    "cartographer": {
+      "chart": "cape",
+      "name": "Dias",
+      "fee": 150,
+      "wage": 3,
+      "requires": {
+        "hold": 18,
+        "charts": [
+          "guinea"
+        ]
+      }
+    }
+  },
+  "capetown": {
+    "name": "Cape Town",
+    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/flag (6).png",
+    "blurb": "Waystation: cheap repairs, half-price crew.",
+    "tavern": {
+      "weights": {
+        "deckhand": 2,
+        "navigator": 2,
+        "cook": 3,
+        "marksman": 1,
+        "swordsman": 1
+      },
+      "level_weights": [
+        1
+      ]
+    },
+    "shipyard": [],
+    "services": {
+      "repair_cost": 1,
+      "hire_mult": 0.5
+    },
+    "map": [
+      0.64,
+      0.88
+    ],
+    "chart": "cape",
+    "goods": {
+      "grain": {
+        "buy": 4,
+        "sell": 3
+      }
+    },
+    "pays": {
+      "sugar": 10,
+      "cheese": 12,
+      "olive_oil": 9,
+      "rock_salt": 6,
+      "pepper": 16,
+      "cinnamon": 22,
+      "clove": 30,
+      "wool": 11,
+      "cotton_cloth": 14,
+      "silk_cloth": 30,
+      "iron_ore": 12,
+      "copper_ore": 18,
+      "gold": 56
+    }
+  },
+  "calicut": {
+    "name": "Calicut",
+    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/flag (5).png",
+    "blurb": "Spice coast: pepper, cinnamon, clove. Pays 96 for gold.",
+    "tavern": {
+      "weights": {
+        "deckhand": 2,
+        "navigator": 2,
+        "cook": 2,
+        "marksman": 2,
+        "swordsman": 1
+      },
+      "level_weights": [
+        1
+      ]
+    },
+    "shipyard": [
+      "fluyt"
+    ],
+    "map": [
+      0.93,
+      0.78
+    ],
+    "chart": "cape",
+    "goods": {
+      "pepper": {
+        "buy": 4,
+        "sell": 3
+      },
+      "cinnamon": {
+        "buy": 6,
+        "sell": 5
+      },
+      "clove": {
+        "buy": 8,
+        "sell": 6
+      },
+      "cotton_cloth": {
+        "buy": 4,
+        "sell": 3
+      }
+    },
+    "pays": {
+      "sugar": 12,
+      "cheese": 10,
+      "olive_oil": 9,
+      "rock_salt": 6,
+      "grain": 7,
+      "wool": 12,
+      "silk_cloth": 22,
+      "iron_ore": 13,
+      "copper_ore": 20,
+      "gold": 96
     }
   }
 }

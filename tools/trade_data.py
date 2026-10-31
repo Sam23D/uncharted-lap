@@ -171,7 +171,7 @@ CHARTS = {
 }
 MAP = {"madeira": [0.07, 0.6], "lisbon": [0.2, 0.48], "london": [0.34, 0.27], "oslo": [0.46, 0.14],
        "genoa": [0.55, 0.47], "alexandria": [0.86, 0.56], "hamburg": [0.56, 0.27], "danzig": [0.74, 0.14],
-       "arguin": [0.12, 0.76], "elmina": [0.38, 0.84], "capetown": [0.64, 0.92], "calicut": [0.93, 0.78]}
+       "arguin": [0.12, 0.76], "elmina": [0.38, 0.84], "capetown": [0.64, 0.88], "calicut": [0.93, 0.78]}
 NEW_PORTS = {
     "genoa": {"name": "Genoa", "flag": FLAG % 5, "blurb": "Silk capital. Cheapest olive oil.",
               "tavern": {"deckhand": 2, "navigator": 2, "cook": 1, "marksman": 2, "swordsman": 2}, "shipyard": ["cutter", "brig"]},

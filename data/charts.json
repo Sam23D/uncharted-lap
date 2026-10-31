@@ -9,5 +9,41 @@
       "london",
       "oslo"
     ]
+  },
+  "mediterranean": {
+    "name": "the Mediterranean",
+    "tier": 1,
+    "landfall": "genoa",
+    "ports": [
+      "genoa",
+      "alexandria"
+    ]
+  },
+  "baltic": {
+    "name": "the Baltic",
+    "tier": 1,
+    "landfall": "hamburg",
+    "ports": [
+      "hamburg",
+      "danzig"
+    ]
+  },
+  "guinea": {
+    "name": "the Guinea coast",
+    "tier": 2,
+    "landfall": "arguin",
+    "ports": [
+      "arguin",
+      "elmina"
+    ]
+  },
+  "cape": {
+    "name": "the Cape route",
+    "tier": 3,
+    "landfall": "capetown",
+    "ports": [
+      "capetown",
+      "calicut"
+    ]
   }
 }

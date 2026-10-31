@@ -1,38 +1,128 @@
 [
   {
-	"from": "madeira",
-	"to": "lisbon",
-	"days": 1,
-	"chart": "known"
+    "from": "madeira",
+    "to": "lisbon",
+    "days": 1,
+    "chart": "known"
   },
   {
-	"from": "lisbon",
-	"to": "london",
-	"days": 2,
-	"chart": "known"
+    "from": "lisbon",
+    "to": "london",
+    "days": 2,
+    "chart": "known"
   },
   {
-	"from": "london",
-	"to": "oslo",
-	"days": 2,
-	"chart": "known"
+    "from": "london",
+    "to": "oslo",
+    "days": 2,
+    "chart": "known"
   },
   {
-	"from": "madeira",
-	"to": "london",
-	"days": 3,
-	"chart": "known"
+    "from": "madeira",
+    "to": "london",
+    "days": 3,
+    "chart": "known"
   },
   {
-	"from": "lisbon",
-	"to": "oslo",
-	"days": 3,
-	"chart": "known"
+    "from": "lisbon",
+    "to": "oslo",
+    "days": 3,
+    "chart": "known"
   },
   {
-	"from": "madeira",
-	"to": "oslo",
-	"days": 3,
-	"chart": "known"
+    "from": "madeira",
+    "to": "oslo",
+    "days": 3,
+    "chart": "known"
+  },
+  {
+    "from": "lisbon",
+    "to": "genoa",
+    "days": 3,
+    "chart": "mediterranean"
+  },
+  {
+    "from": "genoa",
+    "to": "alexandria",
+    "days": 3,
+    "chart": "mediterranean"
+  },
+  {
+    "from": "lisbon",
+    "to": "alexandria",
+    "days": 5,
+    "chart": "mediterranean"
+  },
+  {
+    "from": "madeira",
+    "to": "genoa",
+    "days": 4,
+    "chart": "mediterranean"
+  },
+  {
+    "from": "london",
+    "to": "hamburg",
+    "days": 2,
+    "chart": "baltic"
+  },
+  {
+    "from": "oslo",
+    "to": "hamburg",
+    "days": 2,
+    "chart": "baltic"
+  },
+  {
+    "from": "hamburg",
+    "to": "danzig",
+    "days": 2,
+    "chart": "baltic"
+  },
+  {
+    "from": "oslo",
+    "to": "danzig",
+    "days": 3,
+    "chart": "baltic"
+  },
+  {
+    "from": "madeira",
+    "to": "arguin",
+    "days": 2,
+    "chart": "guinea"
+  },
+  {
+    "from": "lisbon",
+    "to": "arguin",
+    "days": 3,
+    "chart": "guinea"
+  },
+  {
+    "from": "arguin",
+    "to": "elmina",
+    "days": 3,
+    "chart": "guinea"
+  },
+  {
+    "from": "madeira",
+    "to": "elmina",
+    "days": 4,
+    "chart": "guinea"
+  },
+  {
+    "from": "elmina",
+    "to": "capetown",
+    "days": 4,
+    "chart": "cape"
+  },
+  {
+    "from": "lisbon",
+    "to": "capetown",
+    "days": 7,
+    "chart": "cape"
+  },
+  {
+    "from": "capetown",
+    "to": "calicut",
+    "days": 5,
+    "chart": "cape"
   }
 ]

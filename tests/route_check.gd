@@ -12,13 +12,17 @@ func _initialize() -> void:
 	state.load_ports()
 	state.voyage["pirate_chance"] = 1.0
 	for id in state.ports:
+		if not state.all_routes.any(func(r): return r["from"] == id or r["to"] == id):
+			return _fail("%s is on no route in data/routes.json" % id)
+	# Sailable routes cover the charted ports only.
+	for id in state.known_ports():
 		var spec: Dictionary = state.ports[id]
 		if not spec.has("map") or spec["map"].size() != 2:
 			return _fail("%s has no map position" % id)
 		if not state.routes.has(id) or state.routes[id].is_empty():
 			return _fail("%s has no routes" % id)
 		for other in state.routes[id]:
-			if not state.ports.has(other):
+			if not state.is_known(other):
 				return _fail("route %s -> %s points at an unknown port" % [id, other])
 			if int(state.routes[other][id]) != int(state.routes[id][other]):
 				return _fail("route %s <-> %s is not symmetric" % [id, other])
