@@ -61,9 +61,9 @@ Trip days = route days, then:
 - **No navigator**: +1 day.
 - **Running from the pirate**: +1 day and you drop 1 cargo.
 
-About a third of voyages meet a pirate (`pirate_chance` in `voyage.json`, 0.34). On a clear trip you simply arrive. With a pirate you choose Run or Fight mid-voyage.
+About 1 in 5 voyages meets a pirate (`pirate_chance` in `voyage.json`, 0.2). On a clear trip you simply arrive. With a pirate you choose Run or Fight mid-voyage.
 
-Departing plays the sea leg (`scripts/sea_view.gd`, built at runtime). The ship sails left to right over scrolling, bobbing water, with the route and a day counter on top. A pirate pulls alongside from behind, and the ship stops while you choose:
+Departing plays the sea leg (`scripts/sea_view.gd`, built at runtime). The ship sails left to right over scrolling, bobbing water, with the route and a day counter on top. Each day at sea is one sun cycle: the sun crosses the sky, dusk turns the sea orange, night darkens it under a moon, and the counter ticks at sunrise. A pirate pulls alongside from behind, and the ship stops while you choose:
 - **Run:** a crate goes overboard and the pirate falls behind.
 - **Fight:** the status line shows the pirate's power against yours (cannons + muskets + boarding) first. Cannon fire hits the loser: a beaten pirate sinks; if you lose, you're plundered and sail on, and only a hull at 0 goes down.
 
@@ -98,15 +98,19 @@ Each port's tavern offers 3–4 named sailors, re-rolled every 4 days (`roster_r
 
 ## Armory and pirates
 
-About a third of voyages meet a pirate (`pirate_chance`, 0.34): a skiff (power 3, loot 8) on any route, or a corsair sloop (power 6, loot 15) on routes of 2+ days. Fight power is added in order while powder and shot last: each cannon 2 (1 powder + 1 shot), each armed marksman 2 (1 powder + 1 shot), then boarding (armed swordsmen 2, everyone else's fists). Cannons are bought in the Shipyard (one per gun port); muskets, swords, powder and shot in the Armory. Five powder or five shot fit in a hold slot; muskets and swords take no space but are capped at one per bunk.
+About 1 in 5 voyages meets a pirate (`pirate_chance`, 0.2): a skiff (power 3, loot 8) on any route, or a corsair sloop (power 6, loot 15) on routes of 2+ days. Fight power is added in order while powder and shot last: each cannon 2 (1 powder + 1 shot), each armed marksman 2 (1 powder + 1 shot), then boarding (armed swordsmen 2, everyone else's fists). Cannons are bought in the Shipyard (one per gun port); muskets, swords, powder and shot in the Armory. Five powder or five shot fit in a hold slot; muskets and swords take no space but are capped at one per bunk.
 
 - **Win** (power > pirate): take the loot; −1 hull unless you had 1.5× its power.
 - **Loss**: hull −half the difference (at least 1), and the pirates take a quarter of your gold and half your goods. You sail on; only a hull at 0 sinks you.
 - **Run**: −1 cargo, +1 day, no ammo used.
 
+## Title screen
+
+The game opens on `scenes/title.tscn` (`scripts/title_screen.gd`, the main scene): a scrolling sea with five ships sailing both ways (smaller and slower further up, for depth), the game's name, **New voyage** (or Enter) which resets `GameState` and loads the port, and the credit "Created by s.blanc".
+
 ## Ship's log
 
-**Log** (next to Chart and Depart, and on the end panel) opens the ship's log (`scripts/log_view.gd`), newest first, grouped by leg:
+**Log** (next to Chart and Depart, and on the end panel) opens the ship's log (`scripts/log_view.gd`), newest first, split by a gray dotted **Day N** line whenever the day changes (a trip sits under the day it left port):
 
 - **Trip line:** route, days at sea, and the trip's net result: sale margins at the destination, plus loot or minus plunder and lost cargo, minus wages.
 - **Provisions line:** food and water eaten, wages paid, deserters.
