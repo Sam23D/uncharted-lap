@@ -6,7 +6,7 @@
       0.1,
       0.8
     ],
-    "blurb": "Home. Cheapest sugar; pays the most for cheese. Good cooks.",
+    "blurb": "Home. Cheapest sugar, best cheese price.",
     "goods": {
       "sugar": {
         "buy": 4,
@@ -41,7 +41,7 @@
       0.42,
       0.8
     ],
-    "blurb": "Sailors' town: half-price hiring, many navigators. Small trade margins.",
+    "blurb": "Sailors' town. Small trade margins.",
     "goods": {
       "sugar": {
         "buy": 7,
@@ -79,7 +79,7 @@
       0.32,
       0.3
     ],
-    "blurb": "Best shipyard: cheap repairs; sells the Brig. Taverns full of marksmen.",
+    "blurb": "Busy docks. Cheapest repairs.",
     "goods": {
       "sugar": {
         "buy": 10,
@@ -117,7 +117,7 @@
       0.84,
       0.14
     ],
-    "blurb": "Far north. Cheapest cheese; pays the most for sugar. Swordsmen and Brigs.",
+    "blurb": "Far north. Cheapest cheese, best sugar price.",
     "goods": {
       "sugar": {
         "buy": 14,

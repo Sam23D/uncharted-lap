@@ -9,7 +9,6 @@ signal sail_requested
 
 const UI := "res://assets/vendor/kenney-ui-pack-pixel-adventure/Tiles/Large tiles/Thick outline/"
 const SEA := preload("res://assets/vendor/kenney-pirate-pack/PNG/Default size/Tiles/tile_73.png")
-const SHIP := preload("res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ships/ship (1).png")
 const INK := Color(0.18, 0.11, 0.05)
 const CREAM := Color(1.0, 0.97, 0.88)
 const WARN := Color(0.7, 0.1, 0.06)
@@ -125,7 +124,7 @@ func _build_markers() -> void:
 		name_tag.position = p + Vector2(-30, 15)
 		if id == here:
 			var ship := TextureRect.new()
-			ship.texture = SHIP
+			ship.texture = load(GameState.hull_texture())
 			ship.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 			ship.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 			ship.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
@@ -197,7 +196,7 @@ func _build_side() -> void:
 	panel.add_child(box)
 	var here: Dictionary = GameState.port()
 	_text(box, "Chart from %s" % str(here["name"]), 14, INK)
-	_text(box, "Days: fight - run. Pick a port.", 11, Color(INK, 0.7))
+	_text(box, "Days if you fight - if you run.", 11, Color(INK, 0.7))
 	for id in GameState.destinations():
 		var spec: Dictionary = GameState.ports[id]
 		var row := _plate(box, "%s   %d-%d days" % [str(spec["name"]), GameState.estimate_days(false, id), GameState.estimate_days(true, id)], "tile_0002.png" if id == selected else "tile_0003.png", INK if id == selected else CREAM)
@@ -301,20 +300,25 @@ func _fill_detail() -> void:
 	elif id == selected:
 		title += "  (course set)"
 	elif GameState.routes.get(here_id, {}).has(id):
-		title += "  (click to set course)"
+		title += "  (click to pick)"
 	_text(_detail, title, 13, INK)
 	_text(_detail, str(spec.get("blurb", "")), 11, Color(INK, 0.75))
 	if id != here_id and GameState.routes.get(here_id, {}).has(id):
 		var need: int = GameState.supplies_needed(id)
 		var short := GameState.food < need or GameState.water < need
-		_text(_detail, "Need %d food, %d water (have %d, %d)" % [need, need, GameState.food, GameState.water], 11, WARN if short else INK)
+		var need_w: int = GameState.water_needed(id)
+		short = GameState.food < need or GameState.water < need_w
+		_text(_detail, "Needs %d food, %d water (have %d, %d)" % [need, need_w, GameState.food, GameState.water], 11, WARN if short else INK)
 	var grid := GridContainer.new()
 	grid.columns = 4
 	grid.add_theme_constant_override("h_separation", 10)
 	grid.add_theme_constant_override("v_separation", 0)
 	_detail.add_child(grid)
 	for head in ["", "Buy", "Sell", "Profit"]:
-		_cell(grid, head, Color(INK, 0.55), 10)
+		var cell := _cell(grid, head, Color(INK, 0.55), 10)
+		if head == "Profit":
+			cell.tooltip_text = "Their sell price minus the buy price here, per unit."
+			cell.mouse_filter = Control.MOUSE_FILTER_PASS
 	var here_goods: Dictionary = GameState.port()["goods"]
 	var goods: Dictionary = spec["goods"]
 	for good in ["sugar", "cheese"]:
@@ -326,7 +330,8 @@ func _fill_detail() -> void:
 		else:
 			var gain := int(goods[good]["sell"]) - int(here_goods[good]["buy"])
 			_cell(grid, "%+d" % gain, GOOD if gain > 0 else WARN)
-	_text(_detail, "Profit = sell there - buy here, per unit." if id != here_id else "Hover another port to compare.", 10, Color(INK, 0.55))
+	if id == here_id:
+		_text(_detail, "Hover another port to compare.", 10, Color(INK, 0.55))
 	var weights: Dictionary = spec.get("tavern", {}).get("weights", {})
 	var lean := ""
 	for prof in weights:
@@ -335,9 +340,11 @@ func _fill_detail() -> void:
 	var yard: Array[String] = []
 	for ship_id in spec.get("shipyard", []):
 		yard.append(str(GameState.ships[ship_id]["name"]))
-	var fees := "  half-price hiring" if GameState.service_f("hire_mult", id) < 1.0 else ""
-	_text(_detail, "Tavern: %ss%s" % [str(GameState.crew_data["professions"].get(lean, {"name": "sailor"})["name"]).to_lower(), fees], 11, INK)
-	_text(_detail, "Yard: %s   Repair %d" % [", ".join(yard), GameState.service("repair_cost", id)], 11, INK)
+	var fees := " · half-price signing" if GameState.service_f("hire_mult", id) < 1.0 else ""
+	var lean_name := str(GameState.crew_data["professions"].get(lean, {"name": "sailor"})["name"]).to_lower()
+	lean_name = lean_name.replace("man", "men") if lean_name.ends_with("man") else lean_name + "s"
+	_text(_detail, "Tavern: %s%s" % [lean_name, fees], 11, INK)
+	_text(_detail, "Yard: %s · repair %dg" % [", ".join(yard), GameState.service("repair_cost", id)], 11, INK)
 
 func _select(id: String) -> void:
 	if GameState.set_destination(id):

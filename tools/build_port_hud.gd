@@ -64,7 +64,7 @@ func build(scene_root: Node) -> String:
 	_section(overview, "Ship")
 	_row(overview, "Ship", "Ship", PIRATE + "Ships/ship (1).png")
 	_row(overview, "Hull", "Hull", PIRATE + "Ship parts/wood (1).png")
-	_row(overview, "Arms", "Arms", PIRATE + "Ship parts/cannon.png")
+	_row(overview, "Arms", "Power", PIRATE + "Ship parts/cannon.png")
 	var spacer: Control = _add(overview, Control.new(), "Spacer")
 	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	var leave: HBoxContainer = _add(overview, HBoxContainer.new(), "Leave")
@@ -90,18 +90,17 @@ func build(scene_root: Node) -> String:
 	var pages: Control = _add(right, Control.new(), "Pages")
 	pages.size_flags_vertical = Control.SIZE_EXPAND_FILL
 
-	var store := _page(pages, "Store", "Buy low here, sell high at the other port.")
+	var store := _page(pages, "Store", "-")
 	# Section names are prefixed so they don't collide with the Voyage column's sections.
 	_section(store, "Cargo", "StoreCargo")
 	_trade_row(store, "Sugar", "Sugar", ITEMS + "genericItem_color_143.png", [["BuySugar", "Buy"], ["SellSugar", "Sell"]])
 	_trade_row(store, "Cheese", "Cheese", ITEMS + "genericItem_color_141.png", [["BuyCheese", "Buy"], ["SellCheese", "Sell"]])
 	_section(store, "Provisions", "StoreProvisions")
+	_info_badge(store.get_node("StoreProvisionsSection"), "supply", false)
 	_trade_row(store, "SupplyFood", "Food", ITEMS + "genericItem_color_114.png", [["LoadFood", "Load"], ["UnloadFood", "Unload"]])
 	_trade_row(store, "SupplyWater", "Water", ITEMS + "genericItem_color_118.png", [["LoadWater", "Load"], ["UnloadWater", "Unload"]])
-	var supply_note := _label(store, "SupplyNote", "-", 11, Color(INK, 0.7))
-	supply_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 
-	var tavern := _page(pages, "Tavern", "Sailors need a bunk and a daily wage.")
+	var tavern := _page(pages, "Tavern", "-")
 	_section(tavern, "In port", "TavernRoster")
 	_info_badge(tavern.get_node("TavernRosterSection"), "crew", false)
 	var roster: VBoxContainer = _add(tavern, VBoxContainer.new(), "RosterList")
@@ -114,7 +113,7 @@ func build(scene_root: Node) -> String:
 	crew_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	crew_list.add_theme_constant_override("separation", 2)
 
-	var yard := _page(pages, "Shipyard", "Trade up your ship, mount cannons, patch the hull.")
+	var yard := _page(pages, "Shipyard", "-")
 	_trade_row(yard, "YardShip", "Ship", PIRATE + "Ships/ship (1).png", [])
 	_info_badge(yard.get_node("YardShipRow"), "ship", false)
 	_trade_row(yard, "YardHull", "Hull", PIRATE + "Ship parts/wood (1).png", [["Repair", "Repair"]])
@@ -123,20 +122,15 @@ func build(scene_root: Node) -> String:
 	var ships: VBoxContainer = _add(yard, VBoxContainer.new(), "ShipList")
 	ships.add_theme_constant_override("separation", 2)
 
-	var armory := _page(pages, "Armory", "Arms for your crew, powder and shot for every gun.")
-	var power_row: HBoxContainer = _add(armory, HBoxContainer.new(), "PowerRow")
-	var power := _label(power_row, "PowerNote", "-", 12, INK)
-	power.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	power.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_info_badge(power_row, "power", false)
+	var armory := _page(pages, "Armory", "-")
 	_section(armory, "Weapons", "ArmoryWeapons")
+	_info_badge(armory.get_node("ArmoryWeaponsSection"), "power", false)
 	_trade_row(armory, "Musket", "Musket", ITEMS + "genericItem_color_001.png", [["BuyMusket", "Buy"], ["SellMusket", "Sell"]])
 	_trade_row(armory, "Sword", "Sword", ITEMS + "genericItem_color_134.png", [["BuySword", "Buy"], ["SellSword", "Sell"]])
 	_section(armory, "Ammunition", "ArmoryAmmo")
+	_info_badge(armory.get_node("ArmoryAmmoSection"), "ammo", false)
 	_trade_row(armory, "Powder", "Powder", ITEMS + "genericItem_color_104.png", [["BuyPowder", "Buy"], ["SellPowder", "Sell"]])
 	_trade_row(armory, "Shot", "Shot", PIRATE + "Ship parts/cannonBall.png", [["BuyShot", "Buy"], ["SellShot", "Sell"]])
-	var ammo_note := _label(armory, "AmmoNote", "-", 11, Color(INK, 0.7))
-	ammo_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 
 	var message: Label = _add(right, Label.new(), "Message")
 	message.custom_minimum_size = Vector2(0, 32)
@@ -320,7 +314,8 @@ func _trade_row(parent: Node, id: String, title: String, icon_path: String, butt
 	value.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	for spec in buttons:
 		var b := _button(row, str(spec[0]), str(spec[1]), WOOD, CREAM)
-		b.custom_minimum_size = Vector2(62, 24)
+		b.custom_minimum_size = Vector2(72, 24)
+		(b.get_node("Text") as Label).add_theme_font_size_override("font_size", 11)
 		b.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 
 func _grid(parent: Node, buttons: Array) -> void:

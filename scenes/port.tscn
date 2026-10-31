@@ -460,7 +460,7 @@ custom_minimum_size = Vector2(46, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
 theme_override_font_sizes/font_size = 12
-text = "Arms"
+text = "Power"
 
 [node name="Arms" type="Label" parent="Panel/Layout/Overview/ArmsRow"]
 layout_mode = 2
@@ -672,7 +672,7 @@ theme_override_constants/separation = 2
 layout_mode = 2
 theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
 theme_override_font_sizes/font_size = 11
-text = "Buy low here, sell high at the other port."
+text = "-"
 autowrap_mode = 3
 
 [node name="StoreCargoSection" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Store"]
@@ -723,7 +723,7 @@ text = "-"
 vertical_alignment = 1
 
 [node name="BuySugar" type="Button" parent="Panel/Layout/Right/Pages/Store/SugarRow"]
-custom_minimum_size = Vector2(62, 24)
+custom_minimum_size = Vector2(72, 24)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
@@ -745,13 +745,13 @@ layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 text = "Buy"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="SellSugar" type="Button" parent="Panel/Layout/Right/Pages/Store/SugarRow"]
-custom_minimum_size = Vector2(62, 24)
+custom_minimum_size = Vector2(72, 24)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
@@ -773,7 +773,7 @@ layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 text = "Sell"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -807,7 +807,7 @@ text = "-"
 vertical_alignment = 1
 
 [node name="BuyCheese" type="Button" parent="Panel/Layout/Right/Pages/Store/CheeseRow"]
-custom_minimum_size = Vector2(62, 24)
+custom_minimum_size = Vector2(72, 24)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
@@ -829,13 +829,13 @@ layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 text = "Buy"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="SellCheese" type="Button" parent="Panel/Layout/Right/Pages/Store/CheeseRow"]
-custom_minimum_size = Vector2(62, 24)
+custom_minimum_size = Vector2(72, 24)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
@@ -857,7 +857,7 @@ layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 text = "Sell"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -880,6 +880,32 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 color = Color(0.18, 0.11, 0.05, 0.2)
+
+[node name="Info" type="Control" parent="Panel/Layout/Right/Pages/Store/StoreProvisionsSection" groups=["info_badge"]]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_default_cursor_shape = 16
+metadata/info = "supply"
+
+[node name="Circle" type="TextureRect" parent="Panel/Layout/Right/Pages/Store/StoreProvisionsSection/Info"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource("17_l81ws")
+expand_mode = 1
+
+[node name="Glyph" type="Label" parent="Panel/Layout/Right/Pages/Store/StoreProvisionsSection/Info"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 12
+text = "i"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="SupplyFoodRow" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Store"]
 custom_minimum_size = Vector2(0, 26)
@@ -910,7 +936,7 @@ text = "-"
 vertical_alignment = 1
 
 [node name="LoadFood" type="Button" parent="Panel/Layout/Right/Pages/Store/SupplyFoodRow"]
-custom_minimum_size = Vector2(62, 24)
+custom_minimum_size = Vector2(72, 24)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
@@ -932,13 +958,13 @@ layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 text = "Load"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="UnloadFood" type="Button" parent="Panel/Layout/Right/Pages/Store/SupplyFoodRow"]
-custom_minimum_size = Vector2(62, 24)
+custom_minimum_size = Vector2(72, 24)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
@@ -960,7 +986,7 @@ layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 text = "Unload"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -994,7 +1020,7 @@ text = "-"
 vertical_alignment = 1
 
 [node name="LoadWater" type="Button" parent="Panel/Layout/Right/Pages/Store/SupplyWaterRow"]
-custom_minimum_size = Vector2(62, 24)
+custom_minimum_size = Vector2(72, 24)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
@@ -1016,13 +1042,13 @@ layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 text = "Load"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="UnloadWater" type="Button" parent="Panel/Layout/Right/Pages/Store/SupplyWaterRow"]
-custom_minimum_size = Vector2(62, 24)
+custom_minimum_size = Vector2(72, 24)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
@@ -1044,17 +1070,10 @@ layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 text = "Unload"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="SupplyNote" type="Label" parent="Panel/Layout/Right/Pages/Store"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
-theme_override_font_sizes/font_size = 11
-text = "-"
-autowrap_mode = 3
 
 [node name="Tavern" type="VBoxContainer" parent="Panel/Layout/Right/Pages"]
 layout_mode = 0
@@ -1066,7 +1085,7 @@ theme_override_constants/separation = 2
 layout_mode = 2
 theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
 theme_override_font_sizes/font_size = 11
-text = "Sailors need a bunk and a daily wage."
+text = "-"
 autowrap_mode = 3
 
 [node name="TavernRosterSection" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Tavern"]
@@ -1157,7 +1176,7 @@ theme_override_constants/separation = 2
 layout_mode = 2
 theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
 theme_override_font_sizes/font_size = 11
-text = "Trade up your ship, mount cannons, patch the hull."
+text = "-"
 autowrap_mode = 3
 
 [node name="YardShipRow" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Shipyard"]
@@ -1243,7 +1262,7 @@ text = "-"
 vertical_alignment = 1
 
 [node name="Repair" type="Button" parent="Panel/Layout/Right/Pages/Shipyard/YardHullRow"]
-custom_minimum_size = Vector2(62, 24)
+custom_minimum_size = Vector2(72, 24)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
@@ -1265,7 +1284,7 @@ layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 text = "Repair"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -1299,7 +1318,7 @@ text = "-"
 vertical_alignment = 1
 
 [node name="BuyCannon" type="Button" parent="Panel/Layout/Right/Pages/Shipyard/CannonRow"]
-custom_minimum_size = Vector2(62, 24)
+custom_minimum_size = Vector2(72, 24)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
@@ -1321,13 +1340,13 @@ layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 text = "Buy"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="SellCannon" type="Button" parent="Panel/Layout/Right/Pages/Shipyard/CannonRow"]
-custom_minimum_size = Vector2(62, 24)
+custom_minimum_size = Vector2(72, 24)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
@@ -1349,7 +1368,7 @@ layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 text = "Sell"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -1387,45 +1406,8 @@ theme_override_constants/separation = 2
 layout_mode = 2
 theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
 theme_override_font_sizes/font_size = 11
-text = "Arms for your crew, powder and shot for every gun."
-autowrap_mode = 3
-
-[node name="PowerRow" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Armory"]
-layout_mode = 2
-
-[node name="PowerNote" type="Label" parent="Panel/Layout/Right/Pages/Armory/PowerRow"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
-theme_override_font_sizes/font_size = 12
 text = "-"
 autowrap_mode = 3
-
-[node name="Info" type="Control" parent="Panel/Layout/Right/Pages/Armory/PowerRow" groups=["info_badge"]]
-custom_minimum_size = Vector2(18, 18)
-layout_mode = 2
-size_flags_vertical = 4
-mouse_default_cursor_shape = 16
-metadata/info = "power"
-
-[node name="Circle" type="TextureRect" parent="Panel/Layout/Right/Pages/Armory/PowerRow/Info"]
-texture_filter = 1
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-texture = ExtResource("17_l81ws")
-expand_mode = 1
-
-[node name="Glyph" type="Label" parent="Panel/Layout/Right/Pages/Armory/PowerRow/Info"]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
-theme_override_font_sizes/font_size = 12
-text = "i"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="ArmoryWeaponsSection" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Armory"]
 custom_minimum_size = Vector2(0, 15)
@@ -1445,6 +1427,32 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 color = Color(0.18, 0.11, 0.05, 0.2)
+
+[node name="Info" type="Control" parent="Panel/Layout/Right/Pages/Armory/ArmoryWeaponsSection" groups=["info_badge"]]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_default_cursor_shape = 16
+metadata/info = "power"
+
+[node name="Circle" type="TextureRect" parent="Panel/Layout/Right/Pages/Armory/ArmoryWeaponsSection/Info"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource("17_l81ws")
+expand_mode = 1
+
+[node name="Glyph" type="Label" parent="Panel/Layout/Right/Pages/Armory/ArmoryWeaponsSection/Info"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 12
+text = "i"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="MusketRow" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Armory"]
 custom_minimum_size = Vector2(0, 26)
@@ -1475,7 +1483,7 @@ text = "-"
 vertical_alignment = 1
 
 [node name="BuyMusket" type="Button" parent="Panel/Layout/Right/Pages/Armory/MusketRow"]
-custom_minimum_size = Vector2(62, 24)
+custom_minimum_size = Vector2(72, 24)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
@@ -1497,13 +1505,13 @@ layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 text = "Buy"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="SellMusket" type="Button" parent="Panel/Layout/Right/Pages/Armory/MusketRow"]
-custom_minimum_size = Vector2(62, 24)
+custom_minimum_size = Vector2(72, 24)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
@@ -1525,7 +1533,7 @@ layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 text = "Sell"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -1559,7 +1567,7 @@ text = "-"
 vertical_alignment = 1
 
 [node name="BuySword" type="Button" parent="Panel/Layout/Right/Pages/Armory/SwordRow"]
-custom_minimum_size = Vector2(62, 24)
+custom_minimum_size = Vector2(72, 24)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
@@ -1581,13 +1589,13 @@ layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 text = "Buy"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="SellSword" type="Button" parent="Panel/Layout/Right/Pages/Armory/SwordRow"]
-custom_minimum_size = Vector2(62, 24)
+custom_minimum_size = Vector2(72, 24)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
@@ -1609,7 +1617,7 @@ layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 text = "Sell"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -1632,6 +1640,32 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 color = Color(0.18, 0.11, 0.05, 0.2)
+
+[node name="Info" type="Control" parent="Panel/Layout/Right/Pages/Armory/ArmoryAmmoSection" groups=["info_badge"]]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_default_cursor_shape = 16
+metadata/info = "ammo"
+
+[node name="Circle" type="TextureRect" parent="Panel/Layout/Right/Pages/Armory/ArmoryAmmoSection/Info"]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource("17_l81ws")
+expand_mode = 1
+
+[node name="Glyph" type="Label" parent="Panel/Layout/Right/Pages/Armory/ArmoryAmmoSection/Info"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 1)
+theme_override_font_sizes/font_size = 12
+text = "i"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="PowderRow" type="HBoxContainer" parent="Panel/Layout/Right/Pages/Armory"]
 custom_minimum_size = Vector2(0, 26)
@@ -1662,7 +1696,7 @@ text = "-"
 vertical_alignment = 1
 
 [node name="BuyPowder" type="Button" parent="Panel/Layout/Right/Pages/Armory/PowderRow"]
-custom_minimum_size = Vector2(62, 24)
+custom_minimum_size = Vector2(72, 24)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
@@ -1684,13 +1718,13 @@ layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 text = "Buy"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="SellPowder" type="Button" parent="Panel/Layout/Right/Pages/Armory/PowderRow"]
-custom_minimum_size = Vector2(62, 24)
+custom_minimum_size = Vector2(72, 24)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
@@ -1712,7 +1746,7 @@ layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 text = "Sell"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -1746,7 +1780,7 @@ text = "-"
 vertical_alignment = 1
 
 [node name="BuyShot" type="Button" parent="Panel/Layout/Right/Pages/Armory/ShotRow"]
-custom_minimum_size = Vector2(62, 24)
+custom_minimum_size = Vector2(72, 24)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
@@ -1768,13 +1802,13 @@ layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 text = "Buy"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="SellShot" type="Button" parent="Panel/Layout/Right/Pages/Armory/ShotRow"]
-custom_minimum_size = Vector2(62, 24)
+custom_minimum_size = Vector2(72, 24)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
@@ -1796,17 +1830,10 @@ layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_colors/font_color = Color(1, 0.97, 0.88, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 text = "Sell"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="AmmoNote" type="Label" parent="Panel/Layout/Right/Pages/Armory"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.18, 0.11, 0.05, 0.7)
-theme_override_font_sizes/font_size = 11
-text = "-"
-autowrap_mode = 3
 
 [node name="Message" type="Label" parent="Panel/Layout/Right"]
 custom_minimum_size = Vector2(0, 32)

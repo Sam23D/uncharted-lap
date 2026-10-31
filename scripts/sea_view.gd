@@ -70,8 +70,8 @@ func _build_hud() -> void:
 	for side in [SIDE_LEFT, SIDE_TOP, SIDE_RIGHT, SIDE_BOTTOM]:
 		plate.set_patch_margin(side, 5)
 	plate.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	plate.position = Vector2(140, 8)
-	plate.size = Vector2(360, 84)
+	plate.position = Vector2(150, 8)
+	plate.size = Vector2(340, 66)
 	add_child(plate)
 	_hud = plate
 	var box := VBoxContainer.new()
@@ -167,7 +167,7 @@ func play(start_day: int, est_days: int) -> void:
 	_speed = 60.0
 	_route.text = "%s  →  %s" % [_name(GameState.last_from), _name(GameState.last_to)]
 	_set_day(start_day)
-	_status.text = "Fair winds. Each day eats 1 food and 1 water."
+	_status.text = "Fair winds."
 	_ship.texture = load(GameState.hull_texture())
 	var scale_by := float(GameState.ship().get("scale", 1.0))
 	_ship.size = SHIP_SIZE * scale_by
@@ -182,7 +182,7 @@ func play(start_day: int, est_days: int) -> void:
 		await _leg(470.0, GameState.day, total * 0.8)
 		if await _lost_at_sea():
 			return
-		_status.text = "Clear seas all the way. No sails on the horizon."
+		_status.text = "Clear seas all the way."
 		await _leg(720.0, GameState.day, 0.9)
 		await _arrive()
 		return
@@ -193,11 +193,11 @@ func play(start_day: int, est_days: int) -> void:
 	var p: Dictionary = GameState.fight_power()
 	var theirs := int(foe["power"])
 	var mine := int(p["total"])
-	var verdict := "You should win." if mine > theirs else "You would lose: hull damage and plunder. Run?"
+	var verdict := "Fight to win its loot." if mine > theirs else "Fighting loses hull and cargo. Run?"
 	if mine <= theirs and GameState.hull <= maxi(1, int(ceil((theirs - mine) / 2.0))):
 		verdict = "Fighting will sink you. Run!"
-	_status.text = "%s, power %d! Yours %d (cannons %d + muskets %d + boarding %d, uses %d powder/shot). %s" % [
-		str(foe["name"]), theirs, mine, int(p["cannons"]), int(p["muskets"]), int(p["boarding"]), int(p["ammo"]), verdict]
+	_status.text = "%s! Power %d vs your %d (cannons %d, muskets %d, boarding %d). %s" % [
+		str(foe["name"]), theirs, mine, int(p["cannons"]), int(p["muskets"]), int(p["boarding"]), verdict]
 	_speed = 20.0
 	await _move(_pirate, 215.0, 1.1)
 	_choice.visible = true
@@ -206,7 +206,7 @@ func play(start_day: int, est_days: int) -> void:
 	_speed = 60.0
 	if pick == "run":
 		GameState.resolve_run()
-		_status.text = "All sails up! A crate goes overboard to lighten the ship."
+		_status.text = "All sails up! A crate goes overboard."
 		_crate.position = _center(_ship) - Vector2(30, 9)
 		_crate.visible = true
 		var drift := create_tween().set_parallel(true)
@@ -222,12 +222,12 @@ func play(start_day: int, est_days: int) -> void:
 		await _cannons(_pirate if won else _ship)
 		match outcome:
 			"sunk":
-				_status.text = "Holed below the waterline. The ship goes down."
+				_status.text = "Holed below the waterline."
 				await _sink(_ship)
 				_finish()
 				return
 			"loss":
-				_status.text = "Boarded and plundered: -%d gold, -%d cargo, hull %d/%d. The pirates sail off." % [-int(f["gold"]), int(f["lost_cargo"]), GameState.hull, GameState.hull_max]
+				_status.text = "Plundered: -%d gold, -%d cargo, hull %d/%d." % [-int(f["gold"]), int(f["lost_cargo"]), GameState.hull, GameState.hull_max]
 				var away := create_tween()
 				away.tween_property(_pirate, "position:x", 700.0, 2.0)
 				await _leg(470.0, GameState.day, total * 0.45)

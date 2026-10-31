@@ -5,7 +5,7 @@ extends Node
 const ShipRules := preload("res://scripts/rules/ship_rules.gd")
 const CrewRules := preload("res://scripts/rules/crew_rules.gd")
 const CombatRules := preload("res://scripts/rules/combat_rules.gd")
-const START_MESSAGE := "Open the chart to pick a destination. Each day at sea eats 1 food and 1 water, plus half for each crew member."
+const START_MESSAGE := "Chart a course, load what the trip needs, then depart."
 const ARMS := ["cannon", "musket", "sword", "powder", "shot"]
 
 var gold: int = 60
@@ -124,7 +124,7 @@ func _refuse(text: String) -> bool:
 	return false
 
 func _hold_full() -> bool:
-	return _refuse("Hold full (%d/%d). Sell or unload something, or buy a bigger ship." % [cargo_used(), cargo_capacity])
+	return _refuse("Hold full (%d/%d): sell, unload or get a bigger ship." % [cargo_used(), cargo_capacity])
 
 ## Port price for a service (repair_cost, hire_mult, ship_mult): the port's "services"
 ## override in ports.json, else the default in voyage.json.
@@ -268,7 +268,7 @@ func buy_arm(kind: String) -> bool:
 	var have := int(armory.get(kind, 0))
 	if have >= arm_limit(kind):
 		if kind == "cannon":
-			return _refuse("All %d gun ports are full. A bigger ship has more." % gun_ports)
+			return _refuse("All %d gun ports full." % gun_ports)
 		return _refuse("One %s per bunk: you have %d." % [kind, have])
 	if kind in ["powder", "shot"]:
 		var extra := ammo_slots(int(armory["powder"]) + (1 if kind == "powder" else 0), int(armory["shot"]) + (1 if kind == "shot" else 0)) - ammo_slots()
@@ -285,11 +285,11 @@ func buy_arm(kind: String) -> bool:
 func _arm_hint(kind: String) -> String:
 	match kind:
 		"cannon":
-			return "Cannons %d/%d. Each fires once a fight with 1 powder + 1 shot." % [int(armory["cannon"]), gun_ports]
+			return "Cannons %d/%d." % [int(armory["cannon"]), gun_ports]
 		"musket":
-			return "Marksmen fire muskets with 1 powder + 1 shot."
+			return "Marksmen need it."
 		"sword":
-			return "Swordsmen fight harder with a sword."
+			return "Swordsmen need it."
 	return "Powder %d, shot %d." % [int(armory["powder"]), int(armory["shot"])]
 
 func sell_arm(kind: String) -> bool:
@@ -333,8 +333,8 @@ func buy_ship(id: String) -> bool:
 		armory["cannon"] = int(armory["cannon"]) - 1
 		sold += 1
 		gold += arm_sell_price("cannon")
-	message = "Traded the %s for a %s: paid %d.%s" % [old_name, ship_name, cost,
-		" Sold %d cannon(s) with no gun port." % sold if sold > 0 else ""]
+	message = "Traded the %s for a %s: %dg.%s" % [old_name, ship_name, cost,
+		" Sold %d extra cannon." % sold if sold > 0 else ""]
 	if int(ship()["tier"]) >= int(voyage["win_ship_tier"]):
 		ended = "win"
 	return true
@@ -392,13 +392,13 @@ func hire(member_id: String) -> bool:
 		return _refuse("That sailor has left the tavern.")
 	var m: Dictionary = list[index]
 	if crew.size() >= bunks:
-		return _refuse("Bunks full (%d/%d). Dismiss someone or buy a bigger ship." % [crew.size(), bunks])
+		return _refuse("Bunks full (%d/%d): dismiss someone or get a bigger ship." % [crew.size(), bunks])
 	var fee := hire_fee(m)
 	if gold < fee:
 		return _refuse("%s asks %d to sign on. You have %d." % [str(m["name"]), fee, gold])
 	gold -= fee
 	crew.append(list.pop_at(index))
-	message = "Hired %s the %s for %d. Wage %d a day at sea." % [str(m["name"]), _prof_name(m), fee, int(m["wage"])]
+	message = "Hired %s (%s) for %dg, %dg a day." % [str(m["name"]), _prof_name(m), fee, int(m["wage"])]
 	return true
 
 func dismiss(member_id: String) -> bool:

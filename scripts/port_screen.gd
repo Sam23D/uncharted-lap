@@ -105,6 +105,11 @@ func _hide_info() -> void:
 func _info_text(key: String) -> String:
 	var v: Dictionary = GameState.voyage
 	match key:
+		"supply":
+			return "Food and water cost %dg each and refund %dg when unloaded. %d fit in a hold slot.\n\nEach day at sea the captain eats and drinks 1, plus half for every crew member. A cook cuts the food. \"Need\" covers the slower trip (running from a pirate)." % [
+				int(v["supply_price"]), int(v.get("supply_refund", v["supply_price"])), int(v.get("supply_stack", 1))]
+		"ammo":
+			return "Every cannon or musket shot uses 1 powder + 1 shot. Cannons fire first, then marksmen with muskets, until either runs out.\n\n%d powder or %d shot fit in a hold slot. Muskets and swords take no hold space, one per bunk." % [int(v["ammo_stack"]), int(v["ammo_stack"])]
 		"ship":
 			var s: Dictionary = GameState.ship()
 			return "%s (tier %d): hold %d, bunks %d, gun ports %d, hull %d, %s, needs %d crew to sail.\n\n%s\n\nBuying a ship trades in yours for %d%% of its price. Owning a tier %d ship (the Brig) wins the game." % [
@@ -120,6 +125,19 @@ func _info_text(key: String) -> String:
 			return "About %d in 100 voyages meet a pirate. Fight power, added in order while powder and shot last:\n- each cannon %d (1 powder + 1 shot)\n- each marksman 2 with a musket and ammo, else 1\n- each swordsman 2 with a sword, else 1; deckhands 1\n\nBeat the pirate's power to take its loot (lose 1 hull unless you win by half again). Lose and you take hull damage and are plundered: %d%% of your gold and half your goods. At hull 0 you sink. Run always escapes: -1 cargo, +1 day." % [
 				int(round(float(v["pirate_chance"]) * 100.0)), int(v["cannon_power"]), int(float(v["plunder_gold"]) * 100)]
 	return ""
+
+func _num(x: float) -> String:
+	return str(int(x)) if is_equal_approx(x, round(x)) else "%.1f" % x
+
+func _speed_short(speed: int) -> String:
+	if speed == 0:
+		return ""
+	return " · %+d day" % speed
+
+func _section_title(node_name: String, text: String) -> void:
+	var section := find_child(node_name, true, false)
+	if section != null:
+		section.get_node("Title").text = text
 
 func _speed_text(speed: int) -> String:
 	if speed < 0:
@@ -209,10 +227,45 @@ func _refresh() -> void:
 	_refresh_tavern()
 	_refresh_yard()
 	_refresh_armory()
+	_refresh_prices()
 	var message := find_child("Message", true, false)
 	if message != null:
 		message.text = GameState.message
 	_refresh_hints()
+
+## Every buy/sell button carries its price: "Buy (7)", "Sell (5)".
+func _refresh_prices() -> void:
+	var v: Dictionary = GameState.voyage
+	for id in ACTIONS:
+		var spec: Array = ACTIONS[id]
+		var what := str(spec[1])
+		var price := -1
+		match str(spec[0]):
+			"buy":
+				price = GameState.price(what, "buy")
+			"sell":
+				price = GameState.price(what, "sell")
+			"load_supply":
+				price = int(v["supply_price"])
+			"unload_supply":
+				price = int(v.get("supply_refund", v["supply_price"]))
+			"buy_arm":
+				price = GameState.arm_price(what)
+			"sell_arm":
+				price = GameState.arm_sell_price(what)
+			"repair":
+				price = GameState.service("repair_cost")
+		var button := find_child(id, true, false)
+		if button == null or price < 0:
+			continue
+		if not button.has_meta("verb"):
+			button.set_meta("verb", str(button.get_node("Text").text))
+		button.get_node("Text").text = "%s (%d)" % [str(button.get_meta("verb")), price]
+
+func _set_icon(row_name: String, path: String) -> void:
+	var row := find_child(row_name, true, false)
+	if row != null and row.get_node_or_null("Icon") != null:
+		row.get_node("Icon").texture = load(path)
 
 func _refresh_overview() -> void:
 	_set_row("PortRow", "Port", str(GameState.port().get("name", GameState.current_port_id)))
@@ -222,22 +275,23 @@ func _refresh_overview() -> void:
 	if flag != null:
 		flag.texture = load(str(GameState.port()["flag"]))
 	_refresh_trip()
-	_set_row("CargoRow", "Cargo", "%d / %d  (%d free)" % [GameState.cargo_used(), GameState.cargo_capacity, GameState.free_cargo()])
+	_set_row("CargoRow", "Cargo", "%d / %d slots" % [GameState.cargo_used(), GameState.cargo_capacity])
 	var goods: Array[String] = []
 	for good in ["sugar", "cheese"]:
 		if int(GameState.cargo.get(good, 0)) > 0:
 			goods.append("%s %d" % [good, int(GameState.cargo[good])])
 	_set_row("GoodsRow", "Goods", ", ".join(goods) if not goods.is_empty() else "none")
 	var short_crew := GameState.crew_count() < GameState.min_crew()
-	_set_row("AboardRow", "Aboard", "%d / %d bunks, %d/day%s" % [GameState.crew_count(), GameState.bunks, GameState.wages_per_day(),
-		"  (need %d)" % GameState.min_crew() if short_crew else ""])
+	_set_row("AboardRow", "Aboard", "%d / %d · %dg/day%s" % [GameState.crew_count(), GameState.bunks, GameState.wages_per_day(),
+		" · need %d" % GameState.min_crew() if short_crew else ""])
 	_color_row("AboardRow", "Aboard", WARN if short_crew else INK)
 	_set_row("RolesRow", "Roles", _roles_text())
-	_set_row("ShipRow", "Ship", "%s, tier %d" % [GameState.ship_name, int(GameState.ship()["tier"])])
+	_set_row("ShipRow", "Ship", "%s (tier %d)" % [GameState.ship_name, int(GameState.ship()["tier"])])
+	_set_icon("ShipRow", GameState.hull_texture())
 	_set_row("HullRow", "Hull", "%d / %d" % [GameState.hull, GameState.hull_max])
 	_color_row("HullRow", "Hull", WARN if GameState.hull <= 1 else INK)
 	var a: Dictionary = GameState.armory
-	_set_row("ArmsRow", "Arms", "power %d · %d gun · %d/%d ammo" % [int(GameState.fight_power()["total"]), int(a["cannon"]), int(a["powder"]), int(a["shot"])])
+	_set_row("ArmsRow", "Arms", "%d · ammo %d/%d" % [int(GameState.fight_power()["total"]), int(a["powder"]), int(a["shot"])])
 
 func _roles_text() -> String:
 	var parts: Array[String] = []
@@ -257,43 +311,42 @@ func _refresh_trip() -> void:
 		var have := int(spec[1])
 		var need := int(spec[2])
 		var id := str(spec[0])
-		_set_row(id + "Row", id, "%d  (trip needs %d)" % [have, need] if have >= need else "%d  (need %d more)" % [have, need - have])
+		_set_row(id + "Row", id, "%d · need %d" % [have, need])
 		_color_row(id + "Row", id, WARN if have < need else INK)
 
 func _refresh_store() -> void:
 	var v: Dictionary = GameState.voyage
 	for good in ["sugar", "cheese"]:
 		var g: Dictionary = GameState.port()["goods"][good]
-		_set_row(good.capitalize() + "Row", good.capitalize(), "buy %d · sell %d · %d aboard" % [int(g["buy"]), int(g["sell"]), int(GameState.cargo.get(good, 0))])
+		_set_row(good.capitalize() + "Row", good.capitalize(), "have %d" % int(GameState.cargo.get(good, 0)))
 	var food_need: int = GameState.supplies_needed()
 	var water_need: int = GameState.water_needed()
-	_set_row("SupplyFoodRow", "SupplyFood", "%d aboard · trip needs %d · %.1f/day" % [GameState.food, food_need, GameState.food_per_day()])
-	_set_row("SupplyWaterRow", "SupplyWater", "%d aboard · trip needs %d · %.1f/day" % [GameState.water, water_need, GameState.water_per_day()])
+	_set_row("SupplyFoodRow", "SupplyFood", "have %d · need %d · %s/day" % [GameState.food, food_need, _num(GameState.food_per_day())])
+	_set_row("SupplyWaterRow", "SupplyWater", "have %d · need %d · %s/day" % [GameState.water, water_need, _num(GameState.water_per_day())])
 	_color_row("SupplyFoodRow", "SupplyFood", WARN if GameState.food < food_need else INK)
 	_color_row("SupplyWaterRow", "SupplyWater", WARN if GameState.water < water_need else INK)
-	var note := find_child("SupplyNote", true, false)
-	if note != null:
-		note.text = "%d gold each, %d back when unloaded. %d fit in a hold slot (%d free)." % [int(v["supply_price"]), int(v.get("supply_refund", v["supply_price"])), int(v.get("supply_stack", 1)), GameState.free_cargo()]
+	_section_title("StoreProvisionsSection", "PROVISIONS · %d PER SLOT" % int(v.get("supply_stack", 1)))
+	_section_title("StoreCargoSection", "CARGO · %d FREE SLOTS" % GameState.free_cargo())
 
 func _refresh_tavern() -> void:
 	var roster_rows: Array = []
 	for m in GameState.roster():
 		var fee: int = GameState.hire_fee(m)
-		roster_rows.append({"icon": PROF_ICONS.get(str(m["profession"]), ""), "text": "%s · %s · %d/day · fee %d" % [str(m["name"]), _prof(m), int(m["wage"]), fee],
-			"tip": str(GameState.crew_data["professions"][str(m["profession"])]["note"]), "buttons": [["Hire", _hire.bind(str(m["id"]))]]})
+		roster_rows.append({"icon": PROF_ICONS.get(str(m["profession"]), ""), "text": "%s · %s · %dg/day" % [str(m["name"]), _prof(m), int(m["wage"])],
+			"tip": str(GameState.crew_data["professions"][str(m["profession"])]["note"]), "buttons": [["Hire (%d)" % fee, _hire.bind(str(m["id"]))]]})
 	if roster_rows.is_empty():
-		roster_rows.append({"text": "Nobody looking for work. Come back in a few days."})
+		roster_rows.append({"text": "Nobody for hire. New faces every %d days." % int(GameState.voyage["roster_refresh_days"])})
 	_fill_list("RosterList", roster_rows)
 	var crew_rows: Array = []
 	for m in GameState.crew:
-		crew_rows.append({"icon": PROF_ICONS.get(str(m["profession"]), ""), "text": "%s · %s · %d/day" % [str(m["name"]), _prof(m), int(m["wage"])],
+		crew_rows.append({"icon": PROF_ICONS.get(str(m["profession"]), ""), "text": "%s · %s · %dg/day" % [str(m["name"]), _prof(m), int(m["wage"])],
 			"tip": str(GameState.crew_data["professions"][str(m["profession"])]["note"]), "buttons": [["Dismiss", _dismiss.bind(str(m["id"]))]]})
 	if crew_rows.is_empty():
-		crew_rows.append({"text": "No crew yet. The %s needs %d to sail." % [GameState.ship_name, GameState.min_crew()]})
+		crew_rows.append({"text": "No crew. The %s sails with %d." % [GameState.ship_name, GameState.min_crew()]})
 	_fill_list("CrewList", crew_rows)
 	var aboard := find_child("TavernAboardSection", true, false)
 	if aboard != null:
-		aboard.get_node("Title").text = "ABOARD %d/%d · WAGES %d/DAY" % [GameState.crew_count(), GameState.bunks, GameState.wages_per_day()]
+		aboard.get_node("Title").text = "ABOARD %d/%d · %dG/DAY" % [GameState.crew_count(), GameState.bunks, GameState.wages_per_day()]
 
 func _prof(m: Dictionary) -> String:
 	return str(GameState.crew_data["professions"][str(m["profession"])]["name"])
@@ -304,34 +357,31 @@ func _refresh_yard() -> void:
 	var ship_icon := find_child("YardShipRow", true, false)
 	if ship_icon != null:
 		ship_icon.get_node("Icon").texture = load(GameState.hull_texture())
-	_set_row("YardHullRow", "YardHull", "%d / %d · %d gold a point" % [GameState.hull, GameState.hull_max, GameState.service("repair_cost")])
-	_set_row("CannonRow", "Cannon", "%d / %d · buy %d · sell %d" % [int(GameState.armory["cannon"]), GameState.gun_ports, GameState.arm_price("cannon"), GameState.arm_sell_price("cannon")])
+	_set_row("YardHullRow", "YardHull", "%d / %d" % [GameState.hull, GameState.hull_max])
+	_set_row("CannonRow", "Cannon", "have %d/%d" % [int(GameState.armory["cannon"]), GameState.gun_ports])
 	var rows: Array = []
 	for id in GameState.port().get("shipyard", []):
 		var o: Dictionary = GameState.ships[id]
 		var win := " · WINS" if int(o["tier"]) >= int(GameState.voyage["win_ship_tier"]) else ""
-		rows.append({"icon": str(o["sprite"]), "text": "%s · %d after trade-in%s" % [str(o["name"]), GameState.ship_net_price(id), win],
-			"sub": "hold %d · bunks %d · guns %d · hull %d · %s · crew %d" % [int(o["hold"]), int(o["bunks"]), int(o["gun_ports"]), int(o["hull"]), _speed_text(int(o["speed"])), int(o["min_crew"])],
-			"tip": str(o["blurb"]), "buttons": [["Buy", _buy_ship.bind(id)]] if id != GameState.ship_id else []})
+		rows.append({"icon": str(o["sprite"]), "text": "%s%s" % [str(o["name"]), win],
+			"sub": "hold %d · bunks %d · guns %d · hull %d · crew %d%s" % [int(o["hold"]), int(o["bunks"]), int(o["gun_ports"]), int(o["hull"]), int(o["min_crew"]), _speed_short(int(o["speed"]))],
+			"tip": str(o["blurb"]), "buttons": [["Buy (%d)" % GameState.ship_net_price(id), _buy_ship.bind(id)]] if id != GameState.ship_id else []})
 	if rows.is_empty():
 		rows.append({"text": "No ships for sale here."})
 	_fill_list("ShipList", rows)
 	var sale := find_child("YardSaleSection", true, false)
 	if sale != null:
-		sale.get_node("Title").text = "FOR SALE · YOUR %s TRADES IN FOR %d" % [GameState.ship_name.to_upper(), GameState.trade_in_value()]
+		sale.get_node("Title").text = "FOR SALE · PRICE AFTER %dG TRADE-IN" % GameState.trade_in_value()
 
 func _refresh_armory() -> void:
 	var a: Dictionary = GameState.armory
 	for kind in ["musket", "sword", "powder", "shot"]:
-		var limit := " / %d" % GameState.arm_limit(kind) if kind in ["musket", "sword"] else ""
-		_set_row(kind.capitalize() + "Row", kind.capitalize(), "%d%s owned · buy %d · sell %d" % [int(a[kind]), limit, GameState.arm_price(kind), GameState.arm_sell_price(kind)])
+		var limit := "/%d" % GameState.arm_limit(kind) if kind in ["musket", "sword"] else ""
+		_set_row(kind.capitalize() + "Row", kind.capitalize(), "have %d%s" % [int(a[kind]), limit])
 	var p: Dictionary = GameState.fight_power()
-	var note := find_child("PowerNote", true, false)
-	if note != null:
-		note.text = "Fight power %d: cannons %d + muskets %d + boarding %d. Uses %d powder and %d shot." % [int(p["total"]), int(p["cannons"]), int(p["muskets"]), int(p["boarding"]), int(p["ammo"]), int(p["ammo"])]
-	var ammo := find_child("AmmoNote", true, false)
-	if ammo != null:
-		ammo.text = "Each cannon or musket shot uses 1 powder + 1 shot. %d of each fit in a hold slot. One musket or sword per bunk." % int(GameState.voyage["ammo_stack"])
+	_set_hint("ArmoryHint", "Power %d = cannons %d + muskets %d + boarding %d (uses %d ammo)." % [int(p["total"]), int(p["cannons"]), int(p["muskets"]), int(p["boarding"]), int(p["ammo"])])
+	_section_title("ArmoryWeaponsSection", "WEAPONS · ONE PER BUNK")
+	_section_title("ArmoryAmmoSection", "AMMUNITION · %d PER SLOT" % int(GameState.voyage["ammo_stack"]))
 
 ## Page hints name what this port is good for, and point to the better port otherwise.
 func _refresh_hints() -> void:
@@ -341,26 +391,26 @@ func _refresh_hints() -> void:
 		var cheapest := _port_where(func(id): return -int(GameState.ports[id]["goods"][good]["buy"]))
 		var best := _port_where(func(id): return int(GameState.ports[id]["goods"][good]["sell"]))
 		if cheapest == here:
-			deals.append("Cheapest %s on the chart: buy here." % good)
+			deals.append("cheapest %s" % good)
 		if best == here:
-			deals.append("Best %s price on the chart: sell here." % good)
+			deals.append("best %s price" % good)
 	if deals.is_empty():
-		deals.append("No standout prices here. Check the chart for better markets.")
-	_set_hint("StoreHint", " ".join(deals))
+		deals.append("No standout prices. Compare on the chart.")
+	_set_hint("StoreHint", ("Here: " + ", ".join(deals) + " on the chart.") if not deals[0].begins_with("No") else deals[0])
 	var crew := _port_where(func(id): return -GameState.service_f("hire_mult", id) * 100.0)
 	var lean := _tavern_lean(here)
 	if crew == here:
-		_set_hint("TavernHint", "Sailors' town: signing fees are halved. Many %s here." % lean)
+		_set_hint("TavernHint", "Mostly %s. Half-price signing here." % lean)
 	else:
-		_set_hint("TavernHint", "Many %s here. %s halves signing fees." % [lean, _port_name(crew)])
+		_set_hint("TavernHint", "Mostly %s. Half-price signing in %s." % [lean, _port_name(crew)])
 	var yard := _port_where(func(id): return -GameState.service("repair_cost", id))
 	var winners: Array[String] = []
 	for p in GameState.ports:
 		for id in GameState.ports[p].get("shipyard", []):
 			if int(GameState.ships[id]["tier"]) >= int(GameState.voyage["win_ship_tier"]) and not _port_name(p) in winners:
 				winners.append(_port_name(p))
-	var yard_hint := "Cheapest repairs on the chart." if yard == here else "%s repairs for %d." % [_port_name(yard), GameState.service("repair_cost", yard)]
-	_set_hint("ShipyardHint", "%s The %s is sold in %s." % [yard_hint, _win_ship_name(), " and ".join(winners)])
+	var yard_hint := "Cheapest repairs here." if yard == here else "Cheapest repairs: %s (%dg)." % [_port_name(yard), GameState.service("repair_cost", yard)]
+	_set_hint("ShipyardHint", "%s %s (wins): %s." % [yard_hint, _win_ship_name(), ", ".join(winners)])
 
 func _win_ship_name() -> String:
 	for id in GameState.ships:
@@ -413,7 +463,9 @@ func _fill_list(list_name: String, rows: Array) -> void:
 	var list := find_child(list_name, true, false)
 	if list == null:
 		return
+	# Detach now (the pressed button may be inside), free at end of frame.
 	for child in list.get_children():
+		list.remove_child(child)
 		child.queue_free()
 	for r in rows:
 		var row := HBoxContainer.new()
@@ -456,7 +508,7 @@ func _plate(text: String, action: Callable) -> Button:
 	button.name = text
 	button.flat = true
 	button.focus_mode = Control.FOCUS_NONE
-	button.custom_minimum_size = Vector2(62, 22)
+	button.custom_minimum_size = Vector2(72, 22)
 	button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	var frame := NinePatchRect.new()
 	frame.texture = load(UI + "tile_0001.png")

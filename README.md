@@ -118,8 +118,10 @@ About a third of voyages meet a pirate (`pirate_chance`, 0.34): a skiff (power 3
   - **Cargo:** sugar and cheese, with buy and sell prices, how many are aboard, and Buy/Sell on each row.
   - **Provisions:** food and water, how many are aboard and what the trip needs (red when short), with Load/Unload on each row. Supplies cost `supply_price` and unloading refunds `supply_refund` (both 1 gold, in `voyage.json`). Unloading frees a hold slot, e.g. to make room for sugar.
 - **Tavern** tab: today's roster with Hire buttons (hover a row for what the profession does), and your crew with Dismiss. The **i** badge lists every profession.
+
+Rows stay short (`have N`; every Buy/Sell/Load/Unload/Hire/Repair button shows its price, e.g. `Buy (7)`; `g` = gold); the rules behind them (supply prices and stacking, ammo use, fight power) are on the **i** badges.
 - **Shipyard** tab: your ship, hull and Repair, cannons, and the ships for sale here with their price after trade-in. The **i** badge explains your ship.
-- **Armory** tab: muskets, swords, powder and shot, with your current fight power. The **i** badge explains fights.
+- **Armory** tab: muskets, swords, powder and shot, with your current fight power on top. The Weapons **i** badge explains fights; the Ammunition one explains powder and shot.
 
 **Chart course** opens the map (`scripts/map_view.gd`). It shows:
 
