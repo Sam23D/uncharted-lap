@@ -11,6 +11,7 @@ const CREAM := Color(1.0, 0.97, 0.88)
 const WARN := Color(0.7, 0.1, 0.06)
 const GOOD := Color(0.1, 0.42, 0.14)
 const MUTED := Color(0.18, 0.11, 0.05, 0.6)
+const GRAY := Color(0.42, 0.42, 0.42, 0.75)
 
 var _list: VBoxContainer
 
@@ -75,41 +76,50 @@ func _rebuild() -> void:
 	back.custom_minimum_size = Vector2(110, 26)
 	back.pressed.connect(close)
 
-## Legs newest first. A leg = one trip entry plus the trades after it (at its destination);
-## trades before the first trip belong to the home port.
+## Newest first, split by a gray dotted "Day N" divider whenever the day changes.
+## A trip sits under the day it left port; trades under the day they were made.
 func _fill(log: RefCounted) -> void:
 	var entries: Array = log.entries
 	if entries.is_empty():
 		_line("No trips yet. Trades and voyages will be recorded here.", MUTED, 0)
 		return
-	var groups: Array = []
-	var current := {"trip": -1, "trades": []}
-	for i in entries.size():
+	var last_day := -1
+	var last_port := ""
+	for i in range(entries.size() - 1, -1, -1):
 		var e: Dictionary = entries[i]
+		var d: int = int(e["day_start"]) if e["type"] == "trip" else int(e["day"])
+		if d != last_day:
+			_divider(d)
+			last_day = d
+			last_port = ""
 		if e["type"] == "trip":
-			groups.append(current)
-			current = {"trip": i, "trades": []}
-		else:
-			current["trades"].append(e)
-	groups.append(current)
-	groups.reverse()
-	for g in groups:
-		var index := int(g["trip"])
-		if index >= 0:
-			_trip(entries[index], log.trip_profit(index))
-		var trades: Array = g["trades"]
-		if trades.is_empty():
+			_trip(e, log.trip_profit(i))
+			last_port = ""
 			continue
-		var port := str(trades[0]["port"])
-		_line("At %s" % _port(port), INK, 0, 12)
-		for t in trades:
-			_trade(t)
+		if str(e["port"]) != last_port:
+			last_port = str(e["port"])
+			_line("At %s" % _port(last_port), INK, 0, 12)
+		_trade(e)
+
+func _divider(day: int) -> void:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 6)
+	_list.add_child(row)
+	_text(row, "Day %d" % day, 10, GRAY)
+	var line := Control.new()
+	line.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	line.custom_minimum_size = Vector2(0, 14)
+	line.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	line.draw.connect(func() -> void:
+		var y := floorf(line.size.y / 2.0) + 0.5
+		line.draw_dashed_line(Vector2(0, y), Vector2(line.size.x, y), GRAY, 1.0, 3.0))
+	row.add_child(line)
 
 func _trip(t: Dictionary, profit: int) -> void:
 	var row := HBoxContainer.new()
 	_list.add_child(row)
 	var days := int(t["days"])
-	var head := _text(row, "Day %d  %s → %s · %d day%s" % [int(t["day_start"]), _port(str(t["from"])), _port(str(t["to"])), days, "" if days == 1 else "s"], 12, INK)
+	var head := _text(row, "%s → %s · %d day%s" % [_port(str(t["from"])), _port(str(t["to"])), days, "" if days == 1 else "s"], 12, INK)
 	head.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	if str(t["ended"]) == "" and profit != 0:
 		var net := _text(row, "%s trip" % _signed(profit, "g"), 12, GOOD if profit > 0 else WARN)
