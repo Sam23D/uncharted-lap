@@ -6,10 +6,13 @@ Full rules: **[game-mechanics.md](game-mechanics.md)**.
 
 ## Play
 
-- **Web:** build it (see below) and serve `dist/web/` with any static server, e.g. `python3 -m http.server -d dist/web`.
-- **Desktop:** open the project in Godot 4.5.1 and press Play.
+Download the latest build from [Releases](https://github.com/Sam23D/uncharted-lap/releases):
 
-Controls: mouse; Enter starts a new voyage.
+- **Web:** unzip the web zip and serve the folder with any static server (e.g. `python3 -m http.server`), then open `index.html`. It doesn't run from `file://`.
+- **Linux:** unzip, then run `uncharted-lap.x86_64`.
+- **Windows:** unzip, then run `uncharted-lap.exe`. The build is unsigned, so SmartScreen may warn you: choose "More info", then "Run anyway".
+
+Controls: the mouse. Enter continues or starts a voyage, and Esc opens the menu. The game autosaves in every port.
 
 ## Develop
 
@@ -40,6 +43,8 @@ REF=. tools/release.sh 0.1.0                # include uncommitted changes
 
 It builds from a clean copy, strips the dev plugin, runs every check, then exports and zips into `dist/` (not in git). Set `GODOT=/path/to/godot` if `godot` isn't on your PATH.
 
-## Credits
+## Credits and license
 
-Created by s.blanc. Art: [Kenney](https://kenney.nl) (CC0). Engine: [Godot](https://godotengine.org) (MIT).
+Created by s.blanc. Art: [Kenney](https://kenney.nl) (CC0). Engine: [Godot](https://godotengine.org) (MIT). See [CREDITS.md](CREDITS.md).
+
+The code is released under the [MIT license](LICENSE). Release notes are in [CHANGELOG.md](CHANGELOG.md).

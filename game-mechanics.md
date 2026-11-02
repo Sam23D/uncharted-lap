@@ -2,7 +2,7 @@
 
 The full rules of the game. For setup, running and building, see [README.md](README.md).
 
-Contents: [Trade](#trade) · [Charts and cartographers](#charts-and-cartographers) · [Days at sea](#days-at-sea) · [Ships](#ships) · [Crew](#crew) · [Armory and pirates](#armory-and-pirates) · [Title screen](#title-screen) · [Ship's log](#ships-log) · [Port screen](#port-screen) · [Playthrough](#playthrough) · [Data files](#data-files)
+Contents: [Trade](#trade) · [Charts and cartographers](#charts-and-cartographers) · [Days at sea](#days-at-sea) · [Ships](#ships) · [Crew](#crew) · [Armory and pirates](#armory-and-pirates) · [Title screen](#title-screen) · [Saving and the menu](#saving-and-the-menu) · [Ship's log](#ships-log) · [Port screen](#port-screen) · [Playthrough](#playthrough) · [Data files](#data-files)
 
 ## Goal
 
@@ -108,7 +108,20 @@ About 1 in 5 voyages meets a pirate (`pirate_chance`, 0.2): a skiff (power 3, lo
 
 ## Title screen
 
-The game opens on `scenes/title.tscn` (`scripts/title_screen.gd`, the main scene): a scrolling sea with five ships sailing both ways (smaller and slower further up, for depth), the game's name, **New voyage** (or Enter) which resets `GameState` and loads the port, and the credit "Created by s.blanc".
+The game opens on `scenes/title.tscn` (`scripts/title_screen.gd`, the main scene). It shows a scrolling sea with five ships sailing both ways, smaller and slower further up for depth. On top are the game's name and these buttons:
+
+- **Continue:** shown only when a voyage is saved.
+- **New voyage:** with a voyage saved, the first press asks "Start over?" and the second replaces the save.
+- **Credits.**
+
+Enter continues the saved voyage, or starts a new one if there isn't a save. The version is in the bottom-left corner and the credit "Created by s.blanc" in the bottom-right.
+
+## Saving and the menu
+
+- **Autosave:** the game saves to one slot (`user://save.json`; in the browser's storage on the Web) every time the port screen refreshes: on arrival, and after every buy, sell, hire or ship purchase. A finished run (win, starved, sunk) deletes the save. Leaving mid-voyage resumes in the port you sailed from, before departure. The random generator's state is saved too, so reloading doesn't re-roll a pirate. `scripts/save_game.gd` lists exactly what is stored; prices and other data always come fresh from `data/*.json`. `tests/save_check.gd` covers it.
+- **Esc menu** (`scripts/pause_menu.gd`): Resume, Ship's log, Back to title and Quit. Quit is hidden on the Web. The menu pauses the game, including the sea animation.
+- **End panel:** New voyage, Ship's log and Title.
+- **First-voyage hint:** a note in the Store suggests the first loop (sugar from Madeira to Oslo, cheese back). "Got it" or the first departure dismisses it for that voyage.
 
 ## Ship's log
 
