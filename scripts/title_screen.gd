@@ -1,6 +1,7 @@
 extends Control
 ## Title screen: a scrolling sea with ships sailing both ways behind the game's name,
-## a New voyage button (starts a fresh run in the port) and the credit line.
+## Continue (when a voyage is saved), New voyage (asks before replacing a saved one),
+## Credits, the version and the credit line.
 ## Built at runtime; ship sprites point down in the Kenney pack, so they are turned ±90°.
 
 const UI := "res://assets/vendor/kenney-ui-pack-pixel-adventure/Tiles/Large tiles/Thick outline/"
@@ -19,7 +20,11 @@ const FLEET := [
 	["ship (1).png", 322.0, 46.0, 1.1, -40.0],
 ]
 
+const CREDITS := "Created by s.blanc\n\nArt: Kenney (kenney.nl), CC0:\nPirate Pack, Generic Items, UI Pack Pixel Adventure\n\nMade with Godot Engine (MIT)\n\nInspired by Uncharted Waters: New Horizons (Koei).\nNo assets from it are used.\n\nCode: MIT license"
+
 var _water: TextureRect
+var _confirm_new := false
+var _credits: Control
 var _ships: Array[Dictionary] = []
 var _t := 0.0
 
@@ -74,8 +79,8 @@ func _build_title() -> void:
 	for side in [SIDE_LEFT, SIDE_TOP, SIDE_RIGHT, SIDE_BOTTOM]:
 		plate.set_patch_margin(side, 5)
 	plate.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	plate.position = Vector2(170, 120)
-	plate.size = Vector2(300, 112)
+	plate.position = Vector2(160, 92)
+	plate.size = Vector2(320, 196)
 	add_child(plate)
 	var box := VBoxContainer.new()
 	box.alignment = BoxContainer.ALIGNMENT_CENTER
@@ -89,10 +94,22 @@ func _build_title() -> void:
 	title.add_theme_constant_override("shadow_offset_x", 2)
 	title.add_theme_constant_override("shadow_offset_y", 2)
 	_label(box, "Tagline", "Chart the seas, trade spice and gold. Win a Galleon.", 11, Color(INK, 0.7))
+	if GameState.has_save():
+		var go_on := _button(box, "Continue", "Continue")
+		go_on.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		go_on.pressed.connect(_continue)
 	var start := _button(box, "NewVoyage", "New voyage")
 	start.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	start.pressed.connect(_new_voyage)
-	start.call_deferred("grab_focus")
+	var credits := _button(box, "Credits", "Credits")
+	credits.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	credits.custom_minimum_size = Vector2(100, 24)
+	credits.get_node("Text").add_theme_font_size_override("font_size", 12)
+	credits.pressed.connect(_show_credits)
+	_label(box, "Status", "", 10, Color(0.7, 0.1, 0.06))
+	if not GameState.has_save():
+		plate.size.y -= 36
+		plate.position.y += 18
 
 func _build_credit() -> void:
 	var credit := _label(self, "Credit", "Created by s.blanc", 11, CREAM)
@@ -104,13 +121,66 @@ func _build_credit() -> void:
 	credit.size = Vector2(108, 16)
 	credit.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 
+## Starts a fresh run. With a voyage saved, the first press asks; the second replaces it.
 func _new_voyage() -> void:
+	if GameState.has_save() and not _confirm_new:
+		_confirm_new = true
+		_set_text("NewVoyage", "Start over?")
+		_status("This replaces your saved voyage. Press again to start over.")
+		return
+	GameState.delete_save()
 	GameState.reset()
 	get_tree().change_scene_to_file(PORT_SCENE)
 
+func _continue() -> void:
+	var why := GameState.load_game()
+	if why != "":
+		_status(why)
+		return
+	get_tree().change_scene_to_file(PORT_SCENE)
+
+func _status(text: String) -> void:
+	var status := find_child("Status", true, false) as Label
+	if status != null:
+		status.text = text
+
+func _set_text(button: String, text: String) -> void:
+	var b := find_child(button, true, false)
+	if b != null:
+		(b.get_node("Text") as Label).text = text
+
+func _show_credits() -> void:
+	if _credits == null:
+		_credits = NinePatchRect.new()
+		_credits.name = "CreditsPanel"
+		(_credits as NinePatchRect).texture = load(UI + "tile_0000.png")
+		for side in [SIDE_LEFT, SIDE_TOP, SIDE_RIGHT, SIDE_BOTTOM]:
+			(_credits as NinePatchRect).set_patch_margin(side, 5)
+		_credits.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		_credits.position = Vector2(150, 40)
+		_credits.size = Vector2(340, 280)
+		add_child(_credits)
+		var box := VBoxContainer.new()
+		box.alignment = BoxContainer.ALIGNMENT_CENTER
+		box.add_theme_constant_override("separation", 8)
+		_credits.add_child(box)
+		box.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		_label(box, "CreditsTitle", "Credits", 18, INK)
+		_label(box, "CreditsText", CREDITS, 11, INK)
+		var back := _button(box, "CreditsBack", "Back")
+		back.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		back.custom_minimum_size = Vector2(100, 26)
+		back.pressed.connect(func(): _credits.visible = false)
+	_credits.visible = true
+
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_accept"):
-		_new_voyage()
+	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE and _credits != null and _credits.visible:
+		_credits.visible = false
+	elif event.is_action_pressed("ui_accept") and (_credits == null or not _credits.visible):
+		if GameState.has_save():
+			_continue()
+		else:
+			_new_voyage()
 
 func _process(delta: float) -> void:
 	_t += delta

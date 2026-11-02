@@ -6,6 +6,7 @@ const ShipRules := preload("res://scripts/rules/ship_rules.gd")
 const CrewRules := preload("res://scripts/rules/crew_rules.gd")
 const CombatRules := preload("res://scripts/rules/combat_rules.gd")
 const ShipLog := preload("res://scripts/ship_log.gd")
+const SaveGame := preload("res://scripts/save_game.gd")
 const START_MESSAGE := "Chart a course, load what the trip needs, then depart."
 const ARMS := ["cannon", "musket", "sword", "powder", "shot"]
 
@@ -67,6 +68,10 @@ var rng := RandomNumberGenerator.new()
 var message: String = START_MESSAGE
 ## Ship's log of trades and trips (scripts/ship_log.gd). Cleared by reset().
 var ship_log := ShipLog.new()
+## One autosave slot (scripts/save_game.gd). Tests point this elsewhere.
+var save_path := "user://save.json"
+## The first-visit hint in port was dismissed (saved with the run).
+var hint_seen: bool = false
 
 func _ready() -> void:
 	rng.randomize()
@@ -91,6 +96,7 @@ func reset() -> void:
 	pirate_id = ""
 	last_fight = {}
 	message = START_MESSAGE
+	hint_seen = false
 	load_ports()
 
 func _json(path: String) -> Variant:
@@ -771,3 +777,34 @@ func sign_on(profession: String, level: int = 1) -> Dictionary:
 	var m := CrewRules.make_member(crew_data, "test-%d" % crew.size(), "Test%d" % crew.size(), profession, level)
 	crew.append(m)
 	return m
+
+# --- Save / continue ------------------------------------------------------
+
+func has_save() -> bool:
+	return FileAccess.file_exists(save_path)
+
+## Writes the run to the autosave slot. Only in port with the run still going.
+func save_game() -> bool:
+	if ended != "" or encounter:
+		return false
+	var f := FileAccess.open(save_path, FileAccess.WRITE)
+	if f == null:
+		return false
+	f.store_string(JSON.stringify(SaveGame.to_dict(self)))
+	f.close()
+	return true
+
+## Loads the autosave into a fresh run. Returns "" or why it couldn't.
+func load_game() -> String:
+	if not has_save():
+		return "No saved voyage."
+	var raw: Variant = JSON.parse_string(FileAccess.get_file_as_string(save_path))
+	reset()
+	var why := SaveGame.apply(self, raw)
+	if why != "":
+		reset()
+	return why
+
+func delete_save() -> void:
+	if has_save():
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(save_path) if save_path.begins_with("user://") else save_path)

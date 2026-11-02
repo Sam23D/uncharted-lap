@@ -30,6 +30,12 @@ const ACTIONS := {
 }
 
 var tab := "Store"
+var _menu: CanvasLayer
+var _hint: Control
+
+const PauseMenu := preload("res://scripts/pause_menu.gd")
+const TITLE_SCENE := "res://scenes/title.tscn"
+const HINT := "New captain? Load food and water for the trip, buy sugar here, then Chart a course to Oslo and Depart. Sell it there and bring cheese back. Esc opens the menu."
 
 func _ready() -> void:
 	for id in ACTIONS:
@@ -60,6 +66,12 @@ func _ready() -> void:
 			var b := find_child(id, true, false)
 			if b != null:
 				b.pressed.connect(log_view.open)
+	_menu = PauseMenu.new()
+	add_child(_menu)
+	if log_view != null:
+		_menu.log_requested.connect(log_view.open)
+	_add_end_title()
+	_build_hint()
 	_show_tab(tab)
 	for badge in get_tree().get_nodes_in_group("info_badge"):
 		badge.mouse_entered.connect(_show_info.bind(badge))
@@ -168,6 +180,8 @@ func _open_map() -> void:
 
 func _show_tab(id: String) -> void:
 	tab = id
+	if _hint != null:
+		_hint.visible = not GameState.hint_seen and id == "Store"
 	for other in TABS:
 		var page := find_child(other, true, false)
 		if page != null and page.get_parent().name == "Pages":
@@ -189,6 +203,7 @@ func _new_voyage() -> void:
 func _depart() -> void:
 	if GameState.ended != "" or GameState.encounter:
 		return
+	GameState.hint_seen = true
 	var start_day: int = GameState.day
 	var est: int = GameState.estimate_days(false)
 	GameState.depart()
@@ -233,6 +248,13 @@ func _refresh() -> void:
 	var ending := get_node_or_null("End")
 	if ending != null:
 		ending.visible = GameState.ended != "" and not busy
+	# Autosave: every refresh in port; a finished run clears the slot.
+	if GameState.ended != "":
+		GameState.delete_save()
+	elif at_port:
+		GameState.save_game()
+	if _hint != null:
+		_hint.visible = at_port and not GameState.hint_seen and tab == "Store"
 	if not at_port:
 		_refresh_end()
 		return
@@ -645,3 +667,56 @@ func _set_text(path: String, value: String) -> void:
 	var node := get_node_or_null(path)
 	if node != null:
 		node.text = value
+
+# --- Title button, first-run hint ----------------------------------------
+
+## End panel: New voyage, Ship's log, Title (a copy of the log button, so it shares its look).
+func _add_end_title() -> void:
+	var end_log := find_child("EndLog", true, false) as Control
+	if end_log == null or end_log.get_parent().has_node("EndTitle"):
+		return
+	var to_title := end_log.duplicate() as Button
+	to_title.name = "EndTitle"
+	end_log.get_parent().add_child(to_title)
+	for b in end_log.get_parent().get_children():
+		if b is Control:
+			b.custom_minimum_size.x = 104
+	var text := to_title.get_node_or_null("Text") as Label
+	if text != null:
+		text.text = "Title"
+	to_title.pressed.connect(func(): get_tree().change_scene_to_file(TITLE_SCENE))
+
+func _build_hint() -> void:
+	var page := find_child("Store", true, false) as Control
+	if page == null:
+		return
+	_hint = PanelContainer.new()
+	_hint.name = "Hint"
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(1.0, 0.93, 0.7)
+	style.border_color = Color(INK, 0.5)
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(3)
+	style.set_content_margin_all(5)
+	_hint.add_theme_stylebox_override("panel", style)
+	$Panel.add_child(_hint)  # hides with the port panel (chart, sea, end)
+	_hint.position = Vector2(250, 254)
+	_hint.size = Vector2(366, 52)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 6)
+	_hint.add_child(row)
+	var text := _small_label(HINT, 10, INK)
+	text.clip_text = false
+	text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	text.custom_minimum_size.x = 290
+	row.add_child(text)
+	var ok := Button.new()
+	ok.text = "Got it"
+	ok.add_theme_font_size_override("font_size", 10)
+	ok.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	ok.pressed.connect(func():
+		GameState.hint_seen = true
+		_hint.visible = false
+		GameState.save_game())
+	row.add_child(ok)
