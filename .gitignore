@@ -13,3 +13,6 @@ addons/godot_mcp/
 /anim-*.png*
 /eco-*.png*
 /col-*.png*
+
+# Release builds (tools/release.sh)
+/dist/

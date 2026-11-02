@@ -44,6 +44,15 @@ func _ready() -> void:
 	move_child(haze, 3)
 	_build_title()
 	_build_credit()
+	var version := str(ProjectSettings.get_setting("application/config/version", ""))
+	get_window().title = "Uncharted Lap %s" % version
+	var tag := _label(self, "Version", "v" + version, 10, CREAM)
+	tag.add_theme_color_override("font_shadow_color", Color(INK, 0.8))
+	tag.add_theme_constant_override("shadow_offset_x", 1)
+	tag.add_theme_constant_override("shadow_offset_y", 1)
+	tag.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	tag.position = Vector2(8, 360 - 22)
+	tag.size = Vector2(80, 16)
 
 func _add_ship(spec: Array) -> void:
 	var ship := TextureRect.new()
