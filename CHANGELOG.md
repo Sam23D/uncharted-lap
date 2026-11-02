@@ -2,7 +2,7 @@
 
 ## 0.1.0 (2026-11-02)
 
-First public release. Web first; Linux and Windows builds are also provided (Windows is untested).
+First public release. Web first; Linux and Windows builds are also provided.
 
 ### The game
 - **Trade:** 14 goods in four categories (food, spices, textiles, metals) across 12 ports. Each port sells a few goods cheaply and buys everything.
