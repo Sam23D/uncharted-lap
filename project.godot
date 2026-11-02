@@ -8,6 +8,11 @@
 
 config_version=5
 
+[accessibility]
+
+; Godot 4.5's AccessKit panics on Linux sessions without an AT-SPI bus (crash on scene change).
+general/accessibility_support=2
+
 [application]
 
 config/name="Uncharted Lap"

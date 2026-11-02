@@ -157,7 +157,11 @@ def main():
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data")
 ITEMS = "res://assets/vendor/kenney-generic-items/PNG/Colored/genericItem_color_%03d.png"
-FLAG = "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/flag (%d).png"
+FLAG = "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/sailLarge (%d).png"
+# Port emblems: a sail with a crest (3/9/21 red cross, 4/10/22 green swords, 5/11/23 blue horse,
+# 6/12/24 yellow X, 1/7/19 plain; 2/8/20 are pirate skulls). Neighbours get different crests.
+FLAGS = {"madeira": 3, "lisbon": 6, "london": 5, "oslo": 4, "genoa": 11, "alexandria": 7,
+         "hamburg": 12, "danzig": 23, "arguin": 19, "elmina": 21, "capetown": 22, "calicut": 24}
 CATEGORIES = {"food": ("Food", 114), "spices": ("Spices", 112), "textiles": ("Textiles", 133), "metals": ("Metals", 21)}
 GOOD_ICONS = {"sugar": 143, "cheese": 141, "olive_oil": 127, "rock_salt": 122, "grain": 155,
               "pepper": 123, "cinnamon": 140, "clove": 154, "wool": 156, "cotton_cloth": 133,
@@ -173,23 +177,23 @@ MAP = {"madeira": [0.07, 0.6], "lisbon": [0.2, 0.48], "london": [0.34, 0.27], "o
        "genoa": [0.55, 0.47], "alexandria": [0.86, 0.56], "hamburg": [0.56, 0.27], "danzig": [0.74, 0.14],
        "arguin": [0.12, 0.76], "elmina": [0.38, 0.84], "capetown": [0.64, 0.88], "calicut": [0.93, 0.78]}
 NEW_PORTS = {
-    "genoa": {"name": "Genoa", "flag": FLAG % 5, "blurb": "Silk capital. Cheapest olive oil.",
+    "genoa": {"name": "Genoa", "flag": FLAG % FLAGS["genoa"], "blurb": "Silk capital. Cheapest olive oil.",
               "tavern": {"deckhand": 2, "navigator": 2, "cook": 1, "marksman": 2, "swordsman": 2}, "shipyard": ["cutter", "brig", "galleon"]},
-    "alexandria": {"name": "Alexandria", "flag": FLAG % 6, "blurb": "Eastern spices at a markup; pays well for silk.",
+    "alexandria": {"name": "Alexandria", "flag": FLAG % FLAGS["alexandria"], "blurb": "Eastern spices at a markup; pays well for silk.",
                    "tavern": {"deckhand": 3, "navigator": 1, "cook": 2, "marksman": 1, "swordsman": 2}, "shipyard": ["fluyt"]},
-    "hamburg": {"name": "Hamburg", "flag": FLAG % 4, "blurb": "Baltic workshop: copper, iron, wool.",
+    "hamburg": {"name": "Hamburg", "flag": FLAG % FLAGS["hamburg"], "blurb": "Baltic workshop: copper, iron, wool.",
                 "tavern": {"deckhand": 2, "navigator": 1, "cook": 1, "marksman": 3, "swordsman": 1}, "shipyard": ["fluyt", "brig", "carrack"],
                 "services": {"repair_cost": 2}},
-    "danzig": {"name": "Danzig", "flag": FLAG % 2, "blurb": "Breadbasket. Pays the most for salt and sugar.",
+    "danzig": {"name": "Danzig", "flag": FLAG % FLAGS["danzig"], "blurb": "Breadbasket. Pays the most for salt and sugar.",
                "tavern": {"deckhand": 4, "navigator": 1, "cook": 2, "marksman": 1, "swordsman": 1}, "shipyard": ["fluyt"]},
-    "arguin": {"name": "Arguin", "flag": FLAG % 3, "blurb": "Desert salt and gold. Navigators' haunt.",
+    "arguin": {"name": "Arguin", "flag": FLAG % FLAGS["arguin"], "blurb": "Desert salt and gold. Navigators' haunt.",
                "tavern": {"deckhand": 2, "navigator": 4, "cook": 1, "marksman": 1, "swordsman": 1}, "shipyard": []},
-    "elmina": {"name": "Elmina", "flag": FLAG % 1, "blurb": "The Gold Coast. Pays the most for cloth and oil.",
+    "elmina": {"name": "Elmina", "flag": FLAG % FLAGS["elmina"], "blurb": "The Gold Coast. Pays the most for cloth and oil.",
                "tavern": {"deckhand": 2, "navigator": 1, "cook": 1, "marksman": 2, "swordsman": 3}, "shipyard": ["cutter"]},
-    "capetown": {"name": "Cape Town", "flag": FLAG % 6, "blurb": "Waystation: cheap repairs, half-price crew.",
+    "capetown": {"name": "Cape Town", "flag": FLAG % FLAGS["capetown"], "blurb": "Waystation: cheap repairs, half-price crew.",
                  "tavern": {"deckhand": 2, "navigator": 2, "cook": 3, "marksman": 1, "swordsman": 1}, "shipyard": [],
                  "services": {"repair_cost": 1, "hire_mult": 0.5}},
-    "calicut": {"name": "Calicut", "flag": FLAG % 5, "blurb": "Spice coast: pepper, cinnamon, clove. Pays 96 for gold.",
+    "calicut": {"name": "Calicut", "flag": FLAG % FLAGS["calicut"], "blurb": "Spice coast: pepper, cinnamon, clove. Pays 96 for gold.",
                 "tavern": {"deckhand": 2, "navigator": 2, "cook": 2, "marksman": 2, "swordsman": 1}, "shipyard": ["carrack", "galleon"]},
 }
 KNOWN_YARDS = {"lisbon": ["cutter", "fluyt", "carrack"]}
@@ -224,6 +228,7 @@ def write(known_only):
                     "tavern": {"weights": n["tavern"], "level_weights": [1]}, "shipyard": n["shipyard"]}
             if "services" in n:
                 base["services"] = n["services"]
+        base["flag"] = FLAG % FLAGS[p]
         base["map"] = MAP[p]
         base["chart"] = chart_of(p)
         base["goods"] = {g: {"buy": BUY[g][p], "sell": sell(g, p)} for g in SELL if p in BUY[g]}

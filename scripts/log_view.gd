@@ -53,7 +53,7 @@ func _rebuild() -> void:
 	var title := _text(head, "SHIP'S LOG", 15, INK)
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var change: int = GameState.gold - int(log.start_gold)
-	_text(head, "gold %d → %d (%s) · %d trips" % [int(log.start_gold), GameState.gold, _signed(change), log.trips()], 12, GOOD if change >= 0 else WARN)
+	_text(head, "gold %d to %d (%s) · %d trips" % [int(log.start_gold), GameState.gold, _signed(change), log.trips()], 12, GOOD if change >= 0 else WARN)
 	var rule := ColorRect.new()
 	rule.color = Color(INK, 0.25)
 	rule.custom_minimum_size = Vector2(0, 1)
@@ -122,7 +122,7 @@ func _trip(t: Dictionary, profit: int) -> void:
 	var row := HBoxContainer.new()
 	_list.add_child(row)
 	var days := int(t["days"])
-	var head := _text(row, "%s → %s · %d day%s" % [_port(str(t["from"])), _port(str(t["to"])), days, "" if days == 1 else "s"], 12, INK)
+	var head := _text(row, "%s to %s · %d day%s" % [_port(str(t["from"])), _port(str(t["to"])), days, "" if days == 1 else "s"], 12, INK)
 	head.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	if str(t["ended"]) == "" and profit != 0:
 		var net := _text(row, "%s trip" % _signed(profit, "g"), 12, GOOD if profit > 0 else WARN)
@@ -139,7 +139,7 @@ func _trip(t: Dictionary, profit: int) -> void:
 		if str(t["ended"]) == "":
 			_line("Clear seas", MUTED, 1)
 	else:
-		var text := "⚔ %s (%d vs %d): " % [str(e["name"]), int(e["theirs"]), int(e["mine"])]
+		var text := "%s attacked (%d vs %d): " % [str(e["name"]), int(e["theirs"]), int(e["mine"])]
 		var color := INK
 		match str(e["outcome"]):
 			"run":

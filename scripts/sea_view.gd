@@ -35,7 +35,7 @@ var _shown_day := 0
 var _day_f := 0.0
 var _sky: Control
 var _night: ColorRect
-const DUSK := Color(1.0, 0.42, 0.1, 0.38)
+const DUSK := Color(0.86, 0.36, 0.42, 0.26)
 const NIGHT := Color(0.02, 0.04, 0.18, 0.55)
 
 func _ready() -> void:
@@ -207,7 +207,7 @@ func play(start_day: int, est_days: int) -> void:
 	visible = true
 	_hud.visible = true
 	_speed = 60.0
-	_route.text = "%s  →  %s" % [_name(GameState.last_from), _name(GameState.last_to)]
+	_route.text = "%s  to  %s" % [_name(GameState.last_from), _name(GameState.last_to)]
 	_set_day(start_day)
 	_status.text = "Fair winds."
 	_ship.texture = load(GameState.hull_texture())

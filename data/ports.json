@@ -1,7 +1,7 @@
 {
   "madeira": {
     "name": "Madeira",
-    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/flag (1).png",
+    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/sailLarge (3).png",
     "map": [
       0.07,
       0.6
@@ -60,7 +60,7 @@
   },
   "lisbon": {
     "name": "Lisbon",
-    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/flag (3).png",
+    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/sailLarge (6).png",
     "map": [
       0.2,
       0.48
@@ -127,7 +127,7 @@
   },
   "london": {
     "name": "London",
-    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/flag (4).png",
+    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/sailLarge (5).png",
     "map": [
       0.34,
       0.27
@@ -190,7 +190,7 @@
   },
   "oslo": {
     "name": "Oslo",
-    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/flag (2).png",
+    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/sailLarge (4).png",
     "map": [
       0.46,
       0.14
@@ -243,7 +243,7 @@
   },
   "genoa": {
     "name": "Genoa",
-    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/flag (5).png",
+    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/sailLarge (11).png",
     "blurb": "Silk capital. Cheapest olive oil.",
     "tavern": {
       "weights": {
@@ -294,7 +294,7 @@
   },
   "alexandria": {
     "name": "Alexandria",
-    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/flag (6).png",
+    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/sailLarge (7).png",
     "blurb": "Eastern spices at a markup; pays well for silk.",
     "tavern": {
       "weights": {
@@ -349,7 +349,7 @@
   },
   "hamburg": {
     "name": "Hamburg",
-    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/flag (4).png",
+    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/sailLarge (12).png",
     "blurb": "Baltic workshop: copper, iron, wool.",
     "tavern": {
       "weights": {
@@ -406,7 +406,7 @@
   },
   "danzig": {
     "name": "Danzig",
-    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/flag (2).png",
+    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/sailLarge (23).png",
     "blurb": "Breadbasket. Pays the most for salt and sugar.",
     "tavern": {
       "weights": {
@@ -452,7 +452,7 @@
   },
   "arguin": {
     "name": "Arguin",
-    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/flag (3).png",
+    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/sailLarge (19).png",
     "blurb": "Desert salt and gold. Navigators' haunt.",
     "tavern": {
       "weights": {
@@ -499,7 +499,7 @@
   },
   "elmina": {
     "name": "Elmina",
-    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/flag (1).png",
+    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/sailLarge (21).png",
     "blurb": "The Gold Coast. Pays the most for cloth and oil.",
     "tavern": {
       "weights": {
@@ -560,7 +560,7 @@
   },
   "capetown": {
     "name": "Cape Town",
-    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/flag (6).png",
+    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/sailLarge (22).png",
     "blurb": "Waystation: cheap repairs, half-price crew.",
     "tavern": {
       "weights": {
@@ -608,7 +608,7 @@
   },
   "calicut": {
     "name": "Calicut",
-    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/flag (5).png",
+    "flag": "res://assets/vendor/kenney-pirate-pack/PNG/Default size/Ship parts/sailLarge (24).png",
     "blurb": "Spice coast: pepper, cinnamon, clove. Pays 96 for gold.",
     "tavern": {
       "weights": {
